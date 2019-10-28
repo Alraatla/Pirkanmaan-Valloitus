@@ -12,6 +12,7 @@
 
 #include "interfaces/igameeventhandler.h"
 #include "graphics/simplegamescene.h"
+#include "gamemenu.h"
 
 namespace Ui {
 class MapWindow;
@@ -29,6 +30,8 @@ public:
 
     void setGEHandler(std::shared_ptr<Course::iGameEventHandler> nHandler);
 
+
+
     void setSize(int width, int height);
     void setScale(int scale);
     void resize();
@@ -37,12 +40,17 @@ public:
     void removeItem( std::shared_ptr<Course::GameObject> obj);
     void updateItem( std::shared_ptr<Course::GameObject> obj);
 
+public slots:
+    // Setting player count from dialog box
+    void setPlayerCount(int playercount);
+
 
 private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<Course::iGameEventHandler> m_GEHandler = nullptr;
     std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
-
+    Gamemenu* m_gamemenu;
+    int playercount_;
 };
 
 #endif // MapWINDOW_HH

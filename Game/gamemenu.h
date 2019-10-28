@@ -14,6 +14,13 @@ class Gamemenu : public QDialog
 public:
     explicit Gamemenu(QWidget *parent = 0);
     ~Gamemenu();
+    
+private slots:
+    void pressOk();
+
+signals:
+
+    void initializeGame(int playercount);
 
 private:
     Ui::Gamemenu *ui;

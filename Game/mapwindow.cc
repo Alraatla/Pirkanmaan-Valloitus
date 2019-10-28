@@ -10,10 +10,15 @@ MapWindow::MapWindow(QWidget *parent,
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
     m_GEHandler(handler),
-    m_simplescene(new Course::SimpleGameScene(this),
-    m_gamemenu(new Gamemenu))
+    m_simplescene(new Course::SimpleGameScene(this))
 {
     m_ui->setupUi(this);
+
+    m_gamemenu = new Gamemenu;
+
+    connect(m_gamemenu, SIGNAL(initializeGame(int)), this,
+                     SLOT(setPlayerCount(int)));
+    m_gamemenu->exec();
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
 
@@ -29,6 +34,16 @@ void MapWindow::setGEHandler(
         std::shared_ptr<Course::iGameEventHandler> nHandler)
 {
     m_GEHandler = nHandler;
+}
+
+void MapWindow::setPlayerCount(int playercount)
+{
+    /*
+    Setting the player count and testing that the signal works.
+    */
+    playercount_ = playercount;
+    QString text = "Player count: " + QString::number(playercount);
+    m_simplescene->addText(text);
 }
 
 void MapWindow::setSize(int width, int height)
