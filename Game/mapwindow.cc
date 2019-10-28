@@ -10,7 +10,8 @@ MapWindow::MapWindow(QWidget *parent,
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
     m_GEHandler(handler),
-    m_simplescene(new Course::SimpleGameScene(this))
+    m_simplescene(new Course::SimpleGameScene(this),
+    m_gamemenu(new Gamemenu))
 {
     m_ui->setupUi(this);
 

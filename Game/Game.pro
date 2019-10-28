@@ -7,10 +7,12 @@ CONFIG += c++14
 
 SOURCES += \
     main.cpp \
-    mapwindow.cc
+    mapwindow.cc \
+    gamemenu.cpp
 
 HEADERS += \
-    mapwindow.hh
+    mapwindow.hh \
+    gamemenu.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
@@ -37,7 +39,8 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../Course/CourseLib/libCourseLib.a
 
 FORMS += \
-    mapwindow.ui
+    mapwindow.ui \
+    gamemenu.ui
 
 DISTFILES += \
     EndDocument
