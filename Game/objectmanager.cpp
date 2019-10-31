@@ -7,8 +7,8 @@ objectManager::objectManager()
 {
 
 }
-/*
-objectManager::~ObjectManager()
+
+/*objectManager::~ObjectManager()
 {
 
 }

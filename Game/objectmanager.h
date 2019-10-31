@@ -9,9 +9,6 @@
 
 namespace Team {
 
-class Course::TileBase;
-class Course::Coordinate;
-
 using ObjectId = unsigned int;
 
 
@@ -20,8 +17,6 @@ class objectManager : public Course::iObjectManager
 {
 public:
     objectManager();
-
-    //virtual ~ObjectManager() = default;
 
     /**
      * @brief Adds new tiles to the ObjectManager.
@@ -56,6 +51,9 @@ public:
     virtual std::vector<std::shared_ptr<Course::TileBase>> getTiles(
             const std::vector<Course::Coordinate>& coordinates);
 
+private:
+
+    std::vector<std::shared_ptr<Course::TileBase>> m_tiles;
 
 };
 
