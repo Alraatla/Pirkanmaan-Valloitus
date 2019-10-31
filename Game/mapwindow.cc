@@ -1,5 +1,7 @@
 #include "mapwindow.hh"
 #include "ui_mapwindow.h"
+#include "gameeventhandler.h"
+#include "core/worldgenerator.h"
 
 #include "graphics/simplemapitem.h"
 
@@ -19,6 +21,14 @@ MapWindow::MapWindow(QWidget *parent,
     connect(m_gamemenu, SIGNAL(initializeGame(int)), this,
                      SLOT(setPlayerCount(int)));
     m_gamemenu->exec();
+
+
+
+    auto ptr = std::make_shared<Team::gameEventHandler>();
+
+    m_OManager = std::make_shared<Team::objectManager>();
+
+    setGEHandler(ptr);
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
 
@@ -44,6 +54,13 @@ void MapWindow::setPlayerCount(int playercount)
     playercount_ = playercount;
     QString text = "Player count: " + QString::number(playercount);
     m_simplescene->addText(text);
+    auto world = std::make_shared<Course::WorldGenerator>();
+    world->addConstructor(Forest);
+    world->addConstructor<Grassland>(2);
+    world->generateMap(50, 50, 2, m_OManager, m_GEHandler);
+
+
+
 }
 
 void MapWindow::setSize(int width, int height)
