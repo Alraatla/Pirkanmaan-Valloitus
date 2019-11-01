@@ -51,7 +51,7 @@ private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<Course::iGameEventHandler> m_GEHandler = nullptr;
     std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
-    std::shared_ptr<Team::objectManager> m_OManager = nullptr;
+    std::shared_ptr<Course::iObjectManager> m_Object = nullptr;
     Gamemenu* m_gamemenu;
     int playercount_;
 };

@@ -2,6 +2,8 @@
 #include "ui_mapwindow.h"
 #include "gameeventhandler.h"
 #include "core/worldgenerator.h"
+#include "tiles/forest.h"
+#include "tiles/grassland.h"
 
 #include "graphics/simplemapitem.h"
 
@@ -12,7 +14,8 @@ MapWindow::MapWindow(QWidget *parent,
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
     m_GEHandler(handler),
-    m_simplescene(new Course::SimpleGameScene(this))
+    m_simplescene(new Course::SimpleGameScene(this)),
+    m_Object(std::make_shared<Team::ObjectManager>())
 {
     m_ui->setupUi(this);
 
@@ -23,12 +26,7 @@ MapWindow::MapWindow(QWidget *parent,
     m_gamemenu->exec();
 
 
-
-    auto ptr = std::make_shared<Team::gameEventHandler>();
-
-    m_OManager = std::make_shared<Team::objectManager>();
-
-    setGEHandler(ptr);
+    setGEHandler(std::make_shared<Team::GameEventHandler>());
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
 
@@ -54,10 +52,9 @@ void MapWindow::setPlayerCount(int playercount)
     playercount_ = playercount;
     QString text = "Player count: " + QString::number(playercount);
     m_simplescene->addText(text);
-    auto world = std::make_shared<Course::WorldGenerator>();
-    world->addConstructor(Forest);
-    world->addConstructor<Grassland>(2);
-    world->generateMap(50, 50, 2, m_OManager, m_GEHandler);
+    Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
+    world.addConstructor<Course::Forest>(2);
+    world.generateMap(50, 50, 2, m_Object, m_GEHandler);
 
 
 

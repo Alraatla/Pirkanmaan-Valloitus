@@ -3,32 +3,27 @@
 namespace Team {
 
 
-objectManager::objectManager()
-{
-
-}
-/*
-objectManager::~ObjectManager()
-{
-
-}
-*/
-void objectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase> > &tiles)
+ObjectManager::ObjectManager()
 {
 
 }
 
-std::shared_ptr<Course::TileBase> objectManager::getTile(const Course::Coordinate &coordinate)
+void ObjectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase> > &tiles)
 {
 
 }
 
-std::shared_ptr<Course::TileBase> objectManager::getTile(const ObjectId &id)
+std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::Coordinate &coordinate)
 {
 
 }
 
-std::vector<std::shared_ptr<Course::TileBase> > objectManager::getTiles(const std::vector<Course::Coordinate> &coordinates)
+std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::ObjectId &id)
+{
+
+}
+
+std::vector<std::shared_ptr<Course::TileBase> > ObjectManager::getTiles(const std::vector<Course::Coordinate> &coordinates)
 {
 
 }
