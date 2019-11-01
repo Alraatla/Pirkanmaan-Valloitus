@@ -9,51 +9,49 @@
 
 namespace Team {
 
+<<<<<<< HEAD
 using ObjectId = unsigned int;
 
 
 
 class objectManager : public Course::iObjectManager
+=======
+
+class ObjectManager : public Course::iObjectManager
+>>>>>>> test
 {
 public:
-    objectManager();
+    ObjectManager();
 
+
+<<<<<<< HEAD
     /**
      * @brief Adds new tiles to the ObjectManager.
      * @param tiles contains the tiles to be added.
      */
+=======
+
+>>>>>>> test
     virtual void addTiles(
             const std::vector<std::shared_ptr<Course::TileBase>>& tiles);
 
-    /**
-     * @brief Returns a pointer to a Tile that has specified coordinate.
-     * @param coordinate
-     * @return
-     * @post Exception Guarantee: Basic
-     */
+
     virtual std::shared_ptr<Course::TileBase> getTile(
             const Course::Coordinate& coordinate);
 
-    /**
-     * @brief Returns a pointer to a Tile that has specified ID
-     * @param id
-     * @return
-     * @post Exception Guarantee: Basic
-     */
-    virtual std::shared_ptr<Course::TileBase> getTile(const ObjectId& id);
 
-    /**
-     * @brief Returns a vector of pointers to Tiles specified by Coordinates.
-     * @param coordinates
-     * @return
-     * @post Exception Guarantee: Basic
-     */
+    virtual std::shared_ptr<Course::TileBase> getTile(const Course::ObjectId& id);
+
+
     virtual std::vector<std::shared_ptr<Course::TileBase>> getTiles(
             const std::vector<Course::Coordinate>& coordinates);
 
 private:
+<<<<<<< HEAD
 
     std::vector<std::shared_ptr<Course::TileBase>> m_tiles;
+=======
+>>>>>>> test
 
 };
 

@@ -1,5 +1,5 @@
 #include "interfaces/igameeventhandler.h"
-
+#include "objectmanager.h"
 #include "core/basicresources.h"
 
 #ifndef GAMEEVENTHANDLER_H
@@ -7,14 +7,16 @@
 
 #include <memory>
 #include <vector>
+#include <map>
+#include <string>
 
 
 namespace Team {
 
-class gameEventHandler : public Course::iGameEventHandler
+class GameEventHandler : public Course::iGameEventHandler
 {
 public:
-    gameEventHandler();
+    GameEventHandler();
 
 
     virtual bool modifyResource(std::shared_ptr<Course::PlayerBase> player,
@@ -32,6 +34,11 @@ public:
     virtual bool modifyResources(std::shared_ptr<Course::PlayerBase> player,
                                      Course::ResourceMap resources);
 
+    // void initializeGame(const int playerAmount);
+
+private:
+    std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;
+    // std::map<std::string, std::unique_ptr<Course::PlayerBase>> players_ = {};
 };
 
 }
