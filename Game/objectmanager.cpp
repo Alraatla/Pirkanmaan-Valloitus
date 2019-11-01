@@ -7,12 +7,8 @@ ObjectManager::ObjectManager()
 {
 
 }
-<<<<<<< HEAD
 
-/*objectManager::~ObjectManager()
-{
-=======
->>>>>>> test
+
 
 void ObjectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase> > &tiles)
 {
