@@ -11,3 +11,23 @@ Division of labour:
 
 --Sampo
 -Kartan piirto,
+
+
+TODO:
+GameEventHandler:
+- Ottaa vastaan tiedot mapwindowin dialogilta, initializegame tietojen perusteella
+    - Pelaajien määrä, nimet (Luo pelaaja objectit) aluksi player1 ja player2,
+    heille resurssit
+    - Kartan piirron kehittäminen
+- Pelin kulun logiikka
+    - vuorot, voittokriteerit
+    - Näistä outputit mapwindowin kautta pelaajalle
+
+ObjectManager:
+- Mietitään miten hyödynnetään
+- Pelaajat omanagerin kautta
+- Rakennukset omanagerin kautta
+- Mitä tietoja constructorille?
+
+MapWindow:
+- Napit pelin kululle: "End turn", klikatessa vuoro vaihtuu -> gameeventhandler

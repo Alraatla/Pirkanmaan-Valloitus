@@ -54,8 +54,12 @@ void MapWindow::setPlayerCount(int playercount)
     m_simplescene->addText(text);
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
     world.addConstructor<Course::Forest>(2);
-    world.generateMap(50, 50, 2, m_Object, m_GEHandler);
+    world.addConstructor<Course::Grassland>(1);
+    world.generateMap(10, 10, 2, m_Object, m_GEHandler);
 
+    for(auto object: m_Object->getTilesForMap()) {
+        MapWindow::drawItem(object);
+    }
 
 
 }

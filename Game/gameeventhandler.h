@@ -34,11 +34,10 @@ public:
     virtual bool modifyResources(std::shared_ptr<Course::PlayerBase> player,
                                      Course::ResourceMap resources);
 
-    // void initializeGame(const int playerAmount);
+    void initializeGame();
 
 private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;
-    // std::map<std::string, std::unique_ptr<Course::PlayerBase>> players_ = {};
 };
 
 }

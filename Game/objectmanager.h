@@ -38,10 +38,12 @@ public:
     virtual std::vector<std::shared_ptr<Course::TileBase>> getTiles(
             const std::vector<Course::Coordinate>& coordinates);
 
+    std::vector<std::shared_ptr<Course::TileBase>> getTilesForMap();
+
 private:
 
 
-    std::vector<std::shared_ptr<Course::TileBase>> m_tiles;
+    std::vector<std::shared_ptr<Course::TileBase>> tiles_;
 
 };
 
