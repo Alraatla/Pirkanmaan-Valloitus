@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <iostream>
 
 
 namespace Team {
@@ -40,6 +41,7 @@ public:
 private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;
     int playercount_ = 0;
+    std::vector<std::shared_ptr<Course::PlayerBase>> players_;
 };
 
 }

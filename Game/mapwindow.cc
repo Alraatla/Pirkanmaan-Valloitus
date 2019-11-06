@@ -9,8 +9,7 @@
 
 #include <math.h>
 
-MapWindow::MapWindow(QWidget *parent,
-                     std::shared_ptr<Course::iGameEventHandler> handler):
+MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
     m_GEHandler(std::make_shared<Team::GameEventHandler>()),
@@ -20,14 +19,10 @@ MapWindow::MapWindow(QWidget *parent,
     m_ui->setupUi(this);
 
     m_gamemenu = new Gamemenu;
-    //setGEHandler(std::make_shared<Team::GameEventHandler>());
 
     connect(m_gamemenu, SIGNAL(initializeGame(int)), this,
                      SLOT(setPlayerCount(int)));
     m_gamemenu->exec();
-
-
-    setGEHandler(std::make_shared<Team::GameEventHandler>());
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
 

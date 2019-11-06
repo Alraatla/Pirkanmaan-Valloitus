@@ -25,9 +25,7 @@ class MapWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MapWindow(QWidget *parent = 0,
-                       std::shared_ptr<Course::iGameEventHandler> GEHandler = {}
-                       );
+    explicit MapWindow(QWidget *parent = 0);
     ~MapWindow();
 
     void setGEHandler(std::shared_ptr<Team::GameEventHandler> nHandler);

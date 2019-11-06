@@ -1,5 +1,6 @@
 #include "gameeventhandler.h"
 
+
 namespace Team {
 
 
@@ -28,11 +29,13 @@ bool GameEventHandler::modifyResources(
 void GameEventHandler::setPlayercount(int a)
 {
     playercount_ = a;
+    for (int x = 1; x <= a; ++x) {
+        std::string name = "player";
+        name += std::to_string(x);
+
+
+        players_.push_back(std::make_shared<Course::PlayerBase>(name));
+    }
 }
-
-//void GameEventHandler::initializeGame(const int playerAmount)
-//{
-
-//}
 
 }
