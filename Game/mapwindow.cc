@@ -13,13 +13,14 @@ MapWindow::MapWindow(QWidget *parent,
                      std::shared_ptr<Course::iGameEventHandler> handler):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
-    m_GEHandler(handler),
+    m_GEHandler(std::make_shared<Team::GameEventHandler>()),
     m_simplescene(new Course::SimpleGameScene(this)),
     m_Object(std::make_shared<Team::ObjectManager>())
 {
     m_ui->setupUi(this);
 
     m_gamemenu = new Gamemenu;
+    //setGEHandler(std::make_shared<Team::GameEventHandler>());
 
     connect(m_gamemenu, SIGNAL(initializeGame(int)), this,
                      SLOT(setPlayerCount(int)));
@@ -39,7 +40,7 @@ MapWindow::~MapWindow()
 }
 
 void MapWindow::setGEHandler(
-        std::shared_ptr<Course::iGameEventHandler> nHandler)
+        std::shared_ptr<Team::GameEventHandler> nHandler)
 {
     m_GEHandler = nHandler;
 }
@@ -51,7 +52,7 @@ void MapWindow::setPlayerCount(int playercount)
     */
     playercount_ = playercount;
     // Miten päästään käsiksi meidän omaan gameEvent handleriin
-    //m_GEHandler->setPlayercount(playercount);
+    m_GEHandler->setPlayercount(playercount);
 
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
     world.addConstructor<Course::Forest>(1);
