@@ -35,9 +35,11 @@ public:
                                      Course::ResourceMap resources);
 
     void initializeGame();
+    void setPlayercount(int a);
 
 private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;
+    int playercount_ = 0;
 };
 
 }

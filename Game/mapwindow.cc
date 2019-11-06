@@ -50,12 +50,13 @@ void MapWindow::setPlayerCount(int playercount)
     Setting the player count and testing that the signal works.
     */
     playercount_ = playercount;
-    QString text = "Player count: " + QString::number(playercount);
-    m_simplescene->addText(text);
+    // Miten päästään käsiksi meidän omaan gameEvent handleriin
+    //m_GEHandler->setPlayercount(playercount);
+
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
-    world.addConstructor<Course::Forest>(2);
+    world.addConstructor<Course::Forest>(1);
     world.addConstructor<Course::Grassland>(1);
-    world.generateMap(10, 10, 2, m_Object, m_GEHandler);
+    world.generateMap(5, 5, 2, m_Object, m_GEHandler);
 
     for(auto object: m_Object->getTilesForMap()) {
         MapWindow::drawItem(object);

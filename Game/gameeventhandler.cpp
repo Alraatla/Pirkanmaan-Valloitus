@@ -25,6 +25,11 @@ bool GameEventHandler::modifyResources(
     return true;
 }
 
+void GameEventHandler::setPlayercount(int a)
+{
+    playercount_ = a;
+}
+
 //void GameEventHandler::initializeGame(const int playerAmount)
 //{
 
