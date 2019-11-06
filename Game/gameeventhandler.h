@@ -1,6 +1,7 @@
 #include "interfaces/igameeventhandler.h"
 #include "objectmanager.h"
 #include "core/basicresources.h"
+#include "core/playerbase.h"
 
 #ifndef GAMEEVENTHANDLER_H
 #define GAMEEVENTHANDLER_H
