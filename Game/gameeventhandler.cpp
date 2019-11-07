@@ -32,7 +32,7 @@ void GameEventHandler::setPlayercount(int a)
     for (int x = 1; x <= a; ++x) {
         std::string name = "player";
         name += std::to_string(x);
-        auto player = std::make_shared<Course::PlayerBase>(name);
+        auto player = std::make_shared<Team::PlayerObject>(name);
         players_.push_back(player);
     }
 }

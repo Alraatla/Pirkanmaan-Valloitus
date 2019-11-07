@@ -2,6 +2,7 @@
 #include "objectmanager.h"
 #include "core/basicresources.h"
 #include "core/playerbase.h"
+#include "playerobject.h"
 
 #ifndef GAMEEVENTHANDLER_H
 #define GAMEEVENTHANDLER_H
@@ -42,7 +43,7 @@ public:
 private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;
     int playercount_ = 0;
-    std::vector<std::shared_ptr<Course::PlayerBase>> players_;
+    std::vector<std::shared_ptr<Team::PlayerObject>> players_;
 };
 
 }

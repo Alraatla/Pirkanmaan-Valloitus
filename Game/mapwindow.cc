@@ -46,7 +46,7 @@ void MapWindow::setPlayerCount(int playercount)
     Setting the player count and testing that the signal works.
     */
     playercount_ = playercount;
-    // Miten päästään käsiksi meidän omaan gameEvent handleriin
+
     m_GEHandler->setPlayercount(playercount);
 
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
