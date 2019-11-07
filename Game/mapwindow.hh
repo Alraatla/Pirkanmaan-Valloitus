@@ -19,7 +19,6 @@
 namespace Ui {
 class MapWindow;
 }
-
 class MapWindow : public QMainWindow
 {
     Q_OBJECT

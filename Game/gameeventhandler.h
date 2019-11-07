@@ -3,6 +3,7 @@
 #include "core/basicresources.h"
 #include "core/playerbase.h"
 #include "playerobject.h"
+#include "mapwindow.hh"
 
 #ifndef GAMEEVENTHANDLER_H
 #define GAMEEVENTHANDLER_H
@@ -38,7 +39,7 @@ public:
                                      Course::ResourceMap resources);
 
     void initializeGame();
-    void setPlayercount(int a);
+    std::shared_ptr<PlayerObject> setPlayercount(int a);
 
 private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;

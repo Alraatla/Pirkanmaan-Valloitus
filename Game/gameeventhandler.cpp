@@ -27,7 +27,7 @@ bool GameEventHandler::modifyResources(
     return true;
 }
 
-void GameEventHandler::setPlayercount(int a)
+std::shared_ptr<Team::PlayerObject> GameEventHandler::setPlayercount(int a)
 {
     playercount_ = a;
     for (int x = 1; x <= a; ++x) {
@@ -36,7 +36,7 @@ void GameEventHandler::setPlayercount(int a)
         auto player = std::make_shared<Team::PlayerObject>(name);
         players_.push_back(player);
     }
-    MapWindow::updateHUD(players_.at(0));
+    return players_.at(0);
 }
 
 }
