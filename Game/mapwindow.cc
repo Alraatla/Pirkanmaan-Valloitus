@@ -81,6 +81,14 @@ void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
     m_simplescene->updateItem(obj);
 }
 
+void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
+{
+    Course::ResourceMapDouble resources = player->getResources();
+    QString hudText = "Player: " + QString::fromStdString(player->getName()) + "\n"
+            + "Money: " + QString::number(resources.at(Course::MONEY)) + "\n";
+    m_ui->textBrowser->setText(hudText);
+}
+
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
     m_simplescene->removeItem(obj);

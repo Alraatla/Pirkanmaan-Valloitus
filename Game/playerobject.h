@@ -16,6 +16,8 @@ public:
     PlayerObject(const std::string& name);
 
     bool modifyResource(Course::BasicResource, int amount);
+
+    Course::ResourceMapDouble getResources ();
 private:
     std::string m_name = "";
     std::vector<std::weak_ptr<Course::GameObject> > p_objects;

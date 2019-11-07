@@ -1,4 +1,5 @@
 #include "gameeventhandler.h"
+#include "mapwindow.hh"
 
 
 namespace Team {
@@ -35,6 +36,7 @@ void GameEventHandler::setPlayercount(int a)
         auto player = std::make_shared<Team::PlayerObject>(name);
         players_.push_back(player);
     }
+    MapWindow::updateHUD(players_.at(0));
 }
 
 }

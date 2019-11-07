@@ -16,4 +16,9 @@ bool PlayerObject::modifyResource(Course::BasicResource, int amount)
 {
     return true;
 }
+
+Course::ResourceMapDouble PlayerObject::getResources()
+{
+    return resources_;
+}
 }
