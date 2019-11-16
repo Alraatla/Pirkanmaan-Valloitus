@@ -48,7 +48,7 @@ void MapWindow::gameLoop()
     int itPlayersTurn = turn_ % playercount_;
 
     std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
-    MapWindow::updateHUD(players.at(itPlayersTurn), round_);
+    MapWindow::updateHUD(players.at(itPlayersTurn));
     turn_++;
     if (itPlayersTurn == playercount_ - 1) {
         round_++;
@@ -77,14 +77,13 @@ void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
     m_simplescene->updateItem(obj);
 }
 
-void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player, int turn)
+void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
 {
     Course::ResourceMapDouble resources = player->getResources();
-    QString hudText = "Round: " + QString::number(turn) + "\n"
-            + "Player: " + QString::fromStdString(player->getName()) + "\n"
-            + "Money: " + QString::number(resources.at(Course::MONEY)) + "\n";
-    m_ui->roundLabel->setText("Round: "+ QString::number(round_));
-    m_ui->playerTurnLabel->setText("Player in turn: " + QString::fromStdString(player->getName()));
+
+    m_ui->roundAmountLabel->setText(QString::number(round_));
+    m_ui->playerNameLabel->setText(QString::fromStdString(player->getName()));
+    m_ui->pointsAmountLabel->setText(QString::number(player->getPoints()));
 
     m_ui->moneyAmountLabel->setText(QString::number(resources.at(Course::MONEY)));
     m_ui->foodAmountLabel->setText(QString::number(resources.at(Course::FOOD)));
@@ -92,9 +91,18 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player, int turn)
     m_ui->stoneAmountLabel->setText(QString::number(resources.at(Course::STONE)));
     m_ui->oreAmountLabel->setText(QString::number(resources.at(Course::ORE)));
 
-    m_ui->workerLabel->setText("Workers: " + QString::number(player->getWorkerAmount("WORKER")));
-    m_ui->farmerLabel->setText("Farmers: " + QString::number(player->getWorkerAmount("FARMER")));
-    m_ui->minerLabel->setText("Miners: " + QString::number(player->getWorkerAmount("MINER")));
+    m_ui->workerAmountLabel->setText(QString::number(player->getWorkerAmount("WORKER")));
+    m_ui->farmerAmountLabel->setText(QString::number(player->getWorkerAmount("FARMER")));
+    m_ui->minerAmountLabel->setText(QString::number(player->getWorkerAmount("MINER")));
+
+    if(player->hasHQ()) {
+        m_ui->hqButton->setDisabled(true);
+    } else {
+        m_ui->tyokkariButton->setDisabled(true);
+        m_ui->farmButton->setDisabled(true);
+        m_ui->mineButton->setDisabled(true);
+        m_ui->outpostButton->setDisabled(true);
+    }
 
 }
 void MapWindow::mapSetup(int playercount)

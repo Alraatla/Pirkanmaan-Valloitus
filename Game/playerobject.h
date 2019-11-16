@@ -19,6 +19,9 @@ public:
 
     Course::ResourceMapDouble getResources ();
     int getWorkerAmount(std::string workerType);
+    int getPoints();
+
+    bool hasHQ();
 private:
     Course::ResourceMapDouble resources_ = {{Course::MONEY, 500},
                                             {Course::FOOD, 300},
@@ -28,6 +31,8 @@ private:
     std::map<std::string, int> workersMap_ = {{"WORKERS", 0},
                                               {"FARMERS", 0},
                                               {"MINERS", 0}};
+
+    unsigned int points_ = 0;
 
 };
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>962</width>
-    <height>708</height>
+    <width>895</width>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,21 +18,53 @@
     <item row="0" column="1">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="roundLabel">
-        <property name="text">
-         <string>Round: </string>
-        </property>
-        <property name="scaledContents">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="playerTurnLabel">
-        <property name="text">
-         <string>Player in turn:</string>
-        </property>
-       </widget>
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="roundLabel">
+          <property name="text">
+           <string>Round: </string>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="playerTurnLabel">
+          <property name="text">
+           <string>Player in turn:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Points: </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="roundAmountLabel">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="playerNameLabel">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="pointsAmountLabel">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="horizontalSpacer">
@@ -159,63 +191,84 @@
         <item row="0" column="0">
          <widget class="QLabel" name="workerLabel">
           <property name="text">
-           <string>Worker:</string>
+           <string>Workers:</string>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="farmerLabel">
           <property name="text">
-           <string>Farmer:</string>
+           <string>Farmers:</string>
           </property>
          </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="minerLabel">
           <property name="text">
-           <string>Miner:</string>
+           <string>Miners:</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
+        <item row="0" column="2">
          <widget class="QPushButton" name="workerAssignButton">
           <property name="text">
            <string>Töihi</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="2" column="2">
          <widget class="QPushButton" name="minerAssignButton">
           <property name="text">
            <string>Töihi</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="1" column="2">
          <widget class="QPushButton" name="farmerAssignButton">
           <property name="text">
            <string>Töihi</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
+        <item row="0" column="3">
          <widget class="QPushButton" name="workerBuyButton">
           <property name="text">
            <string>Osta</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
+        <item row="1" column="3">
          <widget class="QPushButton" name="farmerBuyButton">
           <property name="text">
            <string>Osta</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
+        <item row="2" column="3">
          <widget class="QPushButton" name="minerBuyButton">
           <property name="text">
            <string>Osta</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="workerAmountLabel">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="farmerAmountLabel">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="minerAmountLabel">
+          <property name="text">
+           <string>0</string>
           </property>
          </widget>
         </item>
@@ -338,7 +391,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>962</width>
+     <width>895</width>
      <height>25</height>
     </rect>
    </property>
