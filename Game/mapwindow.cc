@@ -21,7 +21,8 @@ MapWindow::MapWindow(QWidget *parent):
     m_gamemenu = new Gamemenu;
 
     connect(m_gamemenu, SIGNAL(initializeGame(int)), this,
-                     SLOT(setPlayerCount(int)));
+                     SLOT(mapSetup(int)));
+    connect(m_ui->pushButton, &QPushButton::clicked, this, &MapWindow::gameLoop);
     m_gamemenu->exec();
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -40,22 +41,17 @@ void MapWindow::setGEHandler(
     m_GEHandler = nHandler;
 }
 
-void MapWindow::setPlayerCount(int playercount)
+void MapWindow::gameLoop()
 {
-    /*
-    Setting the player count and testing that the signal works.
-    */
-    playercount_ = playercount;
 
-    updateHUD(m_GEHandler->setPlayercount(playercount));
 
-    Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
-    world.addConstructor<Course::Forest>(1);
-    world.addConstructor<Course::Grassland>(1);
-    world.generateMap(5, 5, 2, m_Object, m_GEHandler);
+    int itPlayersTurn = turn_ % playercount_;
 
-    for(auto object: m_Object->getTilesForMap()) {
-        MapWindow::drawItem(object);
+    std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
+    MapWindow::updateHUD(players.at(itPlayersTurn), round_);
+    turn_++;
+    if (itPlayersTurn == playercount_ - 1) {
+        round_++;
     }
 
 
@@ -81,12 +77,41 @@ void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
     m_simplescene->updateItem(obj);
 }
 
-void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
+void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player, int turn)
 {
     Course::ResourceMapDouble resources = player->getResources();
-    QString hudText = "Player: " + QString::fromStdString(player->getName()) + "\n"
+    QString hudText = "Round: " + QString::number(turn) + "\n"
+            + "Player: " + QString::fromStdString(player->getName()) + "\n"
             + "Money: " + QString::number(resources.at(Course::MONEY)) + "\n";
-    m_ui->textBrowser->setText(hudText);
+    m_ui->roundLabel->setText("Round: "+ QString::number(round_));
+    m_ui->playerTurnLabel->setText("Player in turn: " + QString::fromStdString(player->getName()));
+
+    m_ui->moneyAmountLabel->setText(QString::number(resources.at(Course::MONEY)));
+    m_ui->foodAmountLabel->setText(QString::number(resources.at(Course::FOOD)));
+    m_ui->woodAmountLabel->setText(QString::number(resources.at(Course::WOOD)));
+    m_ui->stoneAmountLabel->setText(QString::number(resources.at(Course::STONE)));
+    m_ui->oreAmountLabel->setText(QString::number(resources.at(Course::ORE)));
+
+    m_ui->workerLabel->setText("Workers: " + QString::number(player->getWorkerAmount("WORKER")));
+    m_ui->farmerLabel->setText("Farmers: " + QString::number(player->getWorkerAmount("FARMER")));
+    m_ui->minerLabel->setText("Miners: " + QString::number(player->getWorkerAmount("MINER")));
+
+}
+void MapWindow::mapSetup(int playercount)
+{
+
+    m_GEHandler->setPlayercount(playercount);
+    playercount_ = playercount;
+
+    Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
+    world.addConstructor<Course::Forest>(1);
+    world.addConstructor<Course::Grassland>(1);
+    world.generateMap(10, 10, 2, m_Object, m_GEHandler);
+
+
+    for(auto object: m_Object->getTilesForMap()) {
+        MapWindow::drawItem(object);
+    }
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

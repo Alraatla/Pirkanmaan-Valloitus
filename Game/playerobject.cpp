@@ -6,9 +6,8 @@
 namespace Team {
 
 
-PlayerObject::PlayerObject(const std::string& name): Course::PlayerBase(name)
+PlayerObject::PlayerObject(std::string name): Course::PlayerBase(name)
 {
-    setName(name);
 }
 
 
@@ -20,5 +19,10 @@ bool PlayerObject::modifyResource(Course::BasicResource, int amount)
 Course::ResourceMapDouble PlayerObject::getResources()
 {
     return resources_;
+}
+
+int PlayerObject::getWorkerAmount(std::string workerType)
+{
+    return workersMap_[workerType];
 }
 }

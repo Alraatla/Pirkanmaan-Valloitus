@@ -13,19 +13,21 @@ namespace Team {
 class PlayerObject : public Course::PlayerBase
 {
 public:
-    PlayerObject(const std::string& name);
+    PlayerObject(std::string name);
 
     bool modifyResource(Course::BasicResource, int amount);
 
     Course::ResourceMapDouble getResources ();
+    int getWorkerAmount(std::string workerType);
 private:
-    std::string m_name = "";
-    std::vector<std::weak_ptr<Course::GameObject> > p_objects;
     Course::ResourceMapDouble resources_ = {{Course::MONEY, 500},
                                             {Course::FOOD, 300},
                                             {Course::WOOD, 800},
                                             {Course::STONE, 600},
                                             {Course::ORE, 637}};
+    std::map<std::string, int> workersMap_ = {{"WORKERS", 0},
+                                              {"FARMERS", 0},
+                                              {"MINERS", 0}};
 
 };
 }

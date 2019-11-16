@@ -38,11 +38,13 @@ public:
     void drawItem( std::shared_ptr<Course::GameObject> obj);
     void removeItem( std::shared_ptr<Course::GameObject> obj);
     void updateItem( std::shared_ptr<Course::GameObject> obj);
-    void updateHUD( std::shared_ptr<Team::PlayerObject> player);
+    void updateHUD(std::shared_ptr<Team::PlayerObject> player, int turn);
+
 
 public slots:
     // Setting player count from dialog box
-    void setPlayerCount(int playercount);
+    void mapSetup(int playercount);
+    void gameLoop();
 
 
 private:
@@ -51,7 +53,9 @@ private:
     std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
     std::shared_ptr<Team::ObjectManager> m_Object = nullptr;
     Gamemenu* m_gamemenu;
-    int playercount_;
+    int turn_ = 0;
+    int playercount_ = 0;
+    int round_ = 1;
 };
 
 #endif // MapWINDOW_HH

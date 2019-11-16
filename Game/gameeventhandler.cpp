@@ -27,7 +27,7 @@ bool GameEventHandler::modifyResources(
     return true;
 }
 
-std::shared_ptr<Team::PlayerObject> GameEventHandler::setPlayercount(int a)
+void GameEventHandler::setPlayercount(int a)
 {
     playercount_ = a;
     for (int x = 1; x <= a; ++x) {
@@ -36,7 +36,11 @@ std::shared_ptr<Team::PlayerObject> GameEventHandler::setPlayercount(int a)
         auto player = std::make_shared<Team::PlayerObject>(name);
         players_.push_back(player);
     }
-    return players_.at(0);
+}
+
+std::vector<std::shared_ptr<PlayerObject> > GameEventHandler::getPlayers()
+{
+    return players_;
 }
 
 }
