@@ -4,6 +4,7 @@
 #include "core/worldgenerator.h"
 #include "tiles/forest.h"
 #include "tiles/grassland.h"
+#include "mountain.h"
 
 #include "graphics/simplemapitem.h"
 
@@ -112,9 +113,10 @@ void MapWindow::mapSetup(int playercount)
     playercount_ = playercount;
 
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
-    world.addConstructor<Course::Forest>(1);
-    world.addConstructor<Course::Grassland>(1);
-    world.generateMap(10, 10, 2, m_Object, m_GEHandler);
+    world.addConstructor<Course::Forest>(2);
+    world.addConstructor<Course::Grassland>(2);
+    world.addConstructor<Team::Mountain>(1);
+    world.generateMap(10, 10, 1231524123, m_Object, m_GEHandler);
 
 
     for(auto object: m_Object->getTilesForMap()) {

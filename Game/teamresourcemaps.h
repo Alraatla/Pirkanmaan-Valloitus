@@ -1,11 +1,11 @@
-#ifndef RESOURCEMAPS_H
-#define RESOURCEMAPS_H
+#ifndef TEAMRESOURCEMAPS_H
+#define TEAMRESOURCEMAPS_H
 
 #include "core/basicresources.h"
 
 namespace Team {
 
-namespace ConstResourceMaps {
+namespace TeamConstResourceMaps {
 
 const Course::ResourceMap EMPTY = {};
 
@@ -21,4 +21,4 @@ const Course::ResourceMap MOUNTAIN_BP = {
 }
 
 
-#endif // RESOURCEMAPS_H
+#endif // TEAMRESOURCEMAPS_H

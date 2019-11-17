@@ -11,7 +11,8 @@ SOURCES += \
     gamemenu.cpp \
     gameeventhandler.cpp \
     objectmanager.cpp \
-    playerobject.cpp
+    playerobject.cpp \
+    mountain.cpp
 
 HEADERS += \
     mapwindow.hh \
@@ -19,7 +20,8 @@ HEADERS += \
     gameeventhandler.h \
     objectmanager.h \
     playerobject.h \
-    resourcemaps.h
+    mountain.h \
+    teamresourcemaps.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
