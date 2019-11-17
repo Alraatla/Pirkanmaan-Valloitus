@@ -18,7 +18,8 @@ HEADERS += \
     gamemenu.h \
     gameeventhandler.h \
     objectmanager.h \
-    playerobject.h
+    playerobject.h \
+    resourcemaps.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
