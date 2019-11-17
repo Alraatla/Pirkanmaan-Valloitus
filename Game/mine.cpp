@@ -1,8 +1,8 @@
-#include "tyokkari.h"
+#include "mine.h"
 
 namespace Team {
 
-Tyokkari::Tyokkari(
+Mine::Mine(
         const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
         const std::shared_ptr<Course::iObjectManager> &objectmanager,
         const std::shared_ptr<Course::PlayerBase> &owner,
@@ -17,11 +17,9 @@ Tyokkari::Tyokkari(
         buildcost,
         production){}
 
-std::string Tyokkari::getType() const
+std::string Mine::getType() const
 {
-    return "Tyokkari";
+    return "Mine";
 }
-
-
 
 } // namespace Team
