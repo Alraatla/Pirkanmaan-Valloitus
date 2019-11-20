@@ -6,6 +6,7 @@
 
 
 #include "interfaces/iobjectmanager.h"
+#include "buildings/buildingbase.h"
 
 namespace Team {
 
@@ -44,6 +45,7 @@ private:
 
 
     std::vector<std::shared_ptr<Course::TileBase>> tiles_;
+    std::vector<std::shared_ptr<Course::BuildingBase>> buildings_;
 
 };
 

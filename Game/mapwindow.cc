@@ -5,6 +5,7 @@
 #include "tiles/forest.h"
 #include "tiles/grassland.h"
 #include "mountain.h"
+#include "buildings/headquarters.h"
 
 #include "graphics/simplemapitem.h"
 
@@ -24,6 +25,8 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_gamemenu, SIGNAL(initializeGame(int)), this,
                      SLOT(mapSetup(int)));
     connect(m_ui->pushButton, &QPushButton::clicked, this, &MapWindow::gameLoop);
+    connect(m_ui->hqButton, &QPushButton::clicked, this, &MapWindow::hqButtonClicked);
+//    connect(m_simplescene, &QEvent::GraphicsSceneMousePress, this, ;)))
     m_gamemenu->exec();
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -56,6 +59,22 @@ void MapWindow::gameLoop()
     }
 
 
+}
+
+void MapWindow::hqButtonClicked()
+{
+    std::shared_ptr<Team::PlayerObject> playerInTurn = m_GEHandler->getPlayers().at(
+                    turn_ % playercount_);
+    if(!playerInTurn->hasHQ()) {
+        std::shared_ptr<Course::BuildingBase> headquarters = new Course::HeadQuarters(
+                    m_GEHandler, m_Object, playerInTurn);
+        
+        m_ui->hqButton->setDown(true);
+        std::vector<std::shared_ptr<Course::TileBase>> tiles = m_Object->getTilesForMap();
+        std::shared_ptr<Course::TileBase> tile = tiles.at(3);
+        tile->addBuilding(*headquarters);
+        MapWindow::drawItem(headquarters);
+    }
 }
 
 void MapWindow::setSize(int width, int height)

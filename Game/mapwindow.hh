@@ -45,6 +45,7 @@ public slots:
     // Setting player count from dialog box
     void mapSetup(int playercount);
     void gameLoop();
+    void hqButtonClicked();
 
 
 private:
