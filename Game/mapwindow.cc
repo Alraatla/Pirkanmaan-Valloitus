@@ -158,4 +158,5 @@ void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
     m_simplescene->drawItem(obj);
+    m_ui->graphicsView->viewport()->update();
 }
