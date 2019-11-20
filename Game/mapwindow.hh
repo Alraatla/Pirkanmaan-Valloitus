@@ -44,9 +44,10 @@ public:
 
 public slots:
     // Setting player count from dialog box
-    void mapSetup(int playercount);
+    void mapSetup(int playercount, std::vector<std::string> playerNames);
     void gameLoop();
     void hqButtonClicked();
+    void tyokkariButtonClicked();
 
 
 private:

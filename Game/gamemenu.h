@@ -17,10 +17,11 @@ public:
     
 private slots:
     void pressOk();
+    void playerCountChanged(int playerAmount);
 
 signals:
 
-    void initializeGame(int playercount);
+    void initializeGame(int playercount, std::vector<std::string> playerNames);
 
 private:
     Ui::Gamemenu *ui;

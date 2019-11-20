@@ -39,14 +39,14 @@ public:
                                      Course::ResourceMap resources);
 
     void initializeGame();
-    void setPlayercount(int a);
+    void setPlayercount(int playerCount, std::vector<std::string> names);
     std::vector<std::shared_ptr<Team::PlayerObject>> getPlayers();
     void addObjectToPlayer(std::shared_ptr<Team::PlayerObject> player, std::string objectType);
     std::shared_ptr<PlayerObject> getPlayer(std::string playerName);
 
 private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;
-    int playercount_ = 0;
+    int playerCount_ = 0;
     std::vector<std::shared_ptr<Team::PlayerObject>> players_;
 };
 

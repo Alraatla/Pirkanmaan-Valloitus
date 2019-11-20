@@ -45,4 +45,14 @@ bool PlayerObject::hasHQ()
     }
     return false;
 }
+
+bool PlayerObject::hasTyokkari()
+{
+    for(std::shared_ptr<Course::GameObject> object: getObjects()) {
+        if (object->getType() == "Tyokkari") {
+            return true;
+        }
+    }
+    return false;
+}
 }

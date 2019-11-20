@@ -23,6 +23,7 @@ public:
     void addPoints(int points);
 
     bool hasHQ();
+    bool hasTyokkari();
 private:
     Course::ResourceMapDouble resources_ = {{Course::MONEY, 500},
                                             {Course::FOOD, 300},
