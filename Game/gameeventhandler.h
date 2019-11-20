@@ -41,7 +41,8 @@ public:
     void initializeGame();
     void setPlayercount(int a);
     std::vector<std::shared_ptr<Team::PlayerObject>> getPlayers();
-    void addObjectToPlayer(std::shared_ptr<Team::PlayerObject>);
+    void addObjectToPlayer(std::shared_ptr<Team::PlayerObject> player, std::string objectType);
+    std::shared_ptr<PlayerObject> getPlayer(std::string playerName);
 
 private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;

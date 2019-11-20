@@ -11,9 +11,9 @@ PlayerObject::PlayerObject(std::string name): Course::PlayerBase(name)
 }
 
 
-bool PlayerObject::modifyResource(Course::BasicResource, int amount)
+bool PlayerObject::modifyResource(Course::BasicResource resource, int amount)
 {
-    return true;
+    resources_[resource] += amount;
 }
 
 Course::ResourceMapDouble PlayerObject::getResources()
@@ -29,6 +29,11 @@ int PlayerObject::getWorkerAmount(std::string workerType)
 int PlayerObject::getPoints()
 {
     return points_;
+}
+
+void PlayerObject::addPoints(int points)
+{
+    points_ += points;
 }
 
 bool PlayerObject::hasHQ()

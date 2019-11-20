@@ -79,6 +79,7 @@ void MapWindow::hqButtonClicked()
         playerInTurn->addObject(headquarters);
         m_GEHandler->addObjectToPlayer(playerInTurn, headquarters->getType());
     }
+    updateHUD(playerInTurn);
 }
 
 void MapWindow::setSize(int width, int height)

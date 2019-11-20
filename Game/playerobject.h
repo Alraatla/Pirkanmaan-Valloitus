@@ -15,11 +15,12 @@ class PlayerObject : public Course::PlayerBase
 public:
     PlayerObject(std::string name);
 
-    bool modifyResource(Course::BasicResource, int amount);
+    bool modifyResource(Course::BasicResource resource, int amount);
 
     Course::ResourceMapDouble getResources ();
     int getWorkerAmount(std::string workerType);
     int getPoints();
+    void addPoints(int points);
 
     bool hasHQ();
 private:
