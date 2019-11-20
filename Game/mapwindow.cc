@@ -49,7 +49,6 @@ void MapWindow::setGEHandler(
 void MapWindow::gameLoop()
 {
 
-
     int itPlayersTurn = turn_ % playercount_;
 
     std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
@@ -65,20 +64,21 @@ void MapWindow::gameLoop()
 void MapWindow::hqButtonClicked()
 {
     std::shared_ptr<Team::PlayerObject> playerInTurn = m_GEHandler->getPlayers().at(
-                    turn_ % playercount_);
+                    (turn_-1) % playercount_);
 
-    std::shared_ptr<Course::HeadQuarters> headquarters = std::make_shared<Course::HeadQuarters>(
-                m_GEHandler, m_Object, playerInTurn);
-    headquarters->setCoordinate(m_simplescene->getClickedCoordinate());
+    if(!playerInTurn->hasHQ()) {
+        m_ui->hqButton->setDisabled(false);
+        std::shared_ptr<Course::HeadQuarters> headquarters = std::make_shared<Course::HeadQuarters>(
+                    m_GEHandler, m_Object, playerInTurn);
+        headquarters->setCoordinate(m_simplescene->getClickedCoordinate());
 
-
-//    m_ui->hqButton->setDown(true);
-//    std::vector<std::shared_ptr<Course::TileBase>> tiles = m_Object->getTilesForMap();
-//    std::shared_ptr<Course::TileBase> tile = tiles.at(3);
-//    tile->addBuilding(headquarters);
-    MapWindow::drawItem(headquarters);
-    MapWindow::setScale(50);
-
+        std::shared_ptr<Course::TileBase> tile =
+                m_Object->getTile(m_simplescene->getClickedCoordinate());
+        tile->addBuilding(headquarters);
+        MapWindow::drawItem(headquarters);
+        playerInTurn->addObject(headquarters);
+        m_GEHandler->addObjectToPlayer(playerInTurn, headquarters->getType());
+    }
 }
 
 void MapWindow::setSize(int width, int height)
@@ -121,7 +121,9 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
 
     if(player->hasHQ()) {
         m_ui->hqButton->setDisabled(true);
+        m_ui->tyokkariButton->setDisabled(false);
     } else {
+        m_ui->hqButton->setDisabled(false);
         m_ui->tyokkariButton->setDisabled(true);
         m_ui->farmButton->setDisabled(true);
         m_ui->mineButton->setDisabled(true);

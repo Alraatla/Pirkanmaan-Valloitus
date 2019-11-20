@@ -41,11 +41,13 @@ public:
 
     std::vector<std::shared_ptr<Course::TileBase>> getTilesForMap();
 
+
 private:
 
 
     std::vector<std::shared_ptr<Course::TileBase>> tiles_;
     std::vector<std::shared_ptr<Course::BuildingBase>> buildings_;
+    std::map<Course::Coordinate, std::shared_ptr<Course::TileBase>> tilesMappedByCoordinate_ = {};
 
 };
 
