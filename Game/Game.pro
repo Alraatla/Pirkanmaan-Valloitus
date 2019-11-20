@@ -14,7 +14,8 @@ SOURCES += \
     playerobject.cpp \
     mountain.cpp \
     tyokkari.cpp \
-    mine.cpp
+    mine.cpp \
+    gamescene.cpp
 
 HEADERS += \
     mapwindow.hh \
@@ -25,7 +26,8 @@ HEADERS += \
     mountain.h \
     teamresourcemaps.h \
     tyokkari.h \
-    mine.h
+    mine.h \
+    gamescene.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib

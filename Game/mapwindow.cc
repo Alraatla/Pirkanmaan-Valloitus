@@ -6,6 +6,7 @@
 #include "tiles/grassland.h"
 #include "mountain.h"
 #include "buildings/headquarters.h"
+#include "gamescene.h"
 
 #include "graphics/simplemapitem.h"
 
@@ -15,7 +16,7 @@ MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
     m_GEHandler(std::make_shared<Team::GameEventHandler>()),
-    m_simplescene(new Course::SimpleGameScene(this)),
+    m_simplescene(new Team::GameScene(this)),
     m_Object(std::make_shared<Team::ObjectManager>())
 {
     m_ui->setupUi(this);
@@ -65,16 +66,19 @@ void MapWindow::hqButtonClicked()
 {
     std::shared_ptr<Team::PlayerObject> playerInTurn = m_GEHandler->getPlayers().at(
                     turn_ % playercount_);
-    if(!playerInTurn->hasHQ()) {
-        std::shared_ptr<Course::BuildingBase> headquarters = new Course::HeadQuarters(
-                    m_GEHandler, m_Object, playerInTurn);
-        
-        m_ui->hqButton->setDown(true);
-        std::vector<std::shared_ptr<Course::TileBase>> tiles = m_Object->getTilesForMap();
-        std::shared_ptr<Course::TileBase> tile = tiles.at(3);
-        tile->addBuilding(*headquarters);
-        MapWindow::drawItem(headquarters);
-    }
+
+    std::shared_ptr<Course::HeadQuarters> headquarters = std::make_shared<Course::HeadQuarters>(
+                m_GEHandler, m_Object, playerInTurn);
+    headquarters->setCoordinate(m_simplescene->getClickedCoordinate());
+
+
+//    m_ui->hqButton->setDown(true);
+//    std::vector<std::shared_ptr<Course::TileBase>> tiles = m_Object->getTilesForMap();
+//    std::shared_ptr<Course::TileBase> tile = tiles.at(3);
+//    tile->addBuilding(headquarters);
+    MapWindow::drawItem(headquarters);
+    MapWindow::setScale(50);
+
 }
 
 void MapWindow::setSize(int width, int height)

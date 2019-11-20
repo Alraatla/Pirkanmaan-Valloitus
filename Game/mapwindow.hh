@@ -15,6 +15,7 @@
 #include "objectmanager.h"
 #include "graphics/simplegamescene.h"
 #include "gamemenu.h"
+#include "gamescene.h"
 
 namespace Ui {
 class MapWindow;
@@ -51,7 +52,7 @@ public slots:
 private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<Team::GameEventHandler> m_GEHandler = nullptr;
-    std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
+    std::shared_ptr<Team::GameScene> m_simplescene = nullptr;
     std::shared_ptr<Team::ObjectManager> m_Object = nullptr;
     Gamemenu* m_gamemenu;
     int turn_ = 0;
