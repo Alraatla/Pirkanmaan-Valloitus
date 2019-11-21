@@ -15,6 +15,7 @@ MapItem::MapItem(const std::shared_ptr<Course::GameObject> &obj,
 QRectF MapItem::boundingRect() const
 {
     QPoint addToPoint = QPoint(0, 0);
+    // Yritin saada että työkkäri ois neliössä alempana kuin HQ
 //    if(gameobject_->getType() == "Tyokkari")
 //    {
 //        addToPoint = QPoint(25, 25);
