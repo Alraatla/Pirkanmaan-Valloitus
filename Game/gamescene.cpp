@@ -1,5 +1,6 @@
 #include "gamescene.h"
 #include "graphics/simplemapitem.h"
+#include "mapitem.h"
 
 #include <QEvent>
 #include <QGraphicsSceneMouseEvent>
@@ -49,6 +50,26 @@ bool GameScene::event(QEvent *event)
 Course::Coordinate GameScene::getClickedCoordinate()
 {
     return clickedCoordinate_;
+}
+
+void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
+{
+    MapItem* nItem = nullptr;
+    if (obj->getType() == "HeadQuarters")
+    {
+        nItem = new MapItem(obj, 25);
+
+    }
+    else if (obj->getType() == "Tyokkari")
+    {
+        nItem = new MapItem(obj, 25);
+    }
+    else
+    {
+        nItem = new MapItem(obj, 50);
+    }
+
+    addItem(nItem);
 }
 
 

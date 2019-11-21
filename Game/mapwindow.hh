@@ -42,8 +42,9 @@ public:
     void updateHUD(std::shared_ptr<Team::PlayerObject> player);
 
 
+
 public slots:
-    // Setting player count from dialog box
+
     void mapSetup(int playercount, std::vector<std::string> playerNames);
     void gameLoop();
     void hqButtonClicked();

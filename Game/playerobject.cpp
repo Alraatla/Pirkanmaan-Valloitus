@@ -13,7 +13,7 @@ PlayerObject::PlayerObject(std::string name): Course::PlayerBase(name)
 
 bool PlayerObject::modifyResource(Course::BasicResource resource, int amount)
 {
-    resources_[resource] += amount;
+    resources_[resource] -= amount;
 }
 
 Course::ResourceMapDouble PlayerObject::getResources()

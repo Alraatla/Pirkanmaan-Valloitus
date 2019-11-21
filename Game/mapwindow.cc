@@ -187,6 +187,8 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
     }
 
 }
+
+
 void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames)
 {
 

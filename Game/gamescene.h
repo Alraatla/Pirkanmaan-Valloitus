@@ -29,6 +29,8 @@ public:
 
     Course::Coordinate getClickedCoordinate();
 
+    void drawItem(std::shared_ptr<Course::GameObject> obj);
+
 private:
     Course::Coordinate clickedCoordinate_ = {0, 0};
 };
