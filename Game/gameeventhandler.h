@@ -1,12 +1,13 @@
+
+#ifndef GAMEEVENTHANDLER_H
+#define GAMEEVENTHANDLER_H
+
+
 #include "interfaces/igameeventhandler.h"
 #include "objectmanager.h"
 #include "core/basicresources.h"
 #include "core/playerbase.h"
 #include "playerobject.h"
-#include "mapwindow.hh"
-
-#ifndef GAMEEVENTHANDLER_H
-#define GAMEEVENTHANDLER_H
 
 #include <memory>
 #include <vector>
@@ -48,6 +49,8 @@ private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;
     int playerCount_ = 0;
     std::vector<std::shared_ptr<Team::PlayerObject>> players_;
+
+    Course::ResourceMap makeNegative(Course::ResourceMap resourceMap);
 };
 
 }

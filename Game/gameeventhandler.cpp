@@ -65,12 +65,12 @@ void GameEventHandler::addObjectToPlayer(std::shared_ptr<PlayerObject> player,
     if (objectType == "HeadQuarters")
     {
         player->addPoints(50);
-        modifyResources(player, Course::ConstResourceMaps::HQ_BUILD_COST);
+        modifyResources(player, makeNegative(Course::ConstResourceMaps::HQ_BUILD_COST));
     }
     if (objectType == "Tyokkari")
     {
         player->addPoints(69);
-        modifyResources(player, Team::TeamConstResourceMaps::TYOKKARI_BUILD_COST);
+        modifyResources(player, makeNegative(Team::TeamConstResourceMaps::TYOKKARI_BUILD_COST));
     }
 }
 
@@ -82,6 +82,15 @@ std::shared_ptr<PlayerObject> GameEventHandler::getPlayer(std::string playerName
         }
     }
     return nullptr;
+}
+
+Course::ResourceMap GameEventHandler::makeNegative(Course::ResourceMap resourceMap)
+{
+    Course::ResourceMap newMap = {};
+    for (auto resource: resourceMap) {
+        newMap[resource.first] = resource.second * (-1);
+    }
+    return newMap;
 }
 
 

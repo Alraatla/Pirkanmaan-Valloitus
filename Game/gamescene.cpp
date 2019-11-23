@@ -55,21 +55,21 @@ Course::Coordinate GameScene::getClickedCoordinate()
 void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
 {
     MapItem* nItem = nullptr;
-    if (obj->getType() == "HeadQuarters")
-    {
-        nItem = new MapItem(obj, 50);
 
-    }
-    else if (obj->getType() == "Tyokkari")
-    {
-        nItem = new MapItem(obj, 50);
-    }
-    else
-    {
-        nItem = new MapItem(obj, 50);
-    }
+
+    nItem = new MapItem(obj, 50);
+//    QImage image(":/Images/worker.png");
+
+//    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+
 
     addItem(nItem);
+//    if(obj->getType() == "Tyokkari") {
+
+//        item->mapToItem(nItem,obj->getCoordinate().x()*50, obj->getCoordinate().y()*50);
+//    }
+
+
 }
 
 
