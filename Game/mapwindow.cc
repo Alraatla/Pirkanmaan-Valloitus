@@ -8,6 +8,7 @@
 #include "buildings/headquarters.h"
 #include "gamescene.h"
 #include "tyokkari.h"
+#include <QDebug>
 
 #include "graphics/simplemapitem.h"
 
@@ -29,12 +30,16 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->pushButton, &QPushButton::clicked, this, &MapWindow::gameLoop);
     //connect(m_ui->hqButton, &QPushButton::clicked, this, &MapWindow::hqButtonClicked);
     connect(m_ui->tyokkariButton, &QPushButton::clicked, this, &MapWindow::tyokkariButtonClicked);
+
     m_gamemenu->exec();
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
 
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
+    connect(sgs_rawptr, SIGNAL(tileClicked(Course::Coordinate)), this,
+            SLOT(updateButtons(Course::Coordinate)));
+    MapWindow::grabKeyboard();
 }
 
 MapWindow::~MapWindow()
@@ -92,8 +97,7 @@ void MapWindow::hqButtonClicked()
 
 void MapWindow::tyokkariButtonClicked()
 {
-    std::shared_ptr<Team::PlayerObject> playerInTurn = m_GEHandler->getPlayers().at(
-                    (turn_-1) % playercount_);
+    std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Team::Tyokkari> tyokkari = std::make_shared<Team::Tyokkari>(
                 m_GEHandler, m_Object, playerInTurn);
@@ -113,6 +117,108 @@ void MapWindow::tyokkariButtonClicked()
 
     updateHUD(playerInTurn);
 
+}
+
+void MapWindow::updateButtons(Course::Coordinate coordinate)
+{
+    if(turn_ != 0) {
+        std::shared_ptr<Team::PlayerObject> player = getPlayerInTurn();
+
+        if(player->isTileOwned(coordinate)){
+            std::shared_ptr<Course::TileBase> tile = m_Object->getTile(coordinate);
+
+            if(tile->getBuildingCount() > 0) {
+                // Disable kaikki rakennus nappulat
+                std::string building = tile->getBuildings().at(0)->getType();
+                if(building == "Tyokkari") {
+                //case "Tyokkari":
+                    m_ui->workerBuyButton->setEnabled(true);
+                    m_ui->workerAssignButton->setEnabled(false);
+                    m_ui->farmerBuyButton->setEnabled(true);
+                    m_ui->farmerAssignButton->setEnabled(false);
+                    m_ui->minerBuyButton->setEnabled(true);
+                    m_ui->minerAssignButton->setEnabled(false);
+                }
+                else if(building == "Farm"){
+                    //case "Farm":
+                    if(player->getWorkerAmount("FARMER") > 0){
+                        m_ui->farmerAssignButton->setEnabled(true);
+                    }
+                    else{
+                        m_ui->farmerAssignButton->setEnabled(false);
+                    }
+
+                    m_ui->workerBuyButton->setEnabled(false);
+                    m_ui->workerAssignButton->setEnabled(false);
+                    m_ui->farmerBuyButton->setEnabled(false);
+                    m_ui->minerBuyButton->setEnabled(false);
+                    m_ui->minerAssignButton->setEnabled(false);
+
+
+                }
+                    // farmerin töihi nappi jos farm,ereiden lkm > 0
+                else if(building == "Mine"){
+                    //case "Mine":
+                    if(player->getWorkerAmount("MINER") > 0){
+                        m_ui->minerAssignButton->setEnabled(true);
+                    }
+                    else{
+                        m_ui->minerAssignButton->setEnabled(false);
+                    }
+
+                    m_ui->workerBuyButton->setEnabled(false);
+                    m_ui->workerAssignButton->setEnabled(false);
+                    m_ui->minerBuyButton->setEnabled(false);
+                    m_ui->farmerBuyButton->setEnabled(false);
+                    m_ui->farmerAssignButton->setEnabled(false);
+                }
+                else{
+                    // case default:
+                    m_ui->workerBuyButton->setEnabled(false);
+                    m_ui->workerAssignButton->setEnabled(false);
+                    m_ui->farmerBuyButton->setEnabled(false);
+                    m_ui->farmerAssignButton->setEnabled(false);
+                    m_ui->minerBuyButton->setEnabled(false);
+                    m_ui->minerAssignButton->setEnabled(false);
+                }
+
+                m_ui->tyokkariButton->setEnabled(false);
+                m_ui->farmButton->setEnabled(false);
+                m_ui->mineButton->setEnabled(false);
+                m_ui->outpostButton->setEnabled(false);
+
+            }
+            else{
+                // Kun klikatussa tiilessä ei ole rakennusta
+                std::string tile_type = tile->getType();
+                std::cout << tile_type << std::endl;
+                if(tile_type == "Forest"){
+                    // voi rakentaa työkkäri ja outpost ja töihin voio tulla worker
+                    //m_ui->farmButton
+                }
+                else if(tile_type == "Mountain"){
+                    if(player->hasEnoughResourcesFor(Team::TeamConstResourceMaps::MINE_BUILD_COST)) {
+                        m_ui->mineButton->setEnabled(true);
+                    }
+                    else{
+                        m_ui->mineButton->setEnabled(false);
+                    }
+                    m_ui->tyokkariButton->setEnabled(false);
+                    m_ui->farmButton->setEnabled(false);
+                    m_ui->outpostButton->setEnabled(false);
+                }
+                else if(tile_type == "Grassland"){
+                    // voi rakentaa työkkärin ja farmin ja töihin voi tulla worker
+                }
+
+                m_ui->workerBuyButton->setEnabled(false);
+                m_ui->farmerBuyButton->setEnabled(false);
+                m_ui->farmerAssignButton->setEnabled(false);
+                m_ui->minerBuyButton->setEnabled(false);
+                m_ui->minerAssignButton->setEnabled(false);
+            }
+        }
+    }
 }
 
 void MapWindow::setSize(int width, int height)
@@ -155,7 +261,6 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
 
     if (player->hasTyokkari())
     {
-        //m_ui->hqButton->setDisabled(true);
         m_ui->tyokkariButton->setDisabled(true);
 
         m_ui->farmButton->setDisabled(false);
@@ -164,7 +269,6 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
     }
     else if(player->hasHQ())
     {
-        //m_ui->hqButton->setDisabled(true);
         m_ui->tyokkariButton->setDisabled(false);
     }
     else
@@ -218,6 +322,12 @@ void MapWindow::addWorker()
 {
 
 }
+
+std::shared_ptr<Team::PlayerObject> MapWindow::getPlayerInTurn()
+{
+    return m_GEHandler->getPlayers().at((turn_-1) % playercount_);
+}
+
 
 
 void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames)

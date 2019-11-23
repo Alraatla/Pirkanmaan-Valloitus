@@ -37,13 +37,13 @@ bool GameScene::event(QEvent *event)
             QGraphicsItem* pressed = itemAt(point * getScale(), QTransform());
 
             clickedCoordinate_ = static_cast<Course::SimpleMapItem*>(pressed)->getBoundObject()->getCoordinate();
-            qDebug() << clickedCoordinate_.x();
+            qDebug() << clickedCoordinate_.x() << clickedCoordinate_.y();
+            emitSignal();
             return true;
 
 
         }
     }
-
     return false;
 }
 
@@ -57,12 +57,12 @@ void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
     MapItem* nItem = nullptr;
     if (obj->getType() == "HeadQuarters")
     {
-        nItem = new MapItem(obj, 25);
+        nItem = new MapItem(obj, 50);
 
     }
     else if (obj->getType() == "Tyokkari")
     {
-        nItem = new MapItem(obj, 25);
+        nItem = new MapItem(obj, 50);
     }
     else
     {
@@ -70,6 +70,12 @@ void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
     }
 
     addItem(nItem);
+}
+
+void GameScene::emitSignal()
+{
+    emit tileClicked(clickedCoordinate_);
+
 }
 
 

@@ -43,6 +43,7 @@ public:
     void setHQs();
     void addWorker();
 
+    std::shared_ptr<Team::PlayerObject> getPlayerInTurn();
 
 
 public slots:
@@ -51,6 +52,7 @@ public slots:
     void gameLoop();
     void hqButtonClicked();
     void tyokkariButtonClicked();
+    void updateButtons(Course::Coordinate coordinate);
 
 
 private:

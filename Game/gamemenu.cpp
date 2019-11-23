@@ -30,6 +30,7 @@ void Gamemenu::pressOk()
             playerNames.push_back(ui->player4NameEdit->displayText().toStdString());
         }
     }
+
     emit initializeGame(ui->playerCountSpinBox->value(), playerNames);
 }
 

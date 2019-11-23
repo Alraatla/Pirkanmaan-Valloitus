@@ -98,4 +98,19 @@ bool PlayerObject::hasTyokkari()
     }
     return false;
 }
+
+bool PlayerObject::isTileOwned(Course::Coordinate coordinate)
+{
+    if(ownedTiles_.find(coordinate) != ownedTiles_.end()) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+bool PlayerObject::hasEnoughResourcesFor(Course::ResourceMap building_cost)
+{
+    return true;
+}
 }

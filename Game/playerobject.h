@@ -25,10 +25,15 @@ public:
     int getWorkerAmount(std::string workerType);
     int getPoints();
     void addPoints(int points);
-    void addOwnedTiles(Course::Coordinate coordinate, int amount, std::pair<int, int> mapSize, std::shared_ptr<Team::ObjectManager> objMan);
+    void addOwnedTiles(Course::Coordinate coordinate, int amount,
+                       std::pair<int, int> mapSize,
+                       std::shared_ptr<Team::ObjectManager> objMan);
 
     bool hasHQ();
     bool hasTyokkari();
+    bool isTileOwned(Course::Coordinate coordinate);
+
+    bool hasEnoughResourcesFor(Course::ResourceMap building_cost);
 private:
     Course::ResourceMap resources_ =        {{Course::MONEY, 500},
                                             {Course::FOOD, 300},
