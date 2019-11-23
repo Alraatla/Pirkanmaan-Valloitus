@@ -1,6 +1,7 @@
 #include "playerobject.h"
 
 #include <algorithm>
+#include <QDebug>
 #include "exceptions/keyerror.h"
 
 namespace Team {
@@ -16,7 +17,16 @@ bool PlayerObject::modifyResource(Course::BasicResource resource, int amount)
     resources_[resource] -= amount;
 }
 
-Course::ResourceMapDouble PlayerObject::getResources()
+bool PlayerObject::modifyResources(Course::ResourceMap resources, bool addition)
+{
+    if (addition) {
+        resources_ = Course::mergeResourceMaps(resources_, resources);
+    }
+
+
+}
+
+Course::ResourceMap PlayerObject::getResources()
 {
     return resources_;
 }
@@ -34,6 +44,39 @@ int PlayerObject::getPoints()
 void PlayerObject::addPoints(int points)
 {
     points_ += points;
+}
+
+void PlayerObject::addOwnedTiles(Course::Coordinate coordinate,
+                                 int amount, std::pair<int,
+                                 int> mapSize,
+                                 std::shared_ptr<Team::ObjectManager> objMan)
+{
+    int x = coordinate.x();
+    int y = coordinate.y();
+    std::pair<int, int> x_limits = {x - amount, x + amount};
+    std::pair<int, int> y_limits = {y - amount, y + amount};
+    mapSize.first--;
+    mapSize.second--;
+
+    if(x_limits.first < 0) {
+        x_limits.first = 0;
+    }
+    if(x_limits.second > mapSize.first) {
+        x_limits.second = mapSize.first;
+    }
+    if(y_limits.first < 0) {
+        y_limits.first = 0;
+    }
+    if(y_limits.second > mapSize.second) {
+        y_limits.second = mapSize.second;
+    }
+
+    for (int x = x_limits.first; x<= x_limits.second; x++) {
+        for (int y = y_limits.first; y<= y_limits.second; y++) {
+            Course::Coordinate coordinate = Course::Coordinate(x, y);
+            ownedTiles_[coordinate] = objMan->getTile(coordinate);
+        }
+    }
 }
 
 bool PlayerObject::hasHQ()

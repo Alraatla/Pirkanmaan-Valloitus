@@ -3,6 +3,9 @@
 #include "core/playerbase.h"
 #include "core/basicresources.h"
 #include "core/gameobject.h"
+#include "core/coordinate.h"
+#include "tiles/tilebase.h"
+#include "objectmanager.h"
 #include <map>
 #include <string>
 
@@ -16,16 +19,18 @@ public:
     PlayerObject(std::string name);
 
     bool modifyResource(Course::BasicResource resource, int amount);
+    bool modifyResources(Course::ResourceMap resources, bool addition = true);
 
-    Course::ResourceMapDouble getResources ();
+    Course::ResourceMap getResources ();
     int getWorkerAmount(std::string workerType);
     int getPoints();
     void addPoints(int points);
+    void addOwnedTiles(Course::Coordinate coordinate, int amount, std::pair<int, int> mapSize, std::shared_ptr<Team::ObjectManager> objMan);
 
     bool hasHQ();
     bool hasTyokkari();
 private:
-    Course::ResourceMapDouble resources_ = {{Course::MONEY, 500},
+    Course::ResourceMap resources_ =        {{Course::MONEY, 500},
                                             {Course::FOOD, 300},
                                             {Course::WOOD, 800},
                                             {Course::STONE, 600},
@@ -35,6 +40,8 @@ private:
                                               {"MINERS", 0}};
 
     unsigned int points_ = 0;
+
+    std::map<Course::Coordinate, std::shared_ptr<Course::TileBase>> ownedTiles_ = {};
 
 };
 }

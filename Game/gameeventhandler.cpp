@@ -2,6 +2,7 @@
 #include "mapwindow.hh"
 #include "core/resourcemaps.h"
 #include "teamresourcemaps.h"
+#include "buildings/headquarters.h"
 
 
 namespace Team {
@@ -30,13 +31,16 @@ bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> playe
         Course::ResourceMap resources)
 {
     std::shared_ptr<Team::PlayerObject> tPlayer = getPlayer(player->getName());
-    for (auto resource : resources) {
-        if(!tPlayer->modifyResource(resource.first, resource.second))
-        {
-            return false;
-        }
 
-    }
+    tPlayer->modifyResources(resources);
+
+//    for (auto resource : resources) {
+//        if(!tPlayer->modifyResource(resource.first, resource.second))
+//        {
+//            return false;
+//        }
+
+//    }
     return true;
 }
 
@@ -46,6 +50,7 @@ void GameEventHandler::setPlayercount(int playerCount, std::vector<std::string> 
     for (std::string name: names) {
         auto player = std::make_shared<Team::PlayerObject>(name);
         players_.push_back(player);
+
     }
 }
 

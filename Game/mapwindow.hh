@@ -40,6 +40,8 @@ public:
     void removeItem( std::shared_ptr<Course::GameObject> obj);
     void updateItem( std::shared_ptr<Course::GameObject> obj);
     void updateHUD(std::shared_ptr<Team::PlayerObject> player);
+    void setHQs();
+    void addWorker();
 
 
 

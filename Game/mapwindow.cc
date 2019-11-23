@@ -27,7 +27,7 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>)), this,
                      SLOT(mapSetup(int, std::vector<std::string>)));
     connect(m_ui->pushButton, &QPushButton::clicked, this, &MapWindow::gameLoop);
-    connect(m_ui->hqButton, &QPushButton::clicked, this, &MapWindow::hqButtonClicked);
+    //connect(m_ui->hqButton, &QPushButton::clicked, this, &MapWindow::hqButtonClicked);
     connect(m_ui->tyokkariButton, &QPushButton::clicked, this, &MapWindow::tyokkariButtonClicked);
     m_gamemenu->exec();
 
@@ -70,7 +70,7 @@ void MapWindow::hqButtonClicked()
                     (turn_-1) % playercount_);
 
 
-    m_ui->hqButton->setDisabled(false);
+    //m_ui->hqButton->setDisabled(false);
 
     std::shared_ptr<Course::HeadQuarters> headquarters = std::make_shared<Course::HeadQuarters>(
                 m_GEHandler, m_Object, playerInTurn);
@@ -137,7 +137,7 @@ void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 
 void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
 {
-    Course::ResourceMapDouble resources = player->getResources();
+    Course::ResourceMap resources = player->getResources();
 
     m_ui->roundAmountLabel->setText(QString::number(round_));
     m_ui->playerNameLabel->setText(QString::fromStdString(player->getName()));
@@ -155,7 +155,7 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
 
     if (player->hasTyokkari())
     {
-        m_ui->hqButton->setDisabled(true);
+        //m_ui->hqButton->setDisabled(true);
         m_ui->tyokkariButton->setDisabled(true);
 
         m_ui->farmButton->setDisabled(false);
@@ -164,12 +164,12 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
     }
     else if(player->hasHQ())
     {
-        m_ui->hqButton->setDisabled(true);
+        //m_ui->hqButton->setDisabled(true);
         m_ui->tyokkariButton->setDisabled(false);
     }
     else
     {
-        m_ui->hqButton->setDisabled(false);
+        //m_ui->hqButton->setDisabled(false);
         m_ui->tyokkariButton->setDisabled(true);
         m_ui->farmButton->setDisabled(true);
         m_ui->mineButton->setDisabled(true);
@@ -188,12 +188,61 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
 
 }
 
+void MapWindow::setHQs()
+{
+    std::pair<int, int> mapSize = m_simplescene->getSize();
+    std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
+    std::vector<std::pair<int, int>> hqPlaces = {{0, 0},
+                                                 {mapSize.first - 1, mapSize.second-1},
+                                                 {mapSize.first - 1, 0},
+                                                 {0, mapSize.second-1}};
+    for(int i=0; i< players.size(); i++) {
+        std::shared_ptr<Course::HeadQuarters> headquarters = std::make_shared<Course::HeadQuarters>(
+                    m_GEHandler, m_Object, players.at(i));
+
+        std::pair<int, int> hqPair = hqPlaces.at(i);
+        Course::Coordinate hqCoordinate = Course::Coordinate(hqPair.first, hqPair.second);
+        players.at(i)->addOwnedTiles(hqCoordinate, 4, mapSize, m_Object);
+
+        std::shared_ptr<Course::TileBase> tile =
+                m_Object->getTile(Course::Coordinate(hqCoordinate));
+        headquarters->setCoordinate(hqCoordinate);
+        tile->addBuilding(headquarters);
+        MapWindow::drawItem(headquarters);
+        players.at(i)->addObject(headquarters);
+        m_GEHandler->addObjectToPlayer(players.at(i), headquarters->getType());
+    }
+}
+
+void MapWindow::addWorker()
+{
+
+}
+
 
 void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames)
 {
 
+    //m_ui->hqButton->setDisabled(true);
+    m_ui->tyokkariButton->setDisabled(true);
+    m_ui->farmButton->setDisabled(true);
+    m_ui->mineButton->setDisabled(true);
+    m_ui->outpostButton->setDisabled(true);
+
+    m_ui->workerAssignButton->setDisabled(true);
+    m_ui->workerBuyButton->setDisabled(true);
+
+    m_ui->farmerAssignButton->setDisabled(true);
+    m_ui->farmerBuyButton->setDisabled(true);
+
+    m_ui->minerAssignButton->setDisabled(true);
+    m_ui->minerBuyButton->setDisabled(true);
+
+
     m_GEHandler->setPlayercount(playercount, playerNames);
     playercount_ = playercount;
+
+
 
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
     world.addConstructor<Course::Forest>(2);
@@ -205,6 +254,8 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames)
     for(auto object: m_Object->getTilesForMap()) {
         MapWindow::drawItem(object);
     }
+    setHQs();
+
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

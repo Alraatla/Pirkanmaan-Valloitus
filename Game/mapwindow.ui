@@ -299,35 +299,14 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="0">
-         <widget class="QPushButton" name="mineButton">
+        <item row="0" column="1">
+         <widget class="QPushButton" name="farmButton">
           <property name="text">
-           <string>Mine</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QPushButton" name="buildingButtonExtra">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="outpostButton">
-          <property name="text">
-           <string>Outpost</string>
+           <string>Farm</string>
           </property>
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QPushButton" name="hqButton">
-          <property name="text">
-           <string>HQ</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
          <widget class="QPushButton" name="tyokkariButton">
           <property name="text">
            <string>Työkkäri</string>
@@ -335,9 +314,30 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QPushButton" name="farmButton">
+         <widget class="QPushButton" name="mineButton">
           <property name="text">
-           <string>Farm</string>
+           <string>Mine</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="buildingButtonExtra2">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="outpostButton">
+          <property name="text">
+           <string>Outpost</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="buildingButtonExtra">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
