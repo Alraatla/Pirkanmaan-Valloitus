@@ -37,8 +37,7 @@ MapWindow::MapWindow(QWidget *parent):
 
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
-    connect(sgs_rawptr, SIGNAL(tileClicked(Course::Coordinate)), this,
-            SLOT(updateButtons(Course::Coordinate)));
+    connect(sgs_rawptr, SIGNAL(tileClicked()), this, SLOT(receiveSignal()));
     MapWindow::grabKeyboard();
 }
 
@@ -55,14 +54,14 @@ void MapWindow::setGEHandler(
 
 void MapWindow::gameLoop()
 {
-    m_ui->pushButton->setText("Next turn");
+    m_ui->pushButton->setText("Next player");
     int itPlayersTurn = turn_ % playercount_;
 
     std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
     MapWindow::updateHUD(players.at(itPlayersTurn));
     turn_++;
     if (itPlayersTurn == playercount_ - 1) {
-        m_ui->pushButton->setText("End round");
+        m_ui->pushButton->setText("Next round");
         round_++;
     }
 
@@ -117,6 +116,11 @@ void MapWindow::tyokkariButtonClicked()
 
     updateHUD(playerInTurn);
 
+}
+
+void MapWindow::receiveSignal()
+{
+    updateButtons(m_simplescene->getClickedCoordinate());
 }
 
 void MapWindow::updateButtons(Course::Coordinate coordinate)
@@ -194,7 +198,29 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                 std::cout << tile_type << std::endl;
                 if(tile_type == "Forest"){
                     // voi rakentaa työkkäri ja outpost ja töihin voio tulla worker
-                    //m_ui->farmButton
+                    if(player->hasTyokkari()) {
+                        m_ui->tyokkariButton->setEnabled(false);
+                    }
+                    else{
+                        m_ui->tyokkariButton->setEnabled(true);
+                    }
+
+                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::OUTPOST_BUILD_COST)) {
+                        m_ui->outpostButton->setEnabled(true);
+                    }
+                    else{
+                        m_ui->outpostButton->setEnabled(true);
+                    }
+
+                    if(player->getWorkerAmount("WORKERS") > 0) {
+                        m_ui->workerAssignButton->setEnabled(true);
+                    }
+                    else{
+                        m_ui->workerAssignButton->setEnabled(false);
+                    }
+
+                    m_ui->mineButton->setEnabled(false);
+                    m_ui->farmButton->setEnabled(false);
                 }
                 else if(tile_type == "Mountain"){
                     if(player->hasEnoughResourcesFor(Team::TeamConstResourceMaps::MINE_BUILD_COST)) {
@@ -209,6 +235,26 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                 }
                 else if(tile_type == "Grassland"){
                     // voi rakentaa työkkärin ja farmin ja töihin voi tulla worker
+                    if(player->hasTyokkari()) {
+                        m_ui->tyokkariButton->setEnabled(false);
+                    }
+                    else{
+                        m_ui->tyokkariButton->setEnabled(true);
+                    }
+                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::OUTPOST_BUILD_COST)) {
+                        m_ui->outpostButton->setEnabled(true);
+                    }
+                    else{
+                        m_ui->outpostButton->setEnabled(true);
+                    }
+                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::FARM_BUILD_COST)) {
+                        m_ui->farmButton->setEnabled(true);
+                    }
+                    else{
+                        m_ui->farmButton->setEnabled(true);
+                    }
+
+                    m_ui->mineButton->setEnabled(false);
                 }
 
                 m_ui->workerBuyButton->setEnabled(false);
@@ -259,36 +305,37 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
     m_ui->farmerAmountLabel->setText(QString::number(player->getWorkerAmount("FARMER")));
     m_ui->minerAmountLabel->setText(QString::number(player->getWorkerAmount("MINER")));
 
-    if (player->hasTyokkari())
-    {
-        m_ui->tyokkariButton->setDisabled(true);
+//    if (player->hasTyokkari())
+//    {
+//        m_ui->tyokkariButton->setDisabled(true);
 
-        m_ui->farmButton->setDisabled(false);
-        m_ui->mineButton->setDisabled(false);
-        m_ui->outpostButton->setDisabled(false);
-    }
-    else if(player->hasHQ())
-    {
-        m_ui->tyokkariButton->setDisabled(false);
-    }
-    else
-    {
-        //m_ui->hqButton->setDisabled(false);
-        m_ui->tyokkariButton->setDisabled(true);
-        m_ui->farmButton->setDisabled(true);
-        m_ui->mineButton->setDisabled(true);
-        m_ui->outpostButton->setDisabled(true);
+//        m_ui->farmButton->setDisabled(false);
+//        m_ui->mineButton->setDisabled(false);
+//        m_ui->outpostButton->setDisabled(false);
+//    }
+//    else if(player->hasHQ())
+//    {
+//        m_ui->tyokkariButton->setDisabled(false);
+//    }
+//    else
+//    {
+//        //m_ui->hqButton->setDisabled(false);
+//        m_ui->tyokkariButton->setDisabled(true);
+//        m_ui->farmButton->setDisabled(true);
+//        m_ui->mineButton->setDisabled(true);
+//        m_ui->outpostButton->setDisabled(true);
 
-        m_ui->workerAssignButton->setDisabled(true);
-        m_ui->workerBuyButton->setDisabled(true);
+//        m_ui->workerAssignButton->setDisabled(true);
+//        m_ui->workerBuyButton->setDisabled(true);
 
-        m_ui->farmerAssignButton->setDisabled(true);
-        m_ui->farmerBuyButton->setDisabled(true);
+//        m_ui->farmerAssignButton->setDisabled(true);
+//        m_ui->farmerBuyButton->setDisabled(true);
 
-        m_ui->minerAssignButton->setDisabled(true);
-        m_ui->minerBuyButton->setDisabled(true);
+//        m_ui->minerAssignButton->setDisabled(true);
+//        m_ui->minerBuyButton->setDisabled(true);
 
-    }
+//    }
+    updateButtons(m_simplescene->getClickedCoordinate());
 
 }
 

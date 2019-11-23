@@ -44,7 +44,7 @@ public:
     void addWorker();
 
     std::shared_ptr<Team::PlayerObject> getPlayerInTurn();
-
+    void updateButtons(Course::Coordinate coordinate);
 
 public slots:
 
@@ -52,7 +52,7 @@ public slots:
     void gameLoop();
     void hqButtonClicked();
     void tyokkariButtonClicked();
-    void updateButtons(Course::Coordinate coordinate);
+    void receiveSignal();
 
 
 private:

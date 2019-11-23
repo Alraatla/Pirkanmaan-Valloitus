@@ -38,7 +38,7 @@ bool GameScene::event(QEvent *event)
 
             clickedCoordinate_ = static_cast<Course::SimpleMapItem*>(pressed)->getBoundObject()->getCoordinate();
             qDebug() << clickedCoordinate_.x() << clickedCoordinate_.y();
-            emitSignal();
+            emit tileClicked();
             return true;
 
 
@@ -72,11 +72,7 @@ void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
     addItem(nItem);
 }
 
-void GameScene::emitSignal()
-{
-    emit tileClicked(clickedCoordinate_);
 
-}
 
 
 }

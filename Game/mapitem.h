@@ -5,6 +5,7 @@
 #include "core/gameobject.h"
 #include <QGraphicsItem>
 #include <QPainter>
+#include <QPixmap>
 
 
 namespace Team {

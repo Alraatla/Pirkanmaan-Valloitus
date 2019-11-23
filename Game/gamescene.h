@@ -33,11 +33,10 @@ public:
     Course::Coordinate getClickedCoordinate();
 
     void drawItem(std::shared_ptr<Course::GameObject> obj);
-    void emitSignal();
 
 signals:
 
-    void tileClicked(Course::Coordinate coordinate);
+    void tileClicked();
 
 private:
     Course::Coordinate clickedCoordinate_ = {0, 0};
