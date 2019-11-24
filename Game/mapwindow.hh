@@ -16,6 +16,9 @@
 #include "graphics/simplegamescene.h"
 #include "gamemenu.h"
 #include "gamescene.h"
+#include "buildings/farm.h"
+#include "buildings/outpost.h"
+#include "mine.h"
 
 namespace Ui {
 class MapWindow;
@@ -52,6 +55,9 @@ public slots:
     void gameLoop();
     void hqButtonClicked();
     void tyokkariButtonClicked();
+    void farmButtonClicked();
+    void mineButtonClicked();
+    void outpostButtonClicked();
     void receiveSignal();
 
 

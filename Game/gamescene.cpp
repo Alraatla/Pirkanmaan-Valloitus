@@ -1,7 +1,6 @@
 #include "gamescene.h"
 #include "graphics/simplemapitem.h"
 #include "mapitem.h"
-#include "imagemapitem.h"
 
 #include <QEvent>
 #include <QGraphicsSceneMouseEvent>
@@ -59,9 +58,13 @@ void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
 
     MapItem* nItem = nullptr;
 
-    if(obj->getType() == "Tyokkari")
+    if(obj->getType() == "Tyokkari" ||
+            obj->getType() == "HeadQuarters" ||
+            obj->getType() == "Mine" ||
+            obj->getType() == "Outpost" ||
+            obj->getType() == "Farm")
     {
-        nItem = new MapItem(obj, 25);
+        nItem = new MapItem(obj, 35);
     }
     else
     {

@@ -28,8 +28,10 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>)), this,
                      SLOT(mapSetup(int, std::vector<std::string>)));
     connect(m_ui->pushButton, &QPushButton::clicked, this, &MapWindow::gameLoop);
-    //connect(m_ui->hqButton, &QPushButton::clicked, this, &MapWindow::hqButtonClicked);
     connect(m_ui->tyokkariButton, &QPushButton::clicked, this, &MapWindow::tyokkariButtonClicked);
+    connect(m_ui->farmButton, &QPushButton::clicked, this, &MapWindow::farmButtonClicked);
+    connect(m_ui->mineButton, &QPushButton::clicked, this, &MapWindow::mineButtonClicked);
+    connect(m_ui->outpostButton, &QPushButton::clicked, this, &MapWindow::outpostButtonClicked);
 
     m_gamemenu->exec();
 
@@ -96,6 +98,7 @@ void MapWindow::hqButtonClicked()
 
 void MapWindow::tyokkariButtonClicked()
 {
+
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Team::Tyokkari> tyokkari = std::make_shared<Team::Tyokkari>(
@@ -116,6 +119,76 @@ void MapWindow::tyokkariButtonClicked()
 
     updateHUD(playerInTurn);
 
+}
+
+void MapWindow::farmButtonClicked()
+{
+    std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
+
+    std::shared_ptr<Course::Farm> farm = std::make_shared<Course::Farm>(
+                m_GEHandler, m_Object, playerInTurn);
+
+
+    std::shared_ptr<Course::TileBase> tile =
+            m_Object->getTile(m_simplescene->getClickedCoordinate());
+
+    if(tile->hasSpaceForBuildings(farm->spacesInTileCapacity()))
+    {
+        farm->setCoordinate(m_simplescene->getClickedCoordinate());
+        tile->addBuilding(farm);
+        MapWindow::drawItem(farm);
+        playerInTurn->addObject(farm);
+        m_GEHandler->addObjectToPlayer(playerInTurn, farm->getType());
+    }
+
+    updateHUD(playerInTurn);
+}
+
+void MapWindow::mineButtonClicked()
+{
+    std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
+
+    std::shared_ptr<Team::Mine> mine = std::make_shared<Team::Mine>(
+                m_GEHandler, m_Object, playerInTurn);
+
+
+    std::shared_ptr<Course::TileBase> tile =
+            m_Object->getTile(m_simplescene->getClickedCoordinate());
+
+    if(tile->hasSpaceForBuildings(mine->spacesInTileCapacity()))
+    {
+        mine->setCoordinate(m_simplescene->getClickedCoordinate());
+        tile->addBuilding(mine);
+        MapWindow::drawItem(mine);
+        playerInTurn->addObject(mine);
+        m_GEHandler->addObjectToPlayer(playerInTurn, mine->getType());
+    }
+
+    updateHUD(playerInTurn);
+}
+
+void MapWindow::outpostButtonClicked()
+{
+    std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
+
+    std::shared_ptr<Course::Outpost> outpost = std::make_shared<Course::Outpost>(
+                m_GEHandler, m_Object, playerInTurn);
+
+
+    std::shared_ptr<Course::TileBase> tile =
+            m_Object->getTile(m_simplescene->getClickedCoordinate());
+
+    if(tile->hasSpaceForBuildings(outpost->spacesInTileCapacity()))
+    {
+        outpost->setCoordinate(m_simplescene->getClickedCoordinate());
+        tile->addBuilding(outpost);
+        MapWindow::drawItem(outpost);
+        playerInTurn->addObject(outpost);
+        m_GEHandler->addObjectToPlayer(playerInTurn, outpost->getType());
+    }
+    getPlayerInTurn()->addOwnedTiles(m_simplescene->getClickedCoordinate(), 2,
+                                     m_simplescene->getSize(), m_Object);
+    updateHUD(playerInTurn);
 }
 
 void MapWindow::receiveSignal()
@@ -196,62 +269,85 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                 // Kun klikatussa tiilessä ei ole rakennusta
                 std::string tile_type = tile->getType();
                 std::cout << tile_type << std::endl;
-                if(tile_type == "Forest"){
+                if(tile_type == "Forest")
+                {
                     // voi rakentaa työkkäri ja outpost ja töihin voio tulla worker
-                    if(player->hasTyokkari()) {
+                    if(player->hasTyokkari())
+                    {
                         m_ui->tyokkariButton->setEnabled(false);
                     }
-                    else{
+                    else if (player->hasEnoughResourcesFor(Team::TeamConstResourceMaps::TYOKKARI_BUILD_COST))
+                    {
                         m_ui->tyokkariButton->setEnabled(true);
                     }
+                    else
+                    {
+                        m_ui->tyokkariButton->setEnabled(false);
+                    }
 
-                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::OUTPOST_BUILD_COST)) {
+                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::OUTPOST_BUILD_COST))
+                    {
                         m_ui->outpostButton->setEnabled(true);
                     }
-                    else{
-                        m_ui->outpostButton->setEnabled(true);
+                    else
+                    {
+                        m_ui->outpostButton->setEnabled(false);
                     }
 
                     if(player->getWorkerAmount("WORKERS") > 0) {
                         m_ui->workerAssignButton->setEnabled(true);
                     }
-                    else{
+                    else
+                    {
                         m_ui->workerAssignButton->setEnabled(false);
                     }
 
                     m_ui->mineButton->setEnabled(false);
                     m_ui->farmButton->setEnabled(false);
                 }
-                else if(tile_type == "Mountain"){
-                    if(player->hasEnoughResourcesFor(Team::TeamConstResourceMaps::MINE_BUILD_COST)) {
+                else if(tile_type == "Mountain")
+                {
+                    if(player->hasEnoughResourcesFor(Team::TeamConstResourceMaps::MINE_BUILD_COST))
+                    {
                         m_ui->mineButton->setEnabled(true);
                     }
-                    else{
+                    else
+                    {
                         m_ui->mineButton->setEnabled(false);
                     }
                     m_ui->tyokkariButton->setEnabled(false);
                     m_ui->farmButton->setEnabled(false);
                     m_ui->outpostButton->setEnabled(false);
                 }
-                else if(tile_type == "Grassland"){
+                else if(tile_type == "Grassland")
+                {
                     // voi rakentaa työkkärin ja farmin ja töihin voi tulla worker
-                    if(player->hasTyokkari()) {
+                    if(player->hasTyokkari())
+                    {
                         m_ui->tyokkariButton->setEnabled(false);
                     }
-                    else{
+                    else if (player->hasEnoughResourcesFor(Team::TeamConstResourceMaps::TYOKKARI_BUILD_COST))
+                    {
                         m_ui->tyokkariButton->setEnabled(true);
+                    }
+                    else
+                    {
+                        m_ui->tyokkariButton->setEnabled(false);
                     }
                     if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::OUTPOST_BUILD_COST)) {
                         m_ui->outpostButton->setEnabled(true);
                     }
-                    else{
-                        m_ui->outpostButton->setEnabled(true);
+                    else
+                    {
+                        m_ui->outpostButton->setEnabled(false);
                     }
-                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::FARM_BUILD_COST)) {
+                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::FARM_BUILD_COST))
+                    {
                         m_ui->farmButton->setEnabled(true);
                     }
-                    else{
-                        m_ui->farmButton->setEnabled(true);
+                    else
+                    {
+                        m_ui->farmButton->setEnabled(false);
                     }
 
                     m_ui->mineButton->setEnabled(false);
@@ -305,36 +401,6 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
     m_ui->farmerAmountLabel->setText(QString::number(player->getWorkerAmount("FARMER")));
     m_ui->minerAmountLabel->setText(QString::number(player->getWorkerAmount("MINER")));
 
-//    if (player->hasTyokkari())
-//    {
-//        m_ui->tyokkariButton->setDisabled(true);
-
-//        m_ui->farmButton->setDisabled(false);
-//        m_ui->mineButton->setDisabled(false);
-//        m_ui->outpostButton->setDisabled(false);
-//    }
-//    else if(player->hasHQ())
-//    {
-//        m_ui->tyokkariButton->setDisabled(false);
-//    }
-//    else
-//    {
-//        //m_ui->hqButton->setDisabled(false);
-//        m_ui->tyokkariButton->setDisabled(true);
-//        m_ui->farmButton->setDisabled(true);
-//        m_ui->mineButton->setDisabled(true);
-//        m_ui->outpostButton->setDisabled(true);
-
-//        m_ui->workerAssignButton->setDisabled(true);
-//        m_ui->workerBuyButton->setDisabled(true);
-
-//        m_ui->farmerAssignButton->setDisabled(true);
-//        m_ui->farmerBuyButton->setDisabled(true);
-
-//        m_ui->minerAssignButton->setDisabled(true);
-//        m_ui->minerBuyButton->setDisabled(true);
-
-//    }
     updateButtons(m_simplescene->getClickedCoordinate());
 
 }

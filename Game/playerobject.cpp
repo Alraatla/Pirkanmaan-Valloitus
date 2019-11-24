@@ -111,6 +111,13 @@ bool PlayerObject::isTileOwned(Course::Coordinate coordinate)
 
 bool PlayerObject::hasEnoughResourcesFor(Course::ResourceMap building_cost)
 {
+    for(std::pair<Course::BasicResource, int> cost : building_cost) {
+
+        std::cout << cost.first << cost.second << resources_.at(cost.first) << std::endl;
+        if (resources_.at(cost.first) < cost.second) {
+            return false;
+        }
+    }
     return true;
 }
 }

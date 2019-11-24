@@ -11,10 +11,10 @@ const Course::ResourceMap EMPTY = {};
 
 // Building - Tyokkari
 const Course::ResourceMap TYOKKARI_BUILD_COST = {
-    {Course::BasicResource::MONEY, 2000},
-    {Course::BasicResource::FOOD, 600},
-    {Course::BasicResource::WOOD, 800},
-    {Course::BasicResource::STONE, 400}
+    {Course::BasicResource::MONEY, 10},
+    {Course::BasicResource::FOOD, 2},
+    {Course::BasicResource::WOOD, 1},
+    {Course::BasicResource::STONE, 50}
 };
 const Course::ResourceMap TYOKKARI_PRODUCTION = {
     {Course::BasicResource::MONEY, -10},

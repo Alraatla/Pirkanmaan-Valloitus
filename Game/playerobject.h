@@ -8,6 +8,7 @@
 #include "objectmanager.h"
 #include <map>
 #include <string>
+#include <iostream>
 
 namespace Team {
 
@@ -35,11 +36,11 @@ public:
 
     bool hasEnoughResourcesFor(Course::ResourceMap building_cost);
 private:
-    Course::ResourceMap resources_ =        {{Course::MONEY, 500},
-                                            {Course::FOOD, 300},
-                                            {Course::WOOD, 800},
-                                            {Course::STONE, 600},
-                                            {Course::ORE, 637}};
+    Course::ResourceMap resources_ =        {{Course::MONEY, 2000},
+                                            {Course::FOOD, 2000},
+                                            {Course::WOOD, 1500},
+                                            {Course::STONE, 800},
+                                            {Course::ORE, 0}};
     std::map<std::string, int> workersMap_ = {{"WORKERS", 0},
                                               {"FARMERS", 0},
                                               {"MINERS", 0}};

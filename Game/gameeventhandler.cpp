@@ -67,10 +67,25 @@ void GameEventHandler::addObjectToPlayer(std::shared_ptr<PlayerObject> player,
         player->addPoints(50);
         modifyResources(player, makeNegative(Course::ConstResourceMaps::HQ_BUILD_COST));
     }
-    if (objectType == "Tyokkari")
+    else if (objectType == "Tyokkari")
     {
         player->addPoints(69);
         modifyResources(player, makeNegative(Team::TeamConstResourceMaps::TYOKKARI_BUILD_COST));
+    }
+    else if (objectType == "Farm")
+    {
+        player->addPoints(10);
+        modifyResources(player, makeNegative(Course::ConstResourceMaps::FARM_BUILD_COST));
+    }
+    else if (objectType == "Mine")
+    {
+        player->addPoints(15);
+        modifyResources(player, makeNegative(Team::TeamConstResourceMaps::MINE_BUILD_COST));
+    }
+    else if (objectType == "Outpost")
+    {
+        player->addPoints(5);
+        modifyResources(player, makeNegative(Course::ConstResourceMaps::OUTPOST_BUILD_COST));
     }
 }
 
