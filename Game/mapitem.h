@@ -5,7 +5,6 @@
 #include "core/gameobject.h"
 #include <QGraphicsItem>
 #include <QPainter>
-#include <QPixmap>
 #include <memory>
 #include <map>
 
@@ -49,6 +48,6 @@ private:
                                                 {"Mountain", QColor(180, 180, 180, 255)}};
 };
 
-}
+} // namespace Team
 
 #endif // MAPITEM_H

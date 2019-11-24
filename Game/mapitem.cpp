@@ -19,7 +19,7 @@ QRectF MapItem::boundingRect() const
     // Yritin saada että työkkäri ois neliössä alempana kuin HQ
     if(gameObject_->getType() == "Tyokkari")
     {
-        addToPoint = QPoint(1, 0);
+        addToPoint = QPoint(12, 13);
     }
 
     return QRectF(scenelocation_ * 50 + addToPoint, scenelocation_ * 50 + QPoint(size_, size_) + addToPoint);
@@ -33,19 +33,18 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
         brush = tileColors_[gameObject_->getType()];
     }
     painter->setBrush(QBrush(brush));
-//    if ( m_gameobject->getType() == "" ){
-//        // Draw different types in different shapes
-//    }
-//    if (gameObject_->getType() == "Tyokkari") {
-//        QRectF rect = boundingRect();
-//        QImage image(":/Images/worker.png");
-//        QPixmap pix = QPixmap::fromImage(image);
-//        brush = QBrush(pix);
-//        painter->setBrush(brush);
-//        painter->drawPixmap(scenelocation_.x() * 50, scenelocation_.y() * 50, pix );
-//    } else {
-    painter->drawRect(boundingRect());
-//    }
+
+    if (gameObject_->getType() == "Tyokkari")
+    {
+
+        painter->drawImage(boundingRect(), QImage("/home/raatala/Documents/OTEK/SOetAR/Game/Images/worker.png"));
+    }
+    else
+    {
+        painter->drawRect(boundingRect());
+    }
+
+
 
 }
 
