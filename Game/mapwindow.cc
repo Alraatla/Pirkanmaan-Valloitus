@@ -33,6 +33,8 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->mineButton, &QPushButton::clicked, this, &MapWindow::mineButtonClicked);
     connect(m_ui->outpostButton, &QPushButton::clicked, this, &MapWindow::outpostButtonClicked);
 
+    connect(m_ui->workerBuyButton, &QPushButton::clicked, this, &MapWindow::workerBuyButtonClicked);
+
     m_gamemenu->exec();
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -191,6 +193,19 @@ void MapWindow::outpostButtonClicked()
     updateHUD(playerInTurn);
 }
 
+void MapWindow::workerBuyButtonClicked()
+{
+    std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
+
+    std::shared_ptr<Course::BasicWorker> worker = std::make_shared<Course::BasicWorker>(
+                m_GEHandler, m_Object, playerInTurn);
+
+    playerInTurn->addObject(worker);
+    playerInTurn->addWorker("WORKER");
+    m_GEHandler->addObjectToPlayer(playerInTurn, worker->getType());
+    updateHUD(playerInTurn);
+}
+
 void MapWindow::receiveSignal()
 {
     updateButtons(m_simplescene->getClickedCoordinate());
@@ -209,11 +224,34 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                 std::string building = tile->getBuildings().at(0)->getType();
                 if(building == "Tyokkari") {
                 //case "Tyokkari":
-                    m_ui->workerBuyButton->setEnabled(true);
+
+                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::BW_RECRUITMENT_COST))
+                    {
+                        m_ui->workerBuyButton->setEnabled(true);
+                    }
+                    else
+                    {
+                        m_ui->workerBuyButton->setEnabled(false);
+                    }
+                    if(player->hasEnoughResourcesFor(Team::TeamConstResourceMaps::FARMER_RECRUITMENT_COST))
+                    {
+                        m_ui->farmerBuyButton->setEnabled(true);
+                    }
+                    else
+                    {
+                        m_ui->farmerBuyButton->setEnabled(false);
+                    }
+                    if(player->hasEnoughResourcesFor(Team::TeamConstResourceMaps::MINER_RECRUITMENT_COST))
+                    {
+                        m_ui->minerBuyButton->setEnabled(true);
+                    }
+                    else
+                    {
+                        m_ui->minerBuyButton->setEnabled(false);
+                    }
+
                     m_ui->workerAssignButton->setEnabled(false);
-                    m_ui->farmerBuyButton->setEnabled(true);
                     m_ui->farmerAssignButton->setEnabled(false);
-                    m_ui->minerBuyButton->setEnabled(true);
                     m_ui->minerAssignButton->setEnabled(false);
                 }
                 else if(building == "Farm"){

@@ -87,6 +87,11 @@ void GameEventHandler::addObjectToPlayer(std::shared_ptr<PlayerObject> player,
         player->addPoints(5);
         modifyResources(player, makeNegative(Course::ConstResourceMaps::OUTPOST_BUILD_COST));
     }
+    else if (objectType == "BasicWorker")
+    {
+        player->addPoints(1);
+        modifyResources(player, makeNegative(Course::ConstResourceMaps::BW_RECRUITMENT_COST));
+    }
 }
 
 std::shared_ptr<PlayerObject> GameEventHandler::getPlayer(std::string playerName)

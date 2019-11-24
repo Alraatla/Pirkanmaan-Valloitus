@@ -79,6 +79,11 @@ void PlayerObject::addOwnedTiles(Course::Coordinate coordinate,
     }
 }
 
+void PlayerObject::addWorker(std::string type)
+{
+    workersMap_[type]++;
+}
+
 bool PlayerObject::hasHQ()
 {
     for(std::shared_ptr<Course::GameObject> object: getObjects()) {

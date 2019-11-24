@@ -29,6 +29,7 @@ public:
     void addOwnedTiles(Course::Coordinate coordinate, int amount,
                        std::pair<int, int> mapSize,
                        std::shared_ptr<Team::ObjectManager> objMan);
+    void addWorker(std::string type);
 
     bool hasHQ();
     bool hasTyokkari();

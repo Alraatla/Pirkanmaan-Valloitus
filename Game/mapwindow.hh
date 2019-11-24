@@ -19,6 +19,7 @@
 #include "buildings/farm.h"
 #include "buildings/outpost.h"
 #include "mine.h"
+#include "workers/basicworker.h"
 
 namespace Ui {
 class MapWindow;
@@ -58,6 +59,7 @@ public slots:
     void farmButtonClicked();
     void mineButtonClicked();
     void outpostButtonClicked();
+    void workerBuyButtonClicked();
     void receiveSignal();
 
 
