@@ -16,7 +16,9 @@ SOURCES += \
     tyokkari.cpp \
     mine.cpp \
     gamescene.cpp \
-    mapitem.cpp
+    mapitem.cpp \
+    farmer.cpp \
+    miner.cpp
 
 HEADERS += \
     mapwindow.hh \
@@ -29,7 +31,9 @@ HEADERS += \
     tyokkari.h \
     mine.h \
     gamescene.h \
-    mapitem.h
+    mapitem.h \
+    farmer.h \
+    miner.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib

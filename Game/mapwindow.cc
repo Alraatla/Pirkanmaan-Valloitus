@@ -34,6 +34,8 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->outpostButton, &QPushButton::clicked, this, &MapWindow::outpostButtonClicked);
 
     connect(m_ui->workerBuyButton, &QPushButton::clicked, this, &MapWindow::workerBuyButtonClicked);
+    connect(m_ui->farmerBuyButton, &QPushButton::clicked, this, &MapWindow::farmerBuyButtonClicked);
+    connect(m_ui->minerBuyButton, &QPushButton::clicked, this, &MapWindow::minerBuyButtonClicked);
 
     m_gamemenu->exec();
 
@@ -203,6 +205,32 @@ void MapWindow::workerBuyButtonClicked()
     playerInTurn->addObject(worker);
     playerInTurn->addWorker("WORKER");
     m_GEHandler->addObjectToPlayer(playerInTurn, worker->getType());
+    updateHUD(playerInTurn);
+}
+
+void MapWindow::farmerBuyButtonClicked()
+{
+    std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
+
+    std::shared_ptr<Team::Farmer> farmer = std::make_shared<Team::Farmer>(
+                m_GEHandler, m_Object, playerInTurn);
+
+    playerInTurn->addObject(farmer);
+    playerInTurn->addWorker("FARMER");
+    m_GEHandler->addObjectToPlayer(playerInTurn, farmer->getType());
+    updateHUD(playerInTurn);
+}
+
+void MapWindow::minerBuyButtonClicked()
+{
+    std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
+
+    std::shared_ptr<Team::Miner> miner = std::make_shared<Team::Miner>(
+                m_GEHandler, m_Object, playerInTurn);
+
+    playerInTurn->addObject(miner);
+    playerInTurn->addWorker("MINER");
+    m_GEHandler->addObjectToPlayer(playerInTurn, miner->getType());
     updateHUD(playerInTurn);
 }
 
