@@ -49,7 +49,7 @@ void PlayerObject::addPoints(int points)
 void PlayerObject::addOwnedTiles(Course::Coordinate coordinate,
                                  int amount, std::pair<int,
                                  int> mapSize,
-                                 std::shared_ptr<Team::ObjectManager> objMan)
+                                 std::shared_ptr<Course::iObjectManager> objMan)
 {
     int x = coordinate.x();
     int y = coordinate.y();
@@ -79,9 +79,30 @@ void PlayerObject::addOwnedTiles(Course::Coordinate coordinate,
     }
 }
 
-void PlayerObject::addWorker(std::string type)
+void PlayerObject::addWorker(std::string workerType)
 {
-    workersMap_[type]++;
+    workersMap_[workerType]++;
+}
+
+std::shared_ptr<Course::WorkerBase> PlayerObject::getWorker(std::string workerType,
+                                                            std::vector<std::shared_ptr<Course::WorkerBase>> workers)
+{
+
+    for(std::shared_ptr<Course::WorkerBase> worker : workers)
+    {
+        if(worker->getType() == workerType && worker->getCoordinatePtr() == nullptr)
+        {
+            return worker;
+        }
+    }
+
+
+    return nullptr;
+}
+
+void PlayerObject::workerAssigned(std::string workerType)
+{
+    workersMap_[workerType]--;
 }
 
 bool PlayerObject::hasHQ()

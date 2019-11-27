@@ -7,6 +7,11 @@
 
 #include "interfaces/iobjectmanager.h"
 #include "buildings/buildingbase.h"
+#include "workers/workerbase.h"
+#include "playerobject.h"
+#include "core/gameobject.h"
+#include "tiles/tilebase.h"
+
 
 namespace Team {
 
@@ -41,12 +46,17 @@ public:
 
     std::vector<std::shared_ptr<Course::TileBase>> getTilesForMap();
 
+    void addWorker(const std::shared_ptr<Course::WorkerBase>& worker);
+
+    std::vector<std::shared_ptr<Course::WorkerBase> > getPlayersWorkers(const std::shared_ptr<Course::PlayerBase> player);
+
 
 private:
 
 
-    std::vector<std::shared_ptr<Course::TileBase>> tiles_;
-    std::vector<std::shared_ptr<Course::BuildingBase>> buildings_;
+    std::vector<std::shared_ptr<Course::TileBase>> tiles_ = {};
+    std::vector<std::shared_ptr<Course::WorkerBase>> workers_ = {};
+    std::map<std::shared_ptr<Course::PlayerBase>, std::vector<std::shared_ptr<Course::WorkerBase>>> workersByPlayer_ = {};
     std::map<Course::Coordinate, std::shared_ptr<Course::TileBase>> tilesMappedByCoordinate_ = {};
 
 };

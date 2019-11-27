@@ -26,6 +26,12 @@ QRectF MapItem::boundingRect() const
     {
         addToPoint = QPoint(7, 8);
     }
+    else if (gameObject_->getType() == "BasicWorker" ||
+             gameObject_->getType() == "Farmer" ||
+             gameObject_->getType() == "Miner")
+    {
+        addToPoint = QPoint(12, 13);
+    }
 
     return QRectF(scenelocation_ * 50 + addToPoint, scenelocation_ * 50 + QPoint(size_, size_) + addToPoint);
 }
@@ -39,7 +45,10 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     }
     painter->setBrush(QBrush(brush));
 
-    if (gameObject_->getType() == "Tyokkari")
+    if (    gameObject_->getType() == "Tyokkari" ||
+            gameObject_->getType() == "BasicWorker" ||
+            gameObject_->getType() == "Farmer" ||
+            gameObject_->getType() == "Miner")
     {
 
         painter->drawImage(boundingRect(), QImage("../../SOetAR/Game/worker.png"));

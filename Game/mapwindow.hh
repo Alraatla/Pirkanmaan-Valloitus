@@ -47,7 +47,6 @@ public:
     void updateItem( std::shared_ptr<Course::GameObject> obj);
     void updateHUD(std::shared_ptr<Team::PlayerObject> player);
     void setHQs();
-    void addWorker();
 
     std::shared_ptr<Team::PlayerObject> getPlayerInTurn();
     void updateButtons(Course::Coordinate coordinate);
@@ -64,6 +63,9 @@ public slots:
     void workerBuyButtonClicked();
     void farmerBuyButtonClicked();
     void minerBuyButtonClicked();
+    void workerAssignButtonClicked();
+    void farmerAssignButtonClicked();
+    void minerAssignButtonClicked();
     void receiveSignal();
 
 

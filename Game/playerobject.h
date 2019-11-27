@@ -1,5 +1,6 @@
 #ifndef PLAYEROBJECT_H
 #define PLAYEROBJECT_H
+
 #include "core/playerbase.h"
 #include "core/basicresources.h"
 #include "core/gameobject.h"
@@ -28,8 +29,11 @@ public:
     void addPoints(int points);
     void addOwnedTiles(Course::Coordinate coordinate, int amount,
                        std::pair<int, int> mapSize,
-                       std::shared_ptr<Team::ObjectManager> objMan);
-    void addWorker(std::string type);
+                       std::shared_ptr<Course::iObjectManager> objMan);
+    void addWorker(std::string workerType);
+
+    std::shared_ptr<Course::WorkerBase> getWorker(std::string workerType, std::vector<std::shared_ptr<Course::WorkerBase> > workers);
+    void workerAssigned(std::string workerType);
 
     bool hasHQ();
     bool hasTyokkari();
@@ -37,11 +41,11 @@ public:
 
     bool hasEnoughResourcesFor(Course::ResourceMap building_cost);
 private:
-    Course::ResourceMap resources_ =        {{Course::MONEY, 2000},
-                                            {Course::FOOD, 2000},
-                                            {Course::WOOD, 1500},
-                                            {Course::STONE, 800},
-                                            {Course::ORE, 0}};
+    Course::ResourceMap resources_ =        {{Course::MONEY, 5000},
+                                            {Course::FOOD, 3000},
+                                            {Course::WOOD, 3000},
+                                            {Course::STONE, 3000},
+                                            {Course::ORE, 100000}};
     std::map<std::string, int> workersMap_ = {{"WORKERS", 0},
                                               {"FARMERS", 0},
                                               {"MINERS", 0}};

@@ -66,6 +66,12 @@ void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
     {
         nItem = new MapItem(obj, 35);
     }
+    else if (obj->getType() == "BasicWorker" ||
+             obj->getType() == "Farmer" ||
+             obj->getType() == "Miner")
+    {
+        nItem = new MapItem(obj, 20);
+    }
     else
     {
         nItem = new MapItem(obj, 50);

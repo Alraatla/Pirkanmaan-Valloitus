@@ -1,6 +1,4 @@
 #include "objectmanager.h"
-#include "core/gameobject.h"
-#include "tiles/tilebase.h"
 
 namespace Team {
 
@@ -58,4 +56,27 @@ std::vector<std::shared_ptr<Course::TileBase> > ObjectManager::getTilesForMap()
 {
     return tiles_;
 }
+
+void ObjectManager::addWorker(const std::shared_ptr<Course::WorkerBase> &worker)
+{
+    std::shared_ptr<Course::PlayerBase> player = worker->getOwner();
+    if(workersByPlayer_.find(player) == workersByPlayer_.end())
+    {
+        std::vector<std::shared_ptr<Course::WorkerBase>> workerVector = {};
+        workerVector.push_back(worker);
+        workersByPlayer_[player] = workerVector;
+    }
+    else
+    {
+        workersByPlayer_.at(player).push_back(worker);
+    }
+
+    workers_.push_back(worker);
 }
+
+std::vector<std::shared_ptr<Course::WorkerBase>> ObjectManager::getPlayersWorkers(const std::shared_ptr<Course::PlayerBase> player)
+{
+    return workersByPlayer_.at(player);
+}
+
+} // namespace Team

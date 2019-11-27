@@ -29,8 +29,7 @@ std::string Farmer::getType() const
 
 bool Farmer::canBePlacedOnTile(const std::shared_ptr<Course::TileBase> &target) const
 {
-    return target->getOwner() == getOwner() and
-            Farmer::canBePlacedOnTile(target);
+    return true;
 }
 
 void Farmer::doSpecialAction()
