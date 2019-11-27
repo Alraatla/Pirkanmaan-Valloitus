@@ -64,4 +64,6 @@ FORMS += \
     gamemenu.ui
 
 DISTFILES += \
-    EndDocument
+    EndDocument \
+    headquarters.png \
+    worker.png

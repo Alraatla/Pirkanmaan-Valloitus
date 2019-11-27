@@ -1,4 +1,5 @@
 #include "mapitem.h"
+#include <QDebug>
 #include <QPixmap>
 
 namespace Team {
@@ -41,11 +42,12 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     if (gameObject_->getType() == "Tyokkari")
     {
 
-        painter->drawImage(boundingRect(), QImage("/home/raatala/Documents/OTEK/SOetAR/Game/Images/worker.png"));
+        painter->drawImage(boundingRect(), QImage("../../SOetAR/Game/worker.png"));
     }
-    else if (gameObject_->getType() == "HeadQuarters")
+    else if (gameObject_->getType() == "HeadQuarters") // /home/raatala/Documents/OTEK/SOetAR/Game
     {
-        painter->drawImage(boundingRect(), QImage("/home/raatala/Documents/OTEK/SOetAR/Game/Images/headquarters.png"));
+
+        painter->drawImage(boundingRect(),  QImage("../../SOetAR/Game/headquarters.png"));
     }
     else
     {
