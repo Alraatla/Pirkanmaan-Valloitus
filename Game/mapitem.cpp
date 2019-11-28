@@ -51,12 +51,12 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
             gameObject_->getType() == "Miner")
     {
 
-        painter->drawImage(boundingRect(), QImage("../../SOetAR/Game/worker.png"));
+        painter->drawImage(boundingRect(), QImage(":/worker.png"));
     }
     else if (gameObject_->getType() == "HeadQuarters") // /home/raatala/Documents/OTEK/SOetAR/Game
     {
 
-        painter->drawImage(boundingRect(),  QImage("../../SOetAR/Game/headquarters.png"));
+        painter->drawImage(boundingRect(),  QImage(":/headquarters.png"));
     }
     else
     {

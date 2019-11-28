@@ -64,6 +64,7 @@ FORMS += \
     gamemenu.ui
 
 DISTFILES += \
-    EndDocument \
-    headquarters.png \
-    worker.png
+    EndDocument
+
+RESOURCES += \
+    images.qrc
