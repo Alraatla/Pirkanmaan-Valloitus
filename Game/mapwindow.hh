@@ -55,7 +55,7 @@ public slots:
 
     void mapSetup(int playercount, std::vector<std::string> playerNames);
     void gameLoop();
-    void hqButtonClicked();
+
     void tyokkariButtonClicked();
     void farmButtonClicked();
     void mineButtonClicked();

@@ -41,6 +41,11 @@ int PlayerObject::getPoints()
     return points_;
 }
 
+std::map<Course::Coordinate, std::shared_ptr<Course::TileBase> > PlayerObject::getOwnedTiles()
+{
+    return ownedTiles_;
+}
+
 void PlayerObject::addPoints(int points)
 {
     points_ += points;

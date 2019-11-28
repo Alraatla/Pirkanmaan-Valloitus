@@ -64,9 +64,17 @@ void MapWindow::setGEHandler(
 
 void MapWindow::gameLoop()
 {
-    m_ui->pushButton->setText("Next player");
+
+    if(turn_ > 0)
+    {
+        std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
+        m_GEHandler->modifyResourcesAtTurnEnd(playerInTurn);
+    }
+
+
     int itPlayersTurn = turn_ % playercount_;
 
+    m_ui->pushButton->setText("Next player");
     std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
     MapWindow::updateHUD(players.at(itPlayersTurn));
     turn_++;
@@ -78,31 +86,6 @@ void MapWindow::gameLoop()
 
 }
 
-void MapWindow::hqButtonClicked()
-{
-    std::shared_ptr<Team::PlayerObject> playerInTurn = m_GEHandler->getPlayers().at(
-                    (turn_-1) % playercount_);
-
-
-    //m_ui->hqButton->setDisabled(false);
-
-    std::shared_ptr<Course::HeadQuarters> headquarters = std::make_shared<Course::HeadQuarters>(
-                m_GEHandler, m_Object, playerInTurn);
-
-    std::shared_ptr<Course::TileBase> tile =
-            m_Object->getTile(m_simplescene->getClickedCoordinate());
-
-    if(tile->hasSpaceForBuildings(headquarters->spacesInTileCapacity()))
-    {
-        headquarters->setCoordinate(m_simplescene->getClickedCoordinate());
-        tile->addBuilding(headquarters);
-        MapWindow::drawItem(headquarters);
-        playerInTurn->addObject(headquarters);
-        m_GEHandler->addObjectToPlayer(playerInTurn, headquarters->getType());
-    }
-
-    updateHUD(playerInTurn);
-}
 
 void MapWindow::tyokkariButtonClicked()
 {

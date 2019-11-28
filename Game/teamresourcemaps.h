@@ -44,9 +44,9 @@ const Course::ResourceMap MOUNTAIN_BP = {
 
 // Farmer
 const Course::ResourceMapDouble FARMER_EFFICIENCY = {
-    {Course::MONEY, 0.25},
-    {Course::FOOD, 2.00},
-    {Course::WOOD, 1.00},
+    {Course::MONEY, 4.00},
+    {Course::FOOD, 3.00},
+    {Course::WOOD, 0},
     {Course::STONE, 0},
     {Course::ORE, 0}
 };
@@ -58,7 +58,7 @@ const Course::ResourceMap FARMER_RECRUITMENT_COST = {
 
 // Miner
 const Course::ResourceMapDouble MINER_EFFICIENCY = {
-    {Course::MONEY, 1},
+    {Course::MONEY, 2},
     {Course::FOOD, 0},
     {Course::WOOD, 0},
     {Course::STONE, 2},
@@ -71,6 +71,20 @@ const Course::ResourceMap MINER_RECRUITMENT_COST = {
 };
 
 
+const Course::ResourceMap BW_ROUNDLY_COST = {
+    {Course::MONEY, 1},
+    {Course::FOOD, 2}
+};
+
+const Course::ResourceMap FARMER_ROUNDLY_COST = {
+    {Course::MONEY, 2},
+    {Course::FOOD, 3}
+};
+
+const Course::ResourceMap MINER_ROUNDLY_COST = {
+    {Course::MONEY, 3},
+    {Course::FOOD, 3}
+};
 
 }
 }

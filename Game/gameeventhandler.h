@@ -14,6 +14,7 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <utility>
 
 
 namespace Team {
@@ -38,6 +39,8 @@ public:
          */
     virtual bool modifyResources(std::shared_ptr<Course::PlayerBase> player,
                                      Course::ResourceMap resources);
+
+    void modifyResourcesAtTurnEnd(std::shared_ptr<Team::PlayerObject> player);
 
     void initializeGame();
     void setPlayercount(int playerCount, std::vector<std::string> names);

@@ -44,6 +44,54 @@ bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> playe
     return true;
 }
 
+void GameEventHandler::modifyResourcesAtTurnEnd(std::shared_ptr<PlayerObject> player)
+{
+    int workerAmount = player->getWorkerAmount("WORKERS");
+    int farmerAmount = player->getWorkerAmount("FARMERS");
+    int minerAmount = player->getWorkerAmount("MINERS");
+    for(int i = 0; i < workerAmount; i++)
+    {
+        player->modifyResources(makeNegative(TeamConstResourceMaps::BW_ROUNDLY_COST));
+    }
+    for(int i = 0; i < farmerAmount; i++)
+    {
+        player->modifyResources(makeNegative(TeamConstResourceMaps::FARMER_ROUNDLY_COST));
+    }
+    for(int i = 0; i < minerAmount; i++)
+    {
+        player->modifyResources(makeNegative(TeamConstResourceMaps::MINER_ROUNDLY_COST));
+    }
+
+    std::map<Course::Coordinate, std::shared_ptr<Course::TileBase> > ownedTiles = player->getOwnedTiles();
+    for(std::pair<Course::Coordinate, std::shared_ptr<Course::TileBase>> dataPair: ownedTiles)
+    {
+        if(dataPair.second->getWorkerCount() == 1 && dataPair.second->getOwner() == player)
+        {
+            std::shared_ptr<Course::WorkerBase> worker = dataPair.second->getWorkers().at(0);
+            if(worker->getType() == "BasicWorker")
+            {
+                player->modifyResources(makeNegative(TeamConstResourceMaps::BW_ROUNDLY_COST));
+                player->addPoints(1);
+
+            }
+            else if(worker->getType() == "Farmer")
+            {
+                player->modifyResources(makeNegative(TeamConstResourceMaps::FARMER_ROUNDLY_COST));
+                player->addPoints(2);
+
+            }
+            else if(worker->getType() == "Miner")
+            {
+                player->modifyResources(makeNegative(TeamConstResourceMaps::MINER_ROUNDLY_COST));
+                player->addPoints(5);
+            }
+            dataPair.second->generateResources();
+        }
+
+    }
+
+}
+
 void GameEventHandler::setPlayercount(int playerCount, std::vector<std::string> names)
 {
     playerCount_ = playerCount;

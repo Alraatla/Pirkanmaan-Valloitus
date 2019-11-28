@@ -26,6 +26,7 @@ public:
     Course::ResourceMap getResources ();
     int getWorkerAmount(std::string workerType);
     int getPoints();
+    std::map<Course::Coordinate, std::shared_ptr<Course::TileBase>> getOwnedTiles();
     void addPoints(int points);
     void addOwnedTiles(Course::Coordinate coordinate, int amount,
                        std::pair<int, int> mapSize,
