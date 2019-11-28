@@ -25,8 +25,8 @@ MapWindow::MapWindow(QWidget *parent):
 
     m_gamemenu = new Gamemenu;
 
-    connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>)), this,
-                     SLOT(mapSetup(int, std::vector<std::string>)));
+    connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>, bool, int)), this,
+                     SLOT(mapSetup(int, std::vector<std::string>, bool, int)));
     connect(m_ui->pushButton, &QPushButton::clicked, this, &MapWindow::gameLoop);
     connect(m_ui->tyokkariButton, &QPushButton::clicked, this, &MapWindow::tyokkariButtonClicked);
     connect(m_ui->farmButton, &QPushButton::clicked, this, &MapWindow::farmButtonClicked);
@@ -42,6 +42,7 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->minerAssignButton, &QPushButton::clicked, this, &MapWindow::minerAssignButtonClicked);
 
     m_gamemenu->exec();
+
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
 
@@ -76,13 +77,20 @@ void MapWindow::gameLoop()
 
     m_ui->pushButton->setText("Next player");
     std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
-    MapWindow::updateHUD(players.at(itPlayersTurn));
-    turn_++;
-    if (itPlayersTurn == playercount_ - 1) {
-        m_ui->pushButton->setText("Next round");
-        round_++;
+    if(hasGameBeenWon() == nullptr)
+    {
+        MapWindow::updateHUD(players.at(itPlayersTurn));
+        turn_++;
+        if (itPlayersTurn == playercount_ - 1)
+        {
+            m_ui->pushButton->setText("Next round");
+            round_++;
+        }
     }
-
+    else
+    {
+        gameEnd(hasGameBeenWon());
+    }
 
 }
 
@@ -464,6 +472,45 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
     }
 }
 
+std::shared_ptr<Team::PlayerObject> MapWindow::hasGameBeenWon()
+{
+    std::vector<std::shared_ptr<Team::PlayerObject>> players =
+            m_GEHandler->getPlayers();
+    if(winConditionIsPoints_)
+    {
+        for(std::shared_ptr<Team::PlayerObject> player : players)
+        {
+            if(player->getPoints() >= pointLimit_)
+            {
+                return player;
+            }
+        }
+    }
+    else
+    {
+        if(round_ == roundLimit_)
+        {
+            int mostPoints = 0;
+            std::shared_ptr<Team::PlayerObject> playerWithMostPoints = nullptr;
+            for(std::shared_ptr<Team::PlayerObject> player : players)
+            {
+                if(player->getPoints() > mostPoints)
+                {
+                    playerWithMostPoints = player;
+                }
+            }
+            return playerWithMostPoints;
+        }
+    }
+    return nullptr;
+}
+
+void MapWindow::gameEnd(std::shared_ptr<Team::PlayerObject> player)
+{
+    std::cout << "YEET " + player->getName() << std::endl;
+    this->close();
+}
+
 void MapWindow::setSize(int width, int height)
 {
     m_simplescene->setSize(width, height);
@@ -541,10 +588,19 @@ std::shared_ptr<Team::PlayerObject> MapWindow::getPlayerInTurn()
 
 
 
-void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames)
+void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
+                         bool winConditionIsPoints, int pointsOrRounds)
 {
 
-    //m_ui->hqButton->setDisabled(true);
+    if(winConditionIsPoints)
+    {
+        pointLimit_ = pointsOrRounds;
+    }
+    else
+    {
+        roundLimit_ = pointsOrRounds;
+        winConditionIsPoints_ = false;
+    }
     m_ui->tyokkariButton->setDisabled(true);
     m_ui->farmButton->setDisabled(true);
     m_ui->mineButton->setDisabled(true);

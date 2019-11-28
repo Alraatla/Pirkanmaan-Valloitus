@@ -50,10 +50,13 @@ public:
 
     std::shared_ptr<Team::PlayerObject> getPlayerInTurn();
     void updateButtons(Course::Coordinate coordinate);
+    std::shared_ptr<Team::PlayerObject> hasGameBeenWon();
+    void gameEnd(std::shared_ptr<Team::PlayerObject> player);
 
 public slots:
 
-    void mapSetup(int playercount, std::vector<std::string> playerNames);
+    void mapSetup(int playercount, std::vector<std::string> playerNames,
+                  bool winConditionIsPoints, int pointsOrRounds);
     void gameLoop();
 
     void tyokkariButtonClicked();
@@ -75,6 +78,9 @@ private:
     std::shared_ptr<Team::GameScene> m_simplescene = nullptr;
     std::shared_ptr<Team::ObjectManager> m_Object = nullptr;
     Gamemenu* m_gamemenu;
+    bool winConditionIsPoints_ = true;
+    int pointLimit_ = 0;
+    int roundLimit_ = 0;
     int turn_ = 0;
     int playercount_ = 0;
     int round_ = 1;

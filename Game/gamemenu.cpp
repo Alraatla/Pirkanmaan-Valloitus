@@ -8,6 +8,8 @@ Gamemenu::Gamemenu(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->okAndCancelButtons, &QDialogButtonBox::accepted, this, &Gamemenu::pressOk);
     connect(ui->playerCountSpinBox, SIGNAL(valueChanged(int)), this, SLOT(playerCountChanged(int)));
+
+
 }
 
 Gamemenu::~Gamemenu()
@@ -30,8 +32,20 @@ void Gamemenu::pressOk()
             playerNames.push_back(ui->player4NameEdit->displayText().toStdString());
         }
     }
+    if(ui->pointsRadioButton->isChecked())
+    {
+        emit initializeGame(ui->playerCountSpinBox->value(), playerNames, true, ui->pointsSpinBox->value());
+    }
+    else
+    {
+        emit initializeGame(ui->playerCountSpinBox->value(), playerNames, false, ui->roundsSpinBox->value());
+    }
 
-    emit initializeGame(ui->playerCountSpinBox->value(), playerNames);
+}
+
+void Gamemenu::pressCancel()
+{
+
 }
 
 void Gamemenu::playerCountChanged(int playerAmount)
