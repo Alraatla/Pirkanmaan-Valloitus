@@ -57,6 +57,7 @@ public slots:
 
     void mapSetup(int playercount, std::vector<std::string> playerNames,
                   bool winConditionIsPoints, int pointsOrRounds);
+
     void gameLoop();
 
     void tyokkariButtonClicked();

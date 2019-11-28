@@ -95,8 +95,16 @@ void GameEventHandler::modifyResourcesAtTurnEnd(std::shared_ptr<PlayerObject> pl
 void GameEventHandler::setPlayercount(int playerCount, std::vector<std::string> names)
 {
     playerCount_ = playerCount;
+    std::vector<std::string> stockNames = {"Seppo", "Pekka", "Matti", "Maijukka"};
     for (std::string name: names) {
-        auto player = std::make_shared<Team::PlayerObject>(name);
+        std::shared_ptr<PlayerObject> player = nullptr;
+        if(name == "") {
+            player = std::make_shared<Team::PlayerObject>(stockNames.at(players_.size()));
+        }
+        else {
+            player = std::make_shared<Team::PlayerObject>(name);
+        }
+
         players_.push_back(player);
 
     }

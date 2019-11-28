@@ -43,10 +43,6 @@ void Gamemenu::pressOk()
 
 }
 
-void Gamemenu::pressCancel()
-{
-
-}
 
 void Gamemenu::playerCountChanged(int playerAmount)
 {

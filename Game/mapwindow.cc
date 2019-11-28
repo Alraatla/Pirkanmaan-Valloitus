@@ -27,6 +27,7 @@ MapWindow::MapWindow(QWidget *parent):
 
     connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>, bool, int)), this,
                      SLOT(mapSetup(int, std::vector<std::string>, bool, int)));
+
     connect(m_ui->pushButton, &QPushButton::clicked, this, &MapWindow::gameLoop);
     connect(m_ui->tyokkariButton, &QPushButton::clicked, this, &MapWindow::tyokkariButtonClicked);
     connect(m_ui->farmButton, &QPushButton::clicked, this, &MapWindow::farmButtonClicked);
@@ -41,7 +42,6 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->farmerAssignButton, &QPushButton::clicked, this, &MapWindow::farmerAssignButtonClicked);
     connect(m_ui->minerAssignButton, &QPushButton::clicked, this, &MapWindow::minerAssignButtonClicked);
 
-    m_gamemenu->exec();
 
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
@@ -49,6 +49,9 @@ MapWindow::MapWindow(QWidget *parent):
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
     connect(sgs_rawptr, SIGNAL(tileClicked()), this, SLOT(receiveSignal()));
+
+
+    m_gamemenu->exec();
     MapWindow::grabKeyboard();
 }
 
@@ -488,7 +491,7 @@ std::shared_ptr<Team::PlayerObject> MapWindow::hasGameBeenWon()
     }
     else
     {
-        if(round_ == roundLimit_)
+        if(round_ > roundLimit_)
         {
             int mostPoints = 0;
             std::shared_ptr<Team::PlayerObject> playerWithMostPoints = nullptr;
@@ -497,6 +500,7 @@ std::shared_ptr<Team::PlayerObject> MapWindow::hasGameBeenWon()
                 if(player->getPoints() > mostPoints)
                 {
                     playerWithMostPoints = player;
+                    mostPoints = player->getPoints();
                 }
             }
             return playerWithMostPoints;
@@ -633,6 +637,11 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
     }
     setHQs();
 
+}
+
+void MapWindow::closeGame()
+{
+    this->close();
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
