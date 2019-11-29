@@ -1,33 +1,76 @@
 Game rules:
 
+Goal is to gather as much points as possible. At the start of the game players
+decide the game mode: points or rounds. In points, the winner is the one who
+exceeds the points limit first. In rounds, the winner is decided by who has the
+most points at the end of the round limit.
+
+Player gets points from building buildings, buying workers and having workers work.
+Players can only assign workers and buildings on an area that they own. At the start
+of the game, players own 4x4 area around their HQ which is located in one of the
+corners of the map. HQ coordinates for
+players: p1: 0,0, p2: 10,10, p3: 10,0, p4: 0,10.
+
+Players can expand their owned area by placing a outpost onto a tile. Outpost
+expands the owned area by 2x2 around the outpost.
+
+Workers are hardworking and terrority aware people, who don't care for facilities
+or machinery. That's why they can only be placed on empty forest or grassland tiles.
+Once assigned, they will not move and will work until the world collapses around them.
+Will gather resources from their tile at the end of each round.
+
+Farmers belong to an old tribe full of hillbilly rednecks. They only agree to
+work on a well established farm.
+
+Miners also are quite picky on their tasks. They can only be assigned onto mines.
+
+The map has 3 types of tiles. Forest, grassland and mountain.
+
+Player has 5 types of buildings: HQ, työkkäri, farm, mine & outpost.
+
+HQ: Determines player starting corner. Grants perk: "Town mayor". Has no other
+functionality.
+
+Työkkäri: Can be placed on forest, grassland. Enables the player to recruit ("Osta")
+different kinds of workers. All types can be recruited at any time. Player can
+only have 1 työkkäri.
+
+Farm: Can be placed only to grasslands. Is needed to place a farmer onto a tile.
+
+Mine: Can be placed only to mountain tile. Is needed to place a miner onto a tile.
+
+Outpost: Expands the players' owned tiles by 2 tiles around the outpost.
+
+
 Game instructions:
+First you select a tile by clicking it. After selection, the available actions
+can be determined from clickable buttons. Assigning workers is permanent. You can't
+move them afterwards. Player can't build onto a tile which has a worker in it.
 
 Class resposibilites:
+- MapWindow is our god-like class that handles almost everything in our game. We
+are deeply sorry for this. Please forgive us. responsibilities: updating hud,
+keeping track of game state, managing player actions
+- Gamemenu takes player names, game mode and starts the game or closes the window.
+- GameEventHandler is responsible for modifying resources for each player.
+- ObjectManager stores all the tiles and workers of the map.
+- PlayerOBject has responsibility over players' current resources, owned tiles
+and available workers.
+- GameScene tells if a tile has been clicked.. YAY!
+- MapItem is respinsible for changing object size before they are drawn onto map.
+It is also responsible for using correct images for objects.
+- TeamResourceMaps has all resource maps for inherited objects.
+- Tiles & Buildings are responsible for their corresponding object.
 
 Division of labour:
---Aleksi R
--Dialog, 28.10.2019
+The project was mostly done together on one computer. While one did coding the
+other gave moral support AND hc googling.
 
+--Aleksi
+-Aleksi did almost everything. Thy name be praised.
 
 --Sampo
--Kartan piirto,
-
-
-TODO:
-GameEventHandler:
-- Ottaa vastaan tiedot mapwindowin dialogilta, initializegame tietojen perusteella
-    - Pelaajien määrä, nimet (Luo pelaaja objectit) aluksi player1 ja player2,
-    heille resurssit
-    - Kartan piirron kehittäminen
-- Pelin kulun logiikka
-    - vuorot, voittokriteerit
-    - Näistä outputit mapwindowin kautta pelaajalle
-
-ObjectManager:
-- Mietitään miten hyödynnetään
-- Pelaajat omanagerin kautta
-- Rakennukset omanagerin kautta
-- Mitä tietoja constructorille?
-
-MapWindow:
-- Napit pelin kululle: "End turn", klikatessa vuoro vaihtuu -> gameeventhandler
+- Some functions here and there
+- Inherited tiles and buildings
+- EndDocument
+- Lots of moral support

@@ -472,6 +472,20 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                 m_ui->minerAssignButton->setEnabled(false);
             }
         }
+        else
+        {
+            m_ui->workerBuyButton->setEnabled(false);
+            m_ui->workerAssignButton->setEnabled(false);
+            m_ui->farmerBuyButton->setEnabled(false);
+            m_ui->farmerAssignButton->setEnabled(false);
+            m_ui->minerBuyButton->setEnabled(false);
+            m_ui->minerAssignButton->setEnabled(false);
+
+            m_ui->tyokkariButton->setEnabled(false);
+            m_ui->outpostButton->setEnabled(false);
+            m_ui->farmButton->setEnabled(false);
+            m_ui->mineButton->setEnabled(false);
+        }
     }
 }
 
