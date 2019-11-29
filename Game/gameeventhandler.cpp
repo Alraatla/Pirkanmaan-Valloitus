@@ -20,7 +20,7 @@ bool GameEventHandler::modifyResource(
         std::shared_ptr<Course::PlayerBase> player,
         Course::BasicResource resource, int amount)
 {
-    if(getPlayer(player->getName())->modifyResource(resource, amount))
+    if((std::dynamic_pointer_cast<PlayerObject>(player))->modifyResource(resource, amount))
     {
         return true;
     }
@@ -33,14 +33,6 @@ bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> playe
     std::shared_ptr<Team::PlayerObject> tPlayer = getPlayer(player->getName());
 
     tPlayer->modifyResources(resources);
-
-//    for (auto resource : resources) {
-//        if(!tPlayer->modifyResource(resource.first, resource.second))
-//        {
-//            return false;
-//        }
-
-//    }
     return true;
 }
 
@@ -120,12 +112,12 @@ void GameEventHandler::addObjectToPlayer(std::shared_ptr<PlayerObject> player,
 {
     if (objectType == "HeadQuarters")
     {
-        player->addPoints(50);
+        player->addPoints(1);
         modifyResources(player, makeNegative(Course::ConstResourceMaps::HQ_BUILD_COST));
     }
     else if (objectType == "Tyokkari")
     {
-        player->addPoints(69);
+        player->addPoints(30);
         modifyResources(player, makeNegative(Team::TeamConstResourceMaps::TYOKKARI_BUILD_COST));
     }
     else if (objectType == "Farm")

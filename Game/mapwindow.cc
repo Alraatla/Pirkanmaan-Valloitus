@@ -639,10 +639,6 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
 
 }
 
-void MapWindow::closeGame()
-{
-    this->close();
-}
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {

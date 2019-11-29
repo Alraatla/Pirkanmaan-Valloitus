@@ -47,13 +47,13 @@ public:
     std::vector<std::shared_ptr<Team::PlayerObject>> getPlayers();
     void addObjectToPlayer(std::shared_ptr<Team::PlayerObject> player, std::string objectType);
     std::shared_ptr<PlayerObject> getPlayer(std::string playerName);
+    Course::ResourceMap makeNegative(Course::ResourceMap resourceMap);
 
 private:
     std::shared_ptr<Course::iObjectManager> objectManager_ = nullptr;
     int playerCount_ = 0;
     std::vector<std::shared_ptr<Team::PlayerObject>> players_;
 
-    Course::ResourceMap makeNegative(Course::ResourceMap resourceMap);
 };
 
 }
