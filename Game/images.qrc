@@ -1,13 +1,12 @@
 <RCC>
     <qresource prefix="/">
-        <file>headquarters.png</file>
-        <file>worker.png</file>
-        <file>EndDocument</file>
-        <file>farmer.png</file>
-        <file>miner.png</file>
-        <file>farm.png</file>
-        <file>mine.png</file>
-        <file>outpost.png</file>
-        <file>tyokkari.png</file>
+        <file>images/farm.png</file>
+        <file>images/farmer.png</file>
+        <file>images/headquarters.png</file>
+        <file>images/mine.png</file>
+        <file>images/miner.png</file>
+        <file>images/outpost.png</file>
+        <file>images/tyokkari.png</file>
+        <file>images/worker.png</file>
     </qresource>
 </RCC>

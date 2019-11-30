@@ -48,42 +48,42 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     if (    gameObject_->getType() == "BasicWorker")
     {
 
-        painter->drawImage(boundingRect(), QImage(":/worker.png"));
+        painter->drawImage(boundingRect(), QImage(":/images/worker.png"));
     }
     else if (gameObject_->getType() == "Tyokkari")
     {
 
-        painter->drawImage(boundingRect(),  QImage(":/tyokkari.png"));
+        painter->drawImage(boundingRect(),  QImage(":/images/tyokkari.png"));
     }
     else if (gameObject_->getType() == "Farm")
     {
 
-        painter->drawImage(boundingRect(),  QImage(":/farm.png"));
+        painter->drawImage(boundingRect(),  QImage(":/images/farm.png"));
     }
     else if (gameObject_->getType() == "Mine")
     {
 
-        painter->drawImage(boundingRect(),  QImage(":/mine.png"));
+        painter->drawImage(boundingRect(),  QImage(":/images/mine.png"));
     }
     else if (gameObject_->getType() == "Farmer")
     {
 
-        painter->drawImage(boundingRect(),  QImage(":/farmer.png"));
+        painter->drawImage(boundingRect(),  QImage(":/images/farmer.png"));
     }
     else if (gameObject_->getType() == "Miner")
     {
 
-        painter->drawImage(boundingRect(),  QImage(":/miner.png"));
+        painter->drawImage(boundingRect(),  QImage(":/images/miner.png"));
     }
     else if (gameObject_->getType() == "HeadQuarters")
     {
 
-        painter->drawImage(boundingRect(),  QImage(":/headquarters.png"));
+        painter->drawImage(boundingRect(),  QImage(":/images/headquarters.png"));
     }
     else if (gameObject_->getType() == "Outpost")
     {
 
-        painter->drawImage(boundingRect(),  QImage(":/outpost.png"));
+        painter->drawImage(boundingRect(),  QImage(":/images/outpost.png"));
     }
     else
     {
