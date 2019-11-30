@@ -5,5 +5,8 @@
         <file>EndDocument</file>
         <file>farmer.png</file>
         <file>miner.png</file>
+        <file>farm.png</file>
+        <file>mine.png</file>
+        <file>outpost.png</file>
     </qresource>
 </RCC>

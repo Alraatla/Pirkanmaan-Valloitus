@@ -41,8 +41,6 @@ bool GameScene::event(QEvent *event)
                     (pressed)->getBoundObject()->getCoordinate();
             emit tileClicked();
             return true;
-
-
         }
     }
     return false;
@@ -65,13 +63,13 @@ void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
             obj->getType() == "Outpost" ||
             obj->getType() == "Farm")
     {
-        nItem = new MapItem(obj, 35);
+        nItem = new MapItem(obj, 50);
     }
     else if (obj->getType() == "BasicWorker" ||
              obj->getType() == "Farmer" ||
              obj->getType() == "Miner")
     {
-        nItem = new MapItem(obj, 30);
+        nItem = new MapItem(obj, 40);
     }
     else
     {

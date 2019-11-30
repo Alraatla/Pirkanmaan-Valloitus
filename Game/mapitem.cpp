@@ -24,13 +24,13 @@ QRectF MapItem::boundingRect() const
             gameObject_->getType() == "Outpost" ||
             gameObject_->getType() == "Farm")
     {
-        addToPoint = QPoint(7, 8);
+        addToPoint = QPoint(0, 0);
     }
     else if (gameObject_->getType() == "BasicWorker" ||
              gameObject_->getType() == "Farmer" ||
              gameObject_->getType() == "Miner")
     {
-        addToPoint = QPoint(8, 9);
+        addToPoint = QPoint(5, 5);
     }
 
     return QRectF(scenelocation_ * 50 + addToPoint, scenelocation_ * 50 + QPoint(size_, size_) + addToPoint);
@@ -51,6 +51,16 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
         painter->drawImage(boundingRect(), QImage(":/worker.png"));
     }
+    else if (gameObject_->getType() == "Farm")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/farm.png"));
+    }
+    else if (gameObject_->getType() == "Mine")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/mine.png"));
+    }
     else if (gameObject_->getType() == "Farmer")
     {
 
@@ -65,6 +75,11 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     {
 
         painter->drawImage(boundingRect(),  QImage(":/headquarters.png"));
+    }
+    else if (gameObject_->getType() == "Outpost")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/outpost.png"));
     }
     else
     {
