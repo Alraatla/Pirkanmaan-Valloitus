@@ -18,7 +18,8 @@ SOURCES += \
     gamescene.cpp \
     mapitem.cpp \
     farmer.cpp \
-    miner.cpp
+    miner.cpp \
+    endscreen.cpp
 
 HEADERS += \
     mapwindow.hh \
@@ -33,7 +34,8 @@ HEADERS += \
     gamescene.h \
     mapitem.h \
     farmer.h \
-    miner.h
+    miner.h \
+    endscreen.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
@@ -61,7 +63,8 @@ else:unix: PRE_TARGETDEPS += \
 
 FORMS += \
     mapwindow.ui \
-    gamemenu.ui
+    gamemenu.ui \
+    endscreen.ui
 
 DISTFILES += \
     EndDocument

@@ -8,6 +8,7 @@
 #include "buildings/headquarters.h"
 #include "gamescene.h"
 #include "tyokkari.h"
+#include "endscreen.h"
 #include <QDebug>
 
 #include "graphics/simplemapitem.h"
@@ -24,6 +25,8 @@ MapWindow::MapWindow(QWidget *parent):
     m_ui->setupUi(this);
 
     m_gamemenu = new Gamemenu;
+    m_endscreen = new EndScreen(this);
+
 
     connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>, bool, int)), this,
                      SLOT(mapSetup(int, std::vector<std::string>, bool, int)));
@@ -536,7 +539,10 @@ std::shared_ptr<Team::PlayerObject> MapWindow::hasGameBeenWon()
 
 void MapWindow::gameEnd(std::shared_ptr<Team::PlayerObject> player)
 {
-    std::cout << "YEET " + player->getName() << std::endl;
+
+    emit playerObject(player, round_);
+    m_endscreen->exec();
+
     this->close();
 }
 

@@ -15,6 +15,7 @@
 #include "objectmanager.h"
 #include "graphics/simplegamescene.h"
 #include "gamemenu.h"
+#include "endscreen.h"
 #include "gamescene.h"
 #include "buildings/farm.h"
 #include "buildings/outpost.h"
@@ -72,6 +73,9 @@ public slots:
     void minerAssignButtonClicked();
     void receiveSignal();
 
+signals:
+
+    void playerObject(std::shared_ptr<Team::PlayerObject> player, int round);
 
 private:
     Ui::MapWindow* m_ui;
@@ -79,6 +83,7 @@ private:
     std::shared_ptr<Team::GameScene> m_simplescene = nullptr;
     std::shared_ptr<Team::ObjectManager> m_Object = nullptr;
     Gamemenu* m_gamemenu;
+    EndScreen* m_endscreen;
     bool winConditionIsPoints_ = true;
     int pointLimit_ = 0;
     int roundLimit_ = 0;
