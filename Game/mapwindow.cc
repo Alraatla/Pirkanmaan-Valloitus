@@ -655,8 +655,8 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
 
     setSize(12, 12);
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
-    world.addConstructor<Course::Forest>(30);
-    world.addConstructor<Course::Grassland>(60);
+    world.addConstructor<Course::Forest>(20);
+    world.addConstructor<Course::Grassland>(20);
     world.addConstructor<Team::Mountain>(10);
     world.generateMap(12, 12, 1231524123, m_Object, m_GEHandler);
 

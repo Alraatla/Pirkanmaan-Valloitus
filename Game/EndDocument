@@ -18,11 +18,15 @@ Workers are hardworking and terrority aware people, who don't care for facilitie
 or machinery. That's why they can only be placed on empty forest or grassland tiles.
 Once assigned, they will not move and will work until the world collapses around them.
 Will gather resources from their tile at the end of each round.
+-Worker on Grassland will gather 4 food + 1 point
+-Worker on Forest will gather 2 food, 3 wood + 1 point
 
 Farmers belong to an old tribe full of hillbilly rednecks. They only agree to
 work on a well established farm.
+-Farmer on a farm will gather 8 money, 18 food + 2 points
 
 Miners also are quite picky on their tasks. They can only be assigned onto mines.
+-Miner on a mine will gather 7 money, -2 food, 20 stone, 13 ore + 5 points
 
 The map has 3 types of tiles. Forest, grassland and mountain.
 
