@@ -236,22 +236,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>okAndCancelButtons</sender>
-   <signal>rejected()</signal>
-   <receiver>Gamemenu</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>320</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>roundsRadioButton</sender>
    <signal>clicked(bool)</signal>
    <receiver>roundsSpinBox</receiver>

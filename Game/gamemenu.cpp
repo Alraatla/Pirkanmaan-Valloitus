@@ -8,6 +8,7 @@ Gamemenu::Gamemenu(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->okAndCancelButtons, &QDialogButtonBox::accepted, this, &Gamemenu::pressOk);
     connect(ui->playerCountSpinBox, SIGNAL(valueChanged(int)), this, SLOT(playerCountChanged(int)));
+    connect(ui->okAndCancelButtons, &QDialogButtonBox::rejected, this, &Gamemenu::pressCancel);
     ui->pointsRadioButton->setChecked(true);
 
 
@@ -61,4 +62,9 @@ void Gamemenu::playerCountChanged(int playerAmount)
         ui->player3NameEdit->setDisabled(false);
         ui->player4NameEdit->setDisabled(false);
     }
+}
+
+void Gamemenu::pressCancel()
+{
+    emit closeGame();
 }

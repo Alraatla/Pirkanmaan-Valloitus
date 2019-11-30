@@ -26,12 +26,13 @@ MapWindow::MapWindow(QWidget *parent):
 {
     m_ui->setupUi(this);
 
-    m_gamemenu = new Gamemenu;
+
     m_endscreen = new EndScreen(this);
 
-
+    m_gamemenu = new Gamemenu;
     connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>, bool, int)), this,
                      SLOT(mapSetup(int, std::vector<std::string>, bool, int)));
+    connect(m_gamemenu, SIGNAL(closeGame()), this, SLOT(close()));
 
     connect(m_ui->pushButton, &QPushButton::clicked, this,
             &MapWindow::gameLoop);
@@ -657,8 +658,8 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
 
     setSize(12, 12);
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
-    world.addConstructor<Course::Forest>(20);
-    world.addConstructor<Course::Grassland>(20);
+    world.addConstructor<Course::Forest>(40);
+    world.addConstructor<Course::Grassland>(50);
     world.addConstructor<Team::Mountain>(10);
 
     srand(unsigned(time(0)));

@@ -18,11 +18,13 @@ public:
 private slots:
     void pressOk();
     void playerCountChanged(int playerAmount);
+    void pressCancel();
 
 signals:
 
     void initializeGame(int playercount, std::vector<std::string> playerNames,
                         bool winConditionPoints, int pointOrRounds);
+    void closeGame();
 
 private:
     Ui::Gamemenu *ui;
