@@ -36,8 +36,9 @@ bool GameScene::event(QEvent *event)
 
             QGraphicsItem* pressed = itemAt(point * getScale(), QTransform());
 
-            clickedCoordinate_ = static_cast<Course::SimpleMapItem*>(pressed)->getBoundObject()->getCoordinate();
-            qDebug() << clickedCoordinate_.x() << clickedCoordinate_.y();
+            clickedCoordinate_ =
+                    static_cast<Course::SimpleMapItem*>
+                    (pressed)->getBoundObject()->getCoordinate();
             emit tileClicked();
             return true;
 
@@ -70,7 +71,7 @@ void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
              obj->getType() == "Farmer" ||
              obj->getType() == "Miner")
     {
-        nItem = new MapItem(obj, 20);
+        nItem = new MapItem(obj, 30);
     }
     else
     {

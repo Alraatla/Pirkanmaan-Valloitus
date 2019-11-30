@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>headquarters.png</file>
         <file>worker.png</file>
+        <file>EndDocument</file>
+        <file>farmer.png</file>
+        <file>miner.png</file>
     </qresource>
 </RCC>

@@ -28,31 +28,38 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>, bool, int)), this,
                      SLOT(mapSetup(int, std::vector<std::string>, bool, int)));
 
-    connect(m_ui->pushButton, &QPushButton::clicked, this, &MapWindow::gameLoop);
-    connect(m_ui->tyokkariButton, &QPushButton::clicked, this, &MapWindow::tyokkariButtonClicked);
-    connect(m_ui->farmButton, &QPushButton::clicked, this, &MapWindow::farmButtonClicked);
-    connect(m_ui->mineButton, &QPushButton::clicked, this, &MapWindow::mineButtonClicked);
-    connect(m_ui->outpostButton, &QPushButton::clicked, this, &MapWindow::outpostButtonClicked);
+    connect(m_ui->pushButton, &QPushButton::clicked, this,
+            &MapWindow::gameLoop);
+    connect(m_ui->tyokkariButton, &QPushButton::clicked, this,
+            &MapWindow::tyokkariButtonClicked);
+    connect(m_ui->farmButton, &QPushButton::clicked, this,
+            &MapWindow::farmButtonClicked);
+    connect(m_ui->mineButton, &QPushButton::clicked, this,
+            &MapWindow::mineButtonClicked);
+    connect(m_ui->outpostButton, &QPushButton::clicked, this,
+            &MapWindow::outpostButtonClicked);
 
-    connect(m_ui->workerBuyButton, &QPushButton::clicked, this, &MapWindow::workerBuyButtonClicked);
-    connect(m_ui->farmerBuyButton, &QPushButton::clicked, this, &MapWindow::farmerBuyButtonClicked);
-    connect(m_ui->minerBuyButton, &QPushButton::clicked, this, &MapWindow::minerBuyButtonClicked);
+    connect(m_ui->workerBuyButton, &QPushButton::clicked, this,
+            &MapWindow::workerBuyButtonClicked);
+    connect(m_ui->farmerBuyButton, &QPushButton::clicked, this,
+            &MapWindow::farmerBuyButtonClicked);
+    connect(m_ui->minerBuyButton, &QPushButton::clicked, this,
+            &MapWindow::minerBuyButtonClicked);
 
-    connect(m_ui->workerAssignButton, &QPushButton::clicked, this, &MapWindow::workerAssignButtonClicked);
-    connect(m_ui->farmerAssignButton, &QPushButton::clicked, this, &MapWindow::farmerAssignButtonClicked);
-    connect(m_ui->minerAssignButton, &QPushButton::clicked, this, &MapWindow::minerAssignButtonClicked);
-
-
+    connect(m_ui->workerAssignButton, &QPushButton::clicked, this,
+            &MapWindow::workerAssignButtonClicked);
+    connect(m_ui->farmerAssignButton, &QPushButton::clicked, this,
+            &MapWindow::farmerAssignButtonClicked);
+    connect(m_ui->minerAssignButton, &QPushButton::clicked, this,
+            &MapWindow::minerAssignButtonClicked);
 
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
-
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
     connect(sgs_rawptr, SIGNAL(tileClicked()), this, SLOT(receiveSignal()));
 
 
     m_gamemenu->exec();
-    MapWindow::grabKeyboard();
 }
 
 MapWindow::~MapWindow()
@@ -68,13 +75,11 @@ void MapWindow::setGEHandler(
 
 void MapWindow::gameLoop()
 {
-
     if(turn_ > 0)
     {
         std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
         m_GEHandler->modifyResourcesAtTurnEnd(playerInTurn);
     }
-
 
     int itPlayersTurn = turn_ % playercount_;
 
@@ -94,9 +99,7 @@ void MapWindow::gameLoop()
     {
         gameEnd(hasGameBeenWon());
     }
-
 }
-
 
 void MapWindow::tyokkariButtonClicked()
 {
@@ -570,7 +573,7 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
     m_ui->minerAmountLabel->setText(QString::number(player->getWorkerAmount("MINERS")));
 
     updateButtons(m_simplescene->getClickedCoordinate());
-
+    m_ui->graphicsView->fitInView(m_simplescene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 void MapWindow::setHQs()
@@ -582,7 +585,8 @@ void MapWindow::setHQs()
                                                  {mapSize.first - 1, 0},
                                                  {0, mapSize.second-1}};
     for(int i=0; i< players.size(); i++) {
-        std::shared_ptr<Course::HeadQuarters> headquarters = std::make_shared<Course::HeadQuarters>(
+        std::shared_ptr<Course::HeadQuarters> headquarters =
+                std::make_shared<Course::HeadQuarters>(
                     m_GEHandler, m_Object, players.at(i));
 
         std::pair<int, int> hqPair = hqPlaces.at(i);
@@ -597,14 +601,13 @@ void MapWindow::setHQs()
         players.at(i)->addObject(headquarters);
         m_GEHandler->addObjectToPlayer(players.at(i), headquarters->getType());
     }
+
 }
 
 std::shared_ptr<Team::PlayerObject> MapWindow::getPlayerInTurn()
 {
     return m_GEHandler->getPlayers().at((turn_-1) % playercount_);
 }
-
-
 
 void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
                          bool winConditionIsPoints, int pointsOrRounds)
@@ -633,26 +636,23 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
     m_ui->minerAssignButton->setDisabled(true);
     m_ui->minerBuyButton->setDisabled(true);
 
-
     m_GEHandler->setPlayercount(playercount, playerNames);
     playercount_ = playercount;
 
-
-
+    setSize(12, 12);
     Course::WorldGenerator& world = Course::WorldGenerator::getInstance();
-    world.addConstructor<Course::Forest>(12);
-    world.addConstructor<Course::Grassland>(20);
-    world.addConstructor<Team::Mountain>(5);
-    world.generateMap(10, 10, 1231524123, m_Object, m_GEHandler);
-
+    world.addConstructor<Course::Forest>(30);
+    world.addConstructor<Course::Grassland>(60);
+    world.addConstructor<Team::Mountain>(10);
+    world.generateMap(12, 12, 1231524123, m_Object, m_GEHandler);
 
     for(auto object: m_Object->getTilesForMap()) {
         MapWindow::drawItem(object);
     }
+
     setHQs();
 
 }
-
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {

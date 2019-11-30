@@ -30,7 +30,7 @@ QRectF MapItem::boundingRect() const
              gameObject_->getType() == "Farmer" ||
              gameObject_->getType() == "Miner")
     {
-        addToPoint = QPoint(12, 13);
+        addToPoint = QPoint(8, 9);
     }
 
     return QRectF(scenelocation_ * 50 + addToPoint, scenelocation_ * 50 + QPoint(size_, size_) + addToPoint);
@@ -46,14 +46,22 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->setBrush(QBrush(brush));
 
     if (    gameObject_->getType() == "Tyokkari" ||
-            gameObject_->getType() == "BasicWorker" ||
-            gameObject_->getType() == "Farmer" ||
-            gameObject_->getType() == "Miner")
+            gameObject_->getType() == "BasicWorker")
     {
 
         painter->drawImage(boundingRect(), QImage(":/worker.png"));
     }
-    else if (gameObject_->getType() == "HeadQuarters") // /home/raatala/Documents/OTEK/SOetAR/Game
+    else if (gameObject_->getType() == "Farmer")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/farmer.png"));
+    }
+    else if (gameObject_->getType() == "Miner")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/miner.png"));
+    }
+    else if (gameObject_->getType() == "HeadQuarters")
     {
 
         painter->drawImage(boundingRect(),  QImage(":/headquarters.png"));
