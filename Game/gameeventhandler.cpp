@@ -41,17 +41,43 @@ void GameEventHandler::modifyResourcesAtTurnEnd(std::shared_ptr<PlayerObject> pl
     int workerAmount = player->getWorkerAmount("WORKERS");
     int farmerAmount = player->getWorkerAmount("FARMERS");
     int minerAmount = player->getWorkerAmount("MINERS");
+    Course::ResourceMap resources = player->getResources();
     for(int i = 0; i < workerAmount; i++)
     {
-        player->modifyResources(makeNegative(TeamConstResourceMaps::BW_ROUNDLY_COST));
+        if(resources.at(Course::MONEY) > TeamConstResourceMaps::BW_ROUNDLY_COST.at(Course::MONEY) &&
+                resources.at(Course::FOOD) > TeamConstResourceMaps::BW_ROUNDLY_COST.at(Course::FOOD))
+        {
+            player->modifyResources(makeNegative(TeamConstResourceMaps::BW_ROUNDLY_COST));
+        }
+        else
+        {
+            player->addPoints(-1);
+        }
     }
     for(int i = 0; i < farmerAmount; i++)
     {
-        player->modifyResources(makeNegative(TeamConstResourceMaps::FARMER_ROUNDLY_COST));
+        if(resources.at(Course::MONEY) > TeamConstResourceMaps::FARMER_ROUNDLY_COST.at(Course::MONEY) &&
+           resources.at(Course::FOOD) > TeamConstResourceMaps::FARMER_ROUNDLY_COST.at(Course::FOOD))
+        {
+            player->modifyResources(makeNegative(TeamConstResourceMaps::FARMER_ROUNDLY_COST));
+        }
+        else
+        {
+            player->addPoints(-2);
+        }
+
     }
     for(int i = 0; i < minerAmount; i++)
     {
-        player->modifyResources(makeNegative(TeamConstResourceMaps::MINER_ROUNDLY_COST));
+        if(resources.at(Course::MONEY) > TeamConstResourceMaps::MINER_ROUNDLY_COST.at(Course::MONEY) &&
+           resources.at(Course::FOOD) > TeamConstResourceMaps::MINER_ROUNDLY_COST.at(Course::FOOD))
+        {
+            player->modifyResources(makeNegative(TeamConstResourceMaps::MINER_ROUNDLY_COST));
+        }
+        else
+        {
+            player->addPoints(-3);
+        }
     }
 
     std::map<Course::Coordinate, std::shared_ptr<Course::TileBase> > ownedTiles = player->getOwnedTiles();
