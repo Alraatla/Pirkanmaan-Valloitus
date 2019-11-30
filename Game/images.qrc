@@ -8,5 +8,6 @@
         <file>farm.png</file>
         <file>mine.png</file>
         <file>outpost.png</file>
+        <file>tyokkari.png</file>
     </qresource>
 </RCC>

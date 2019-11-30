@@ -45,11 +45,15 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     }
     painter->setBrush(QBrush(brush));
 
-    if (    gameObject_->getType() == "Tyokkari" ||
-            gameObject_->getType() == "BasicWorker")
+    if (    gameObject_->getType() == "BasicWorker")
     {
 
         painter->drawImage(boundingRect(), QImage(":/worker.png"));
+    }
+    else if (gameObject_->getType() == "Tyokkari")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/tyokkari.png"));
     }
     else if (gameObject_->getType() == "Farm")
     {
