@@ -8,6 +8,7 @@ Gamemenu::Gamemenu(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->okAndCancelButtons, &QDialogButtonBox::accepted, this, &Gamemenu::pressOk);
     connect(ui->playerCountSpinBox, SIGNAL(valueChanged(int)), this, SLOT(playerCountChanged(int)));
+    ui->pointsRadioButton->setChecked(true);
 
 
 }

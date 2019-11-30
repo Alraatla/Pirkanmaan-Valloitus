@@ -464,6 +464,14 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                     {
                         m_ui->farmButton->setEnabled(false);
                     }
+                    if(player->getWorkerAmount("WORKERS") > 0 &&
+                            tile->getWorkerCount() == 0) {
+                        m_ui->workerAssignButton->setEnabled(true);
+                    }
+                    else
+                    {
+                        m_ui->workerAssignButton->setEnabled(false);
+                    }
 
                     m_ui->mineButton->setEnabled(false);
                 }
