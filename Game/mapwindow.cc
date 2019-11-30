@@ -10,6 +10,8 @@
 #include "tyokkari.h"
 #include "endscreen.h"
 #include <QDebug>
+#include <ctime>
+#include <cstdlib>
 
 #include "graphics/simplemapitem.h"
 
@@ -658,7 +660,10 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
     world.addConstructor<Course::Forest>(20);
     world.addConstructor<Course::Grassland>(20);
     world.addConstructor<Team::Mountain>(10);
-    world.generateMap(12, 12, 1231524123, m_Object, m_GEHandler);
+
+    srand(unsigned(time(0)));
+    int random = rand();
+    world.generateMap(12, 12, random, m_Object, m_GEHandler);
 
     for(auto object: m_Object->getTilesForMap()) {
         MapWindow::drawItem(object);
