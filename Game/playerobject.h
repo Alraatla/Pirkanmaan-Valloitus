@@ -42,11 +42,11 @@ public:
 
     bool hasEnoughResourcesFor(Course::ResourceMap building_cost);
 private:
-    Course::ResourceMap resources_ =        {{Course::MONEY, 5000},
+    Course::ResourceMap resources_ =        {{Course::MONEY, 2500},
                                             {Course::FOOD, 3000},
-                                            {Course::WOOD, 3000},
-                                            {Course::STONE, 3000},
-                                            {Course::ORE, 100000}};
+                                            {Course::WOOD, 2000},
+                                            {Course::STONE, 1000},
+                                            {Course::ORE, 0}};
     std::map<std::string, int> workersMap_ = {{"WORKERS", 0},
                                               {"FARMERS", 0},
                                               {"MINERS", 0}};
