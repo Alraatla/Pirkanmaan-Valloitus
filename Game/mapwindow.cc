@@ -26,9 +26,6 @@ MapWindow::MapWindow(QWidget *parent):
 {
     m_ui->setupUi(this);
 
-
-    m_endscreen = new EndScreen(this);
-
     m_gamemenu = new Gamemenu;
     connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>, bool, int)), this,
                      SLOT(mapSetup(int, std::vector<std::string>, bool, int)));
@@ -66,6 +63,7 @@ MapWindow::MapWindow(QWidget *parent):
 
 
     m_gamemenu->exec();
+
 }
 
 MapWindow::~MapWindow()
@@ -455,21 +453,33 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                     {
                         m_ui->tyokkariButton->setEnabled(false);
                     }
-                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::OUTPOST_BUILD_COST)) {
-                        m_ui->outpostButton->setEnabled(true);
+                    // Tarkastelu ettei tiilessä ole workeria ja sitten rakennusten rakennus
+                    if(tile->getWorkerCount() == 0)
+                    {
+                        if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::OUTPOST_BUILD_COST)) {
+                            m_ui->outpostButton->setEnabled(true);
+                        }
+                        else
+                        {
+                            m_ui->outpostButton->setEnabled(false);
+                        }
+                        if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::FARM_BUILD_COST))
+                        {
+                            m_ui->farmButton->setEnabled(true);
+                        }
+                        else
+                        {
+                            m_ui->farmButton->setEnabled(false);
+                        }
                     }
                     else
                     {
+                        m_ui->tyokkariButton->setEnabled(false);
+                        m_ui->farmButton->setEnabled(false);
                         m_ui->outpostButton->setEnabled(false);
                     }
-                    if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::FARM_BUILD_COST))
-                    {
-                        m_ui->farmButton->setEnabled(true);
-                    }
-                    else
-                    {
-                        m_ui->farmButton->setEnabled(false);
-                    }
+
+
                     if(player->getWorkerAmount("WORKERS") > 0 &&
                             tile->getWorkerCount() == 0) {
                         m_ui->workerAssignButton->setEnabled(true);
@@ -542,7 +552,7 @@ std::shared_ptr<Team::PlayerObject> MapWindow::hasGameBeenWon()
 
 void MapWindow::gameEnd(std::shared_ptr<Team::PlayerObject> player)
 {
-
+    m_endscreen = new EndScreen(this);
     emit playerObject(player, round_);
     m_endscreen->exec();
 
