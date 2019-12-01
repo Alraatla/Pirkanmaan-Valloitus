@@ -18,6 +18,7 @@ Miner::Miner(const std::shared_ptr<GameEventHandler>& eventhandler,
         cost,
         efficiency)
 {
+//    setResourceFocus(Course::ORE);
 }
 
 
@@ -28,7 +29,7 @@ std::string Miner::getType() const
 
 bool Miner::canBePlacedOnTile(const std::shared_ptr<Course::TileBase> &target) const
 {
-    return true;
+    return target->getType() == "Mountain";
 }
 
 void Miner::doSpecialAction()

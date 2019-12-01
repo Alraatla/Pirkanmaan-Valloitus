@@ -101,6 +101,11 @@ public slots:
     void gameLoop();
 
     /**
+     * @brief Spawns a QMessageBox with info on the game.
+     */
+    void infoButtonClicked();
+
+    /**
      * @brief adds työkkäri to the player currently in turn
      */
     void tyokkariButtonClicked();

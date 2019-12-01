@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <math.h>
 #include <QTimer>
+#include <QMessageBox>
+#include <QFile>
 
 #include "mapwindow.hh"
 #include "ui_mapwindow.h"
@@ -33,6 +35,8 @@ MapWindow::MapWindow(QWidget *parent):
 
     connect(m_ui->pushButton, &QPushButton::clicked, this,
             &MapWindow::gameLoop);
+    connect(m_ui->infoButton, &QPushButton::clicked, this,
+            &MapWindow::infoButtonClicked);
     connect(m_ui->tyokkariButton, &QPushButton::clicked, this,
             &MapWindow::tyokkariButtonClicked);
     connect(m_ui->farmButton, &QPushButton::clicked, this,
@@ -86,6 +90,20 @@ void MapWindow::gameLoop()
         std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
         m_GEHandler->modifyResourcesAtTurnEnd(playerInTurn);
     }
+    else
+    {
+        QMessageBox* msg = new QMessageBox;
+        QFile *file = new QFile(":/introductionBox.txt");
+
+        if(file->open(QIODevice::ReadOnly) == true)
+        {
+            msg->setText(QString(file->readAll()));
+            file->close();
+        }
+        msg->exec();
+        delete file;
+        delete msg;
+    }
 
     int itPlayersTurn = turn_ % playercount_;
 
@@ -107,6 +125,21 @@ void MapWindow::gameLoop()
     {
         gameEnd(hasGameBeenWon());
     }
+}
+
+void MapWindow::infoButtonClicked()
+{
+    QMessageBox* msg = new QMessageBox;
+    QFile *file = new QFile(":/infoBox.txt");
+
+    if(file->open(QIODevice::ReadOnly) == true)
+    {
+        msg->setText(QString(file->readAll()));
+        file->close();
+    }
+    msg->exec();
+    delete file;
+    delete msg;
 }
 
 void MapWindow::tyokkariButtonClicked()
@@ -607,6 +640,7 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
 {
     Course::ResourceMap resources = player->getResources();
 
+    m_ui->infoButton->setEnabled(true);
     m_ui->roundAmountLabel->setText(QString::number(round_));
     m_ui->playerNameLabel->setText(QString::fromStdString(player->getName()));
     m_ui->pointsAmountLabel->setText(QString::number(player->getPoints()));

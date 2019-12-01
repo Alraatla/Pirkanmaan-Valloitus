@@ -19,6 +19,7 @@ Farmer::Farmer(const std::shared_ptr<GameEventHandler>& eventhandler,
         cost,
         efficiency)
 {
+//    setResourceFocus(Course::FOOD);
 }
 
 

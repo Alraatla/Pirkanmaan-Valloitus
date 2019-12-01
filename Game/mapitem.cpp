@@ -8,8 +8,8 @@ namespace Team {
 MapItem::MapItem(const std::shared_ptr<Course::GameObject> &obj,
                  int size):
     gameObject_(obj),
-    size_(size),
-    scenelocation_(obj->getCoordinatePtr()->asQpoint())
+    scenelocation_(obj->getCoordinatePtr()->asQpoint()),
+    size_(size)
 {
 
 }
@@ -44,9 +44,6 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
     QBrush brush = QBrush(QColor(0,0,0,255));
-    if(tileColors_.find(gameObject_->getType()) != tileColors_.end()) {
-        brush = tileColors_[gameObject_->getType()];
-    }
     painter->setBrush(QBrush(brush));
 
     if (    gameObject_->getType() == "BasicWorker")

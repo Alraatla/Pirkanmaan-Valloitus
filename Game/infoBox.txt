@@ -1,0 +1,21 @@
+                Building costs
+
+                Money   Food    Wood    Stone
+Tyokkari:        10         5           5          50
+Farm:             50      100         25           0
+Mine:           300        50       200       200
+
+Workers recruitment costs
+
+                Money   Food
+Worker          10       25
+Farmer           20       35
+Miner             50       40
+
+
+Workers roundly costs
+
+                Money   Food
+Worker            1          2
+Farmer             2          3
+Miner               3          3

@@ -12,21 +12,22 @@ const Course::ResourceMap EMPTY = {};
 // Building - Tyokkari
 const Course::ResourceMap TYOKKARI_BUILD_COST = {
     {Course::BasicResource::MONEY, 10},
-    {Course::BasicResource::FOOD, 2},
-    {Course::BasicResource::WOOD, 1},
+    {Course::BasicResource::FOOD, 5},
+    {Course::BasicResource::WOOD, 5},
     {Course::BasicResource::STONE, 50}
 };
+
 const Course::ResourceMap TYOKKARI_PRODUCTION = {
-    {Course::BasicResource::MONEY, -10},
-    {Course::BasicResource::FOOD, -5},
+    {Course::BasicResource::MONEY, -1},
+    {Course::BasicResource::FOOD, -1}
 };
 
 // Building - Mine
 const Course::ResourceMap MINE_BUILD_COST = {
-    {Course::BasicResource::MONEY, 750},
-    {Course::BasicResource::FOOD, 1000},
-    {Course::BasicResource::WOOD, 500},
-    {Course::BasicResource::STONE, 250}
+    {Course::BasicResource::MONEY, 300},
+    {Course::BasicResource::FOOD, 50},
+    {Course::BasicResource::WOOD, 200},
+    {Course::BasicResource::STONE, 200}
 };
 const Course::ResourceMap MINE_PRODUCTION = {
     {Course::BasicResource::MONEY, 5},

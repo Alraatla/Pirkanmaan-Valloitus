@@ -1,0 +1,34 @@
+Welcome to the great kingdom of TheGame!
+
+This land has way too much space, so thats where you come in!
+Your job is to fill as many tiles as you can, with buildings
+or workers. And you must hurry, your opponents are doing the
+same thing!
+
+In this world your job is to micromanage your own HQ, and
+all that spawns from it.
+
+First you should build a Tyokkari, that is all you can
+do after all. When you have your Tyokkari, you can start
+recruiting all kinds of workers!
+
+when clicking on a tile that is close enough to your
+HQ or Outpost, you can build, or assign object to it.
+
+Buildings you can buy:
+Farm - best for food production. Fairly cheap.
+Mine - Best for money. More expensive.
+
+All worker types have specific tiles or buildings they can be
+assigned to. Workers (the ones with axes) can be places on
+Grassland or Forest tiles. Farmers can be placed only on farms,
+and miners can only be placed on mines.
+Know that buildings do not produce anything without anyone
+working on them. And all worker types eat away at your resources,
+even when not assigned to anything.
+
+When you run out of tiles you can build on, Build an Outpost,
+it increases your reach by 3x3 around it.
+
+You win by getting more points than your opponents,
+good Luck!
