@@ -9,7 +9,7 @@ Player gets points from building buildings, buying workers and having workers wo
 Players can only assign workers and buildings on an area that they own. At the start
 of the game, players own 4x4 area around their HQ which is located in one of the
 corners of the map. HQ coordinates for
-players: p1: 0,0, p2: 10,10, p3: 10,0, p4: 0,10.
+players: p1: 0,0, p2: 11, 11 p3: 11, 0, p4: 0, 11.
 
 Players can expand their owned area by placing a outpost onto a tile. Outpost
 expands the owned area by 2x2 around the outpost.
@@ -34,7 +34,7 @@ The map has 4 types of tiles. Forest, grassland, mountain & water.
 -Mountain: Can have Mine & miner
 -Water: Player can't place anything on water. It's only purpose to be in the way.
 
-Player has 5 types of buildings: HQ, työkkäri, farm, mine & outpost.
+Player has 5 types of buildings: HQ, työkkäri, farm, mine and outpost.
 
 HQ: Determines player starting corner. Grants perk: "Town mayor". Has no other
 functionality. It doesn't matter if HQ sits on top of a water or in a mountain.
@@ -55,6 +55,7 @@ Game instructions:
 First you select a tile by clicking it. After selection, the available actions
 can be determined from clickable buttons. Assigning workers is permanent. You can't
 move them afterwards. Player can't build onto a tile which has a worker in it.
+Try to get more points than your opponents!
 
 Class resposibilites:
 - MapWindow is our god-like class that handles almost everything in our game. We
@@ -63,11 +64,11 @@ keeping track of game state, managing player actions
 - Gamemenu takes player names, game mode and starts the game or closes the window.
 - GameEventHandler is responsible for modifying resources for each player.
 - ObjectManager stores all the tiles and workers of the map.
-- PlayerOBject has responsibility over players' current resources, owned tiles
+- PlayerObject has responsibility over players' current resources, owned tiles
 and available workers.
-- GameScene tells if a tile has been clicked.. YAY!
-- MapItem is respinsible for changing object size before they are drawn onto map.
-It is also responsible for using correct images for objects.
+- GameScene tells if a tile has been clicked, and sets the right sizes for mapitems.
+- MapItem sets the objects to right coordinates and also is responsible for using
+correct images for objects.
 - TeamResourceMaps has all resource maps for inherited objects.
 - Tiles & Buildings are responsible for their corresponding object.
 
@@ -76,10 +77,18 @@ The project was mostly done together on one computer. While one did coding the
 other gave moral support AND hc googling.
 
 --Aleksi
--Aleksi did almost everything. Thy name be praised.
+- Object manager unit tests
+- Inherited scene and mapitem
+- Inherited farmer and miner
+- Gamemenu dialog
+- Most of the images
 
 --Sampo
-- Some functions here and there
+- GameEventHandler unit tests
 - Inherited tiles and buildings
+- End screen
 - EndDocument
 - Lots of moral support
+
+--Together
+- Almost everything
