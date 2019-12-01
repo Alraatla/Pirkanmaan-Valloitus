@@ -29,14 +29,14 @@ public:
                                     Course::BasicResource resource,
                                     int amount);
 
-        /**
-         * @brief Modify Player's resources. Can be used to both sum or subtract
-         * @param player Pointer to the Player whose resources are being modified.
-         * @param resources ResourceMap containing change amounts.
-         * @return
-         * True - Modification was succesful. \n
-         * False - Modification failed. \n
-         */
+    /**
+     * @brief Modify Player's resources. Can be used to both sum or subtract
+     * @param player Pointer to the Player whose resources are being modified.
+     * @param resources ResourceMap containing change amounts.
+     * @return
+     * True - Modification was succesful. \n
+     * False - Modification failed. \n
+     */
     virtual bool modifyResources(std::shared_ptr<Course::PlayerBase> player,
                                      Course::ResourceMap resources);
 

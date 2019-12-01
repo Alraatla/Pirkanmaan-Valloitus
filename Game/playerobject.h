@@ -21,7 +21,7 @@ public:
     PlayerObject(std::string name);
 
     bool modifyResource(Course::BasicResource resource, int amount);
-    bool modifyResources(Course::ResourceMap resources, bool addition = true);
+    bool modifyResources(Course::ResourceMap resources);
 
     Course::ResourceMap getResources ();
     int getWorkerAmount(std::string workerType);

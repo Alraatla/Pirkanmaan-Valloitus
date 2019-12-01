@@ -26,13 +26,17 @@ bool PlayerObject::modifyResource(Course::BasicResource resource, int amount)
 
 }
 
-bool PlayerObject::modifyResources(Course::ResourceMap resources, bool addition)
+bool PlayerObject::modifyResources(Course::ResourceMap resources)
 {
-    if (addition) {
-        resources_ = Course::mergeResourceMaps(resources_, resources);
-        return true;
+    for(std::pair<Course::BasicResource, int> resourcePair: resources)
+    {
+        if(resources_.at(resourcePair.first) + resources.at(resourcePair.first) < 0)
+        {
+            return false;
+        }
     }
-    return false;
+    resources_ = Course::mergeResourceMaps(resources_, resources);
+    return true;
 }
 
 Course::ResourceMap PlayerObject::getResources()

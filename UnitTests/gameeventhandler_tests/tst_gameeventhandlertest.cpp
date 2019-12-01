@@ -18,6 +18,7 @@ private Q_SLOTS:
 
 Gameeventhandlertest::Gameeventhandlertest()
 {
+    QTEST_ASSERT(true == 1);
 }
 
 void Gameeventhandlertest::testMakeNegative()
@@ -72,9 +73,19 @@ void Gameeventhandlertest::testModifyResources()
                              {Course::WOOD, 9999},
                              {Course::STONE, 9999},
                              {Course::ORE, 9999}};
+
     gameEventHandler_ptr->modifyResources(std::dynamic_pointer_cast<Course::PlayerBase>(testPlayer),
                                           testResources);
     QTEST_ASSERT(testPlayer->getResources() == testShouldBeResources);
+
+    testResources = {{Course::MONEY, -99999},
+                     {Course::FOOD, -99999},
+                     {Course::WOOD, -99999},
+                     {Course::STONE, -99999},
+                     {Course::ORE, -99999}};
+    QTEST_ASSERT(gameEventHandler_ptr->modifyResources(
+                 std::dynamic_pointer_cast<Course::PlayerBase>(testPlayer),
+                 testResources) == false);
 }
 
 void Gameeventhandlertest::testModifyResource()

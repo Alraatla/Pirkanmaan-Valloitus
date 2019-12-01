@@ -26,8 +26,7 @@ bool GameEventHandler::modifyResource(
 bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> player,
         Course::ResourceMap resources)
 {
-    std::dynamic_pointer_cast<Team::PlayerObject>(player)->modifyResources(resources);
-    return true;
+    return std::dynamic_pointer_cast<Team::PlayerObject>(player)->modifyResources(resources);
 }
 
 void GameEventHandler::modifyResourcesAtTurnEnd(std::shared_ptr<PlayerObject> player)
@@ -38,6 +37,7 @@ void GameEventHandler::modifyResourcesAtTurnEnd(std::shared_ptr<PlayerObject> pl
     Course::ResourceMap resources = player->getResources();
     for(int i = 0; i < workerAmount; i++)
     {
+        resources = player->getResources();
         if(resources.at(Course::MONEY) > TeamConstResourceMaps::BW_ROUNDLY_COST.at(Course::MONEY) &&
                 resources.at(Course::FOOD) > TeamConstResourceMaps::BW_ROUNDLY_COST.at(Course::FOOD))
         {
@@ -50,6 +50,7 @@ void GameEventHandler::modifyResourcesAtTurnEnd(std::shared_ptr<PlayerObject> pl
     }
     for(int i = 0; i < farmerAmount; i++)
     {
+        resources = player->getResources();
         if(resources.at(Course::MONEY) > TeamConstResourceMaps::FARMER_ROUNDLY_COST.at(Course::MONEY) &&
            resources.at(Course::FOOD) > TeamConstResourceMaps::FARMER_ROUNDLY_COST.at(Course::FOOD))
         {
@@ -63,6 +64,7 @@ void GameEventHandler::modifyResourcesAtTurnEnd(std::shared_ptr<PlayerObject> pl
     }
     for(int i = 0; i < minerAmount; i++)
     {
+        resources = player->getResources();
         if(resources.at(Course::MONEY) > TeamConstResourceMaps::MINER_ROUNDLY_COST.at(Course::MONEY) &&
            resources.at(Course::FOOD) > TeamConstResourceMaps::MINER_ROUNDLY_COST.at(Course::FOOD))
         {
