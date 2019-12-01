@@ -96,7 +96,8 @@ public slots:
                   bool winConditionIsPoints, int pointsOrRounds);
 
     /**
-     * @brief gameLoop is called every time the turn changes
+     * @brief gameLoop is called every time the turn changes. It keeps track
+     * of the player in turn and calls the update of hud and buttons.
      */
     void gameLoop();
 
