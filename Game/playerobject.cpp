@@ -21,9 +21,9 @@ bool PlayerObject::modifyResources(Course::ResourceMap resources, bool addition)
 {
     if (addition) {
         resources_ = Course::mergeResourceMaps(resources_, resources);
+        return true;
     }
-
-
+    return false;
 }
 
 Course::ResourceMap PlayerObject::getResources()

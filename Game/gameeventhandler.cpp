@@ -30,9 +30,7 @@ bool GameEventHandler::modifyResource(
 bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> player,
         Course::ResourceMap resources)
 {
-    std::shared_ptr<Team::PlayerObject> tPlayer = getPlayer(player->getName());
-
-    tPlayer->modifyResources(resources);
+    std::dynamic_pointer_cast<Team::PlayerObject>(player)->modifyResources(resources);
     return true;
 }
 
