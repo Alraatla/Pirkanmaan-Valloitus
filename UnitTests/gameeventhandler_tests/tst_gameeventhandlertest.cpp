@@ -54,10 +54,23 @@ void Gameeventhandlertest::testModifyResources()
                                          {Course::STONE, -1000},
                                          {Course::ORE, 0}};
     Course::ResourceMap testShouldBeResources = {{Course::MONEY, 0},
-                                         {Course::FOOD, 0},
-                                         {Course::WOOD, 0},
-                                         {Course::STONE, 0},
-                                         {Course::ORE, 0}};
+                                                 {Course::FOOD, 0},
+                                                 {Course::WOOD, 0},
+                                                 {Course::STONE, 0},
+                                                 {Course::ORE, 0}};
+    gameEventHandler_ptr->modifyResources(std::dynamic_pointer_cast<Course::PlayerBase>(testPlayer),
+                                          testResources);
+    QTEST_ASSERT(testPlayer->getResources() == testShouldBeResources);
+    testResources = {{Course::MONEY, 9999},
+                     {Course::FOOD, 9999},
+                     {Course::WOOD, 9999},
+                     {Course::STONE, 9999},
+                     {Course::ORE, 9999}};
+    testShouldBeResources = {{Course::MONEY, 9999},
+                             {Course::FOOD, 9999},
+                             {Course::WOOD, 9999},
+                             {Course::STONE, 9999},
+                             {Course::ORE, 9999}};
     gameEventHandler_ptr->modifyResources(std::dynamic_pointer_cast<Course::PlayerBase>(testPlayer),
                                           testResources);
     QTEST_ASSERT(testPlayer->getResources() == testShouldBeResources);
