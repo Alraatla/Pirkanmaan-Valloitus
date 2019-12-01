@@ -113,10 +113,20 @@ void GameEventHandler::modifyResourcesAtTurnEnd(std::shared_ptr<PlayerObject> pl
 void GameEventHandler::setPlayercount(int playerCount, std::vector<std::string> names)
 {
     playerCount_ = playerCount;
-    std::vector<std::string> stockNames = {"Seppo", "Pekka", "Matti", "Maijukka"};
+    // If any 2 given player names are the same, stockNames will be used
+    std::vector<std::string> stockNames = {"Player1", "Player2", "Player3", "Player4"};
+    bool needForStock = false;
+    for (std::string name: names)
+    {
+        if(std::count(names.begin(), names.end(), name) != 1 || name == "")
+        {
+            needForStock = true;
+        }
+    }
+
     for (std::string name: names) {
         std::shared_ptr<PlayerObject> player = nullptr;
-        if(name == "") {
+        if(needForStock) {
             player = std::make_shared<Team::PlayerObject>(stockNames.at(players_.size()));
         }
         else {
