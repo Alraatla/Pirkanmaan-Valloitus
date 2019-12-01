@@ -14,7 +14,16 @@ PlayerObject::PlayerObject(std::string name): Course::PlayerBase(name)
 
 bool PlayerObject::modifyResource(Course::BasicResource resource, int amount)
 {
-    resources_[resource] -= amount;
+    if(resources_.at(resource) + amount >= 0)
+    {
+        resources_.at(resource) += amount;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
 }
 
 bool PlayerObject::modifyResources(Course::ResourceMap resources, bool addition)

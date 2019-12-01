@@ -20,11 +20,7 @@ bool GameEventHandler::modifyResource(
         std::shared_ptr<Course::PlayerBase> player,
         Course::BasicResource resource, int amount)
 {
-    if((std::dynamic_pointer_cast<PlayerObject>(player))->modifyResource(resource, amount))
-    {
-        return true;
-    }
-    return false;
+    return std::dynamic_pointer_cast<PlayerObject>(player)->modifyResource(resource, amount);
 }
 
 bool GameEventHandler::modifyResources(std::shared_ptr<Course::PlayerBase> player,

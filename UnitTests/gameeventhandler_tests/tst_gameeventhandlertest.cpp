@@ -13,6 +13,7 @@ public:
 private Q_SLOTS:
     void testMakeNegative();
     void testModifyResources();
+    void testModifyResource();
 };
 
 Gameeventhandlertest::Gameeventhandlertest()
@@ -74,6 +75,23 @@ void Gameeventhandlertest::testModifyResources()
     gameEventHandler_ptr->modifyResources(std::dynamic_pointer_cast<Course::PlayerBase>(testPlayer),
                                           testResources);
     QTEST_ASSERT(testPlayer->getResources() == testShouldBeResources);
+}
+
+void Gameeventhandlertest::testModifyResource()
+{
+    std::shared_ptr<Team::GameEventHandler> gameEventHandler_ptr =
+            std::make_shared<Team::GameEventHandler>();
+    std::shared_ptr<Team::PlayerObject> testPlayer =
+            std::make_shared<Team::PlayerObject>("Test");
+    gameEventHandler_ptr->modifyResource(testPlayer,
+                          Course::BasicResource::MONEY, -2500);
+    gameEventHandler_ptr->modifyResource(testPlayer,
+                          Course::BasicResource::ORE, 9000);
+    QTEST_ASSERT(testPlayer->getResources().at(Course::BasicResource::MONEY) == 0);
+    QTEST_ASSERT(testPlayer->getResources().at(Course::BasicResource::ORE) == 9000);
+    QTEST_ASSERT(gameEventHandler_ptr->modifyResource(testPlayer,
+                 Course::BasicResource::WOOD, -6000) == false);
+
 }
 
 QTEST_APPLESS_MAIN(Gameeventhandlertest)
