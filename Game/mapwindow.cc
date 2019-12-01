@@ -1,6 +1,11 @@
+#include <QDebug>
+#include <ctime>
+#include <cstdlib>
+#include <math.h>
+#include <QTimer>
+
 #include "mapwindow.hh"
 #include "ui_mapwindow.h"
-#include "gameeventhandler.h"
 #include "core/worldgenerator.h"
 #include "tiles/forest.h"
 #include "tiles/grassland.h"
@@ -10,27 +15,21 @@
 #include "gamescene.h"
 #include "tyokkari.h"
 #include "endscreen.h"
-#include <QDebug>
-#include <ctime>
-#include <cstdlib>
 
-#include "graphics/simplemapitem.h"
-
-#include <math.h>
 
 MapWindow::MapWindow(QWidget *parent):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
     m_GEHandler(std::make_shared<Team::GameEventHandler>()),
-    m_simplescene(new Team::GameScene(this)),
-    m_Object(std::make_shared<Team::ObjectManager>())
+    m_gamescene(new Team::GameScene(this)),
+    m_ObjMgr(std::make_shared<Team::ObjectManager>())
 {
     m_ui->setupUi(this);
 
     m_gamemenu = new Gamemenu;
+
     connect(m_gamemenu, SIGNAL(initializeGame(int, std::vector<std::string>, bool, int)), this,
                      SLOT(mapSetup(int, std::vector<std::string>, bool, int)));
-    connect(m_gamemenu, SIGNAL(closeGame()), this, SLOT(close()));
 
     connect(m_ui->pushButton, &QPushButton::clicked, this,
             &MapWindow::gameLoop);
@@ -57,14 +56,16 @@ MapWindow::MapWindow(QWidget *parent):
     connect(m_ui->minerAssignButton, &QPushButton::clicked, this,
             &MapWindow::minerAssignButtonClicked);
 
-    Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
+    Course::SimpleGameScene* sgs_rawptr = m_gamescene.get();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
     connect(sgs_rawptr, SIGNAL(tileClicked()), this, SLOT(receiveSignal()));
 
-
-    m_gamemenu->exec();
-
+    // MapWindow closes when dialog window cancel button is pressed
+    if(m_gamemenu->exec() == QDialog::Rejected)
+    {
+        QTimer::singleShot(0, this, SLOT(close()));
+    }
 }
 
 MapWindow::~MapWindow()
@@ -89,7 +90,9 @@ void MapWindow::gameLoop()
     int itPlayersTurn = turn_ % playercount_;
 
     m_ui->pushButton->setText("Next player");
-    std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
+    std::vector<std::shared_ptr<Team::PlayerObject>> players =
+            m_GEHandler->getPlayers();
+
     if(hasGameBeenWon() == nullptr)
     {
         MapWindow::updateHUD(players.at(itPlayersTurn));
@@ -112,15 +115,15 @@ void MapWindow::tyokkariButtonClicked()
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Team::Tyokkari> tyokkari = std::make_shared<Team::Tyokkari>(
-                m_GEHandler, m_Object, playerInTurn);
+                m_GEHandler, m_ObjMgr, playerInTurn);
 
 
     std::shared_ptr<Course::TileBase> tile =
-            m_Object->getTile(m_simplescene->getClickedCoordinate());
+            m_ObjMgr->getTile(m_gamescene->getClickedCoordinate());
 
     if(tile->hasSpaceForBuildings(tyokkari->spacesInTileCapacity()))
     {
-        tyokkari->setCoordinate(m_simplescene->getClickedCoordinate());
+        tyokkari->setCoordinate(m_gamescene->getClickedCoordinate());
         tile->addBuilding(tyokkari);
         MapWindow::drawItem(tyokkari);
         playerInTurn->addObject(tyokkari);
@@ -136,15 +139,15 @@ void MapWindow::farmButtonClicked()
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Course::Farm> farm = std::make_shared<Course::Farm>(
-                m_GEHandler, m_Object, playerInTurn);
+                m_GEHandler, m_ObjMgr, playerInTurn);
 
 
     std::shared_ptr<Course::TileBase> tile =
-            m_Object->getTile(m_simplescene->getClickedCoordinate());
+            m_ObjMgr->getTile(m_gamescene->getClickedCoordinate());
 
     if(tile->hasSpaceForBuildings(farm->spacesInTileCapacity()))
     {
-        farm->setCoordinate(m_simplescene->getClickedCoordinate());
+        farm->setCoordinate(m_gamescene->getClickedCoordinate());
         tile->addBuilding(farm);
         MapWindow::drawItem(farm);
         playerInTurn->addObject(farm);
@@ -159,15 +162,15 @@ void MapWindow::mineButtonClicked()
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Team::Mine> mine = std::make_shared<Team::Mine>(
-                m_GEHandler, m_Object, playerInTurn);
+                m_GEHandler, m_ObjMgr, playerInTurn);
 
 
     std::shared_ptr<Course::TileBase> tile =
-            m_Object->getTile(m_simplescene->getClickedCoordinate());
+            m_ObjMgr->getTile(m_gamescene->getClickedCoordinate());
 
     if(tile->hasSpaceForBuildings(mine->spacesInTileCapacity()))
     {
-        mine->setCoordinate(m_simplescene->getClickedCoordinate());
+        mine->setCoordinate(m_gamescene->getClickedCoordinate());
         tile->addBuilding(mine);
         MapWindow::drawItem(mine);
         playerInTurn->addObject(mine);
@@ -182,22 +185,22 @@ void MapWindow::outpostButtonClicked()
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Course::Outpost> outpost = std::make_shared<Course::Outpost>(
-                m_GEHandler, m_Object, playerInTurn);
+                m_GEHandler, m_ObjMgr, playerInTurn);
 
 
     std::shared_ptr<Course::TileBase> tile =
-            m_Object->getTile(m_simplescene->getClickedCoordinate());
+            m_ObjMgr->getTile(m_gamescene->getClickedCoordinate());
 
     if(tile->hasSpaceForBuildings(outpost->spacesInTileCapacity()))
     {
-        outpost->setCoordinate(m_simplescene->getClickedCoordinate());
+        outpost->setCoordinate(m_gamescene->getClickedCoordinate());
         tile->addBuilding(outpost);
         MapWindow::drawItem(outpost);
         playerInTurn->addObject(outpost);
         m_GEHandler->addObjectToPlayer(playerInTurn, outpost->getType());
     }
-    getPlayerInTurn()->addOwnedTiles(m_simplescene->getClickedCoordinate(), 2,
-                                     m_simplescene->getSize(), m_Object);
+    getPlayerInTurn()->addOwnedTiles(m_gamescene->getClickedCoordinate(), 2,
+                                     m_gamescene->getSize(), m_ObjMgr);
     updateHUD(playerInTurn);
 }
 
@@ -206,11 +209,11 @@ void MapWindow::workerBuyButtonClicked()
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Course::BasicWorker> worker = std::make_shared<Course::BasicWorker>(
-                m_GEHandler, m_Object, playerInTurn);
+                m_GEHandler, m_ObjMgr, playerInTurn);
 
     playerInTurn->addObject(worker);
     playerInTurn->addWorker("WORKERS");
-    m_Object->addWorker(worker);
+    m_ObjMgr->addWorker(worker);
     m_GEHandler->addObjectToPlayer(playerInTurn, worker->getType());
     updateHUD(playerInTurn);
 }
@@ -220,11 +223,11 @@ void MapWindow::farmerBuyButtonClicked()
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Team::Farmer> farmer = std::make_shared<Team::Farmer>(
-                m_GEHandler, m_Object, playerInTurn);
+                m_GEHandler, m_ObjMgr, playerInTurn);
 
     playerInTurn->addObject(farmer);
     playerInTurn->addWorker("FARMERS");
-    m_Object->addWorker(farmer);
+    m_ObjMgr->addWorker(farmer);
     m_GEHandler->addObjectToPlayer(playerInTurn, farmer->getType());
     updateHUD(playerInTurn);
 }
@@ -234,11 +237,11 @@ void MapWindow::minerBuyButtonClicked()
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
 
     std::shared_ptr<Team::Miner> miner = std::make_shared<Team::Miner>(
-                m_GEHandler, m_Object, playerInTurn);
+                m_GEHandler, m_ObjMgr, playerInTurn);
 
     playerInTurn->addObject(miner);
     playerInTurn->addWorker("MINERS");
-    m_Object->addWorker(miner);
+    m_ObjMgr->addWorker(miner);
     m_GEHandler->addObjectToPlayer(playerInTurn, miner->getType());
     updateHUD(playerInTurn);
 }
@@ -246,9 +249,11 @@ void MapWindow::minerBuyButtonClicked()
 void MapWindow::workerAssignButtonClicked()
 {
     std::shared_ptr<Course::TileBase> tile =
-            m_Object->getTile(m_simplescene->getClickedCoordinate());
+            m_ObjMgr->getTile(m_gamescene->getClickedCoordinate());
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
-    std::shared_ptr<Course::WorkerBase> worker = playerInTurn->getWorker("BasicWorker", m_Object->getPlayersWorkers(playerInTurn));
+    std::shared_ptr<Course::WorkerBase> worker =
+            playerInTurn->getWorker("BasicWorker",
+                                    m_ObjMgr->getPlayersWorkers(playerInTurn));
     tile->setOwner(playerInTurn);
     tile->addWorker(worker);
     playerInTurn->workerAssigned("WORKERS");
@@ -259,9 +264,11 @@ void MapWindow::workerAssignButtonClicked()
 void MapWindow::farmerAssignButtonClicked()
 {
     std::shared_ptr<Course::TileBase> tile =
-            m_Object->getTile(m_simplescene->getClickedCoordinate());
+            m_ObjMgr->getTile(m_gamescene->getClickedCoordinate());
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
-    std::shared_ptr<Course::WorkerBase> farmer = playerInTurn->getWorker("Farmer", m_Object->getPlayersWorkers(playerInTurn));
+    std::shared_ptr<Course::WorkerBase> farmer =
+            playerInTurn->getWorker("Farmer",
+                                    m_ObjMgr->getPlayersWorkers(playerInTurn));
     tile->setOwner(playerInTurn);
     tile->addWorker(farmer);
     playerInTurn->workerAssigned("FARMERS");
@@ -272,9 +279,11 @@ void MapWindow::farmerAssignButtonClicked()
 void MapWindow::minerAssignButtonClicked()
 {
     std::shared_ptr<Course::TileBase> tile =
-            m_Object->getTile(m_simplescene->getClickedCoordinate());
+            m_ObjMgr->getTile(m_gamescene->getClickedCoordinate());
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
-    std::shared_ptr<Course::WorkerBase> miner = playerInTurn->getWorker("Miner", m_Object->getPlayersWorkers(playerInTurn));
+    std::shared_ptr<Course::WorkerBase> miner =
+            playerInTurn->getWorker("Miner",
+                                    m_ObjMgr->getPlayersWorkers(playerInTurn));
     tile->setOwner(playerInTurn);
     tile->addWorker(miner);
     playerInTurn->workerAssigned("MINERS");
@@ -284,21 +293,25 @@ void MapWindow::minerAssignButtonClicked()
 
 void MapWindow::receiveSignal()
 {
-    updateButtons(m_simplescene->getClickedCoordinate());
+    updateButtons(m_gamescene->getClickedCoordinate());
 }
 
 void MapWindow::updateButtons(Course::Coordinate coordinate)
 {
-    if(turn_ != 0) {
+    if(turn_ != 0)
+    {
         std::shared_ptr<Team::PlayerObject> player = getPlayerInTurn();
 
-        if(player->isTileOwned(coordinate)){
-            std::shared_ptr<Course::TileBase> tile = m_Object->getTile(coordinate);
+        if(player->isTileOwned(coordinate))
+        {
+            std::shared_ptr<Course::TileBase> tile = m_ObjMgr->getTile(coordinate);
 
-            if(tile->getBuildingCount() > 0) {
+            if(tile->getBuildingCount() > 0)
+            {
                 // Disable kaikki rakennus nappulat
                 std::string building = tile->getBuildings().at(0)->getType();
-                if(building == "Tyokkari") {
+                if(building == "Tyokkari")
+                {
                 //case "Tyokkari":
 
                     if(player->hasEnoughResourcesFor(Course::ConstResourceMaps::BW_RECRUITMENT_COST))
@@ -330,13 +343,15 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                     m_ui->farmerAssignButton->setEnabled(false);
                     m_ui->minerAssignButton->setEnabled(false);
                 }
-                else if(building == "Farm"){
+                else if(building == "Farm")
+                {
                     //case "Farm":
                     if(player->getWorkerAmount("FARMERS") > 0 &&
                             tile->getWorkerCount() == 0){
                         m_ui->farmerAssignButton->setEnabled(true);
                     }
-                    else{
+                    else
+                    {
                         m_ui->farmerAssignButton->setEnabled(false);
                     }
 
@@ -349,13 +364,16 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
 
                 }
                     // farmerin töihi nappi jos farm,ereiden lkm > 0
-                else if(building == "Mine"){
+                else if(building == "Mine")
+                {
                     //case "Mine":
                     if(player->getWorkerAmount("MINERS") > 0 &&
-                            tile->getWorkerCount() == 0){
+                            tile->getWorkerCount() == 0)
+                    {
                         m_ui->minerAssignButton->setEnabled(true);
                     }
-                    else{
+                    else
+                    {
                         m_ui->minerAssignButton->setEnabled(false);
                     }
 
@@ -365,7 +383,8 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
                     m_ui->farmerBuyButton->setEnabled(false);
                     m_ui->farmerAssignButton->setEnabled(false);
                 }
-                else{
+                else
+                {
                     // case default:
                     m_ui->workerBuyButton->setEnabled(false);
                     m_ui->workerAssignButton->setEnabled(false);
@@ -566,22 +585,22 @@ void MapWindow::gameEnd(std::shared_ptr<Team::PlayerObject> player)
 
 void MapWindow::setSize(int width, int height)
 {
-    m_simplescene->setSize(width, height);
+    m_gamescene->setSize(width, height);
 }
 
 void MapWindow::setScale(int scale)
 {
-    m_simplescene->setScale(scale);
+    m_gamescene->setScale(scale);
 }
 
 void MapWindow::resize()
 {
-    m_simplescene->resize();
+    m_gamescene->resize();
 }
 
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->updateItem(obj);
+    m_gamescene->updateItem(obj);
 }
 
 void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
@@ -604,36 +623,38 @@ void MapWindow::updateHUD(std::shared_ptr<Team::PlayerObject> player)
     m_ui->farmerAmountLabel->setText(QString::number(player->getWorkerAmount("FARMERS")));
     m_ui->minerAmountLabel->setText(QString::number(player->getWorkerAmount("MINERS")));
 
-    updateButtons(m_simplescene->getClickedCoordinate());
-    m_ui->graphicsView->fitInView(m_simplescene->sceneRect(), Qt::KeepAspectRatio);
+    updateButtons(m_gamescene->getClickedCoordinate());
+    m_ui->graphicsView->fitInView(m_gamescene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 void MapWindow::setHQs()
 {
-    std::pair<int, int> mapSize = m_simplescene->getSize();
+    std::pair<int, int> mapSize = m_gamescene->getSize();
     std::vector<std::shared_ptr<Team::PlayerObject>> players = m_GEHandler->getPlayers();
     std::vector<std::pair<int, int>> hqPlaces = {{0, 0},
                                                  {mapSize.first - 1, mapSize.second-1},
                                                  {mapSize.first - 1, 0},
                                                  {0, mapSize.second-1}};
-    for(int i=0; i< players.size(); i++) {
+
+    int vectorSize = players.size();
+    for(int i = 0; i < vectorSize; i++)
+    {
         std::shared_ptr<Course::HeadQuarters> headquarters =
                 std::make_shared<Course::HeadQuarters>(
-                    m_GEHandler, m_Object, players.at(i));
+                    m_GEHandler, m_ObjMgr, players.at(i));
 
         std::pair<int, int> hqPair = hqPlaces.at(i);
         Course::Coordinate hqCoordinate = Course::Coordinate(hqPair.first, hqPair.second);
-        players.at(i)->addOwnedTiles(hqCoordinate, 4, mapSize, m_Object);
+        players.at(i)->addOwnedTiles(hqCoordinate, 4, mapSize, m_ObjMgr);
 
         std::shared_ptr<Course::TileBase> tile =
-                m_Object->getTile(Course::Coordinate(hqCoordinate));
+                m_ObjMgr->getTile(Course::Coordinate(hqCoordinate));
         headquarters->setCoordinate(hqCoordinate);
         tile->addBuilding(headquarters);
         MapWindow::drawItem(headquarters);
         players.at(i)->addObject(headquarters);
         m_GEHandler->addObjectToPlayer(players.at(i), headquarters->getType());
     }
-
 }
 
 std::shared_ptr<Team::PlayerObject> MapWindow::getPlayerInTurn()
@@ -680,9 +701,10 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
 
     srand(unsigned(time(0)));
     int random = rand();
-    world.generateMap(12, 12, random, m_Object, m_GEHandler);
+    world.generateMap(12, 12, random, m_ObjMgr, m_GEHandler);
 
-    for(auto object: m_Object->getTilesForMap()) {
+    for(auto object: m_ObjMgr->getTilesForMap())
+    {
         MapWindow::drawItem(object);
     }
 
@@ -692,11 +714,11 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->removeItem(obj);
+    m_gamescene->removeItem(obj);
 }
 
 void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->drawItem(obj);
+    m_gamescene->drawItem(obj);
     m_ui->graphicsView->viewport()->update();
 }

@@ -7,7 +7,6 @@
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
-
 #include <map>
 
 #include "interfaces/igameeventhandler.h"
@@ -158,13 +157,16 @@ public slots:
 
 signals:
 
+    /**
+     * @brief used to emit winner to end screen
+     */
     void playerObject(std::shared_ptr<Team::PlayerObject> player, int round);
 
 private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<Team::GameEventHandler> m_GEHandler = nullptr;
-    std::shared_ptr<Team::GameScene> m_simplescene = nullptr;
-    std::shared_ptr<Team::ObjectManager> m_Object = nullptr;
+    std::shared_ptr<Team::GameScene> m_gamescene = nullptr;
+    std::shared_ptr<Team::ObjectManager> m_ObjMgr = nullptr;
     Gamemenu* m_gamemenu;
     EndScreen* m_endscreen;
     bool winConditionIsPoints_ = true;

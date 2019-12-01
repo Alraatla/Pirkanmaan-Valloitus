@@ -299,5 +299,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>okAndCancelButtons</sender>
+   <signal>rejected()</signal>
+   <receiver>Gamemenu</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>321</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>33</x>
+     <y>320</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>
