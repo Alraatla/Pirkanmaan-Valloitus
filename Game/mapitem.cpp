@@ -22,7 +22,11 @@ QRectF MapItem::boundingRect() const
             gameObject_->getType() == "HeadQuarters" ||
             gameObject_->getType() == "Mine" ||
             gameObject_->getType() == "Outpost" ||
-            gameObject_->getType() == "Farm")
+            gameObject_->getType() == "Farm" ||
+            gameObject_->getType() == "Grassland" ||
+            gameObject_->getType() == "Forest" ||
+            gameObject_->getType() == "Mountain" ||
+            gameObject_->getType() == "Water")
     {
         addToPoint = QPoint(0, 0);
     }
@@ -84,6 +88,26 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     {
 
         painter->drawImage(boundingRect(),  QImage(":/images/outpost.png"));
+    }
+    else if (gameObject_->getType() == "Forest")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/images/forest.png"));
+    }
+    else if (gameObject_->getType() == "Grassland")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/images/grassland.png"));
+    }
+    else if (gameObject_->getType() == "Mountain")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/images/mountain.png"));
+    }
+    else if (gameObject_->getType() == "Water")
+    {
+
+        painter->drawImage(boundingRect(),  QImage(":/images/water.png"));
     }
     else
     {
