@@ -26,6 +26,7 @@ SOURCES += \
     ../../Game/objectmanager.cpp \
     ../../Game/gameeventhandler.cpp \
     ../../Game/playerobject.cpp \
+    ../../Game/farmer.cpp \
     ../../Course/CourseLib/buildings/buildingbase.cpp \
     ../../Course/CourseLib/buildings/farm.cpp \
     ../../Course/CourseLib/buildings/headquarters.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     ../../Game/objectmanager.h \
     ../../Game/gameeventhandler.h \
     ../../Game/playerobject.h \
+    ../../Game/farmer.h \
     ../../Course/CourseLib/interfaces/igameeventhandler.h \
     ../../Course/CourseLib/interfaces/iobjectmanager.h \
     ../../Course/CourseLib/buildings/buildingbase.h \

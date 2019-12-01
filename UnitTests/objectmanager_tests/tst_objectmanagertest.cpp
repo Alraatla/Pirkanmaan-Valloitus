@@ -5,6 +5,7 @@
 
 #include "objectmanager.h"
 #include "gameeventhandler.h"
+#include "farmer.h"
 
 struct testTileData
 {
@@ -21,12 +22,19 @@ class Objectmanagertest : public QObject
 
 public:
     Objectmanagertest();
+
+    /**
+     * @brief Makes tiles like worldgenerator, with given map width
+     * and height. Also stores data to testData with its given x and y
+     * coordinates.
+     */
     std::vector<std::shared_ptr<Course::TileBase>>
             makeTiles(int width, int height,
                       std::shared_ptr<Team::ObjectManager> objM,
                       testTileData &testData);
 
 private Q_SLOTS:
+
     void testAddTiles_data();
     void testAddTiles();
 
@@ -41,6 +49,10 @@ private Q_SLOTS:
 
     void testGetTilesForMap_data();
     void testGetTilesForMap();
+
+    void testAddWorker();
+
+    void testGetPlayersWorkers();
 };
 
 Objectmanagertest::Objectmanagertest()
@@ -109,9 +121,22 @@ void Objectmanagertest::testAddTiles()
             makeTiles(width, height, t_objectManager, testData);
 
     t_objectManager->addTiles(tiles);
+
+    std::vector<std::shared_ptr<Course::TileBase>> tilesFromObjMgr =
+            t_objectManager->getTilesForMap();
+
     int vectorSize = t_objectManager->getTilesForMap().size();
-//    int vectorSize = static_cast<int>(vectorSize);
+
     QVERIFY2(size == vectorSize, "Error, vector not right size");
+
+
+    if(strcmp("No map", QTest::currentDataTag()) != 0)
+    {
+        QVERIFY2(std::find(tilesFromObjMgr.begin(), tilesFromObjMgr.end(),
+                           testData.tile) != tilesFromObjMgr.end(),
+                            "Test tile not found");
+    }
+
 
 }
 
@@ -145,7 +170,6 @@ void Objectmanagertest::testGetTileWithCoordinate()
 
     t_objectManager->addTiles(tiles);
     testTile = t_objectManager->getTile(data.coordinate);
-//    qDebug() << testTile->ID << " Should be " << data.tile->ID;
 
     QVERIFY2(testTile == data.tile, "Different tiles have same coordinate");
 
@@ -213,10 +237,7 @@ void Objectmanagertest::testGetTiles()
 
     std::vector<Course::Coordinate> coordinates;
 
-    const char* currentData = QTest::currentDataTag();
-    const char* dataName = "Empty vector";
-
-    if(currentData == dataName)
+    if(strcmp("Empty vector", QTest::currentDataTag()) != 0)
     {
         coordinates = {};
     }
@@ -258,12 +279,96 @@ void Objectmanagertest::testGetTiles()
 
 void Objectmanagertest::testGetTilesForMap_data()
 {
+    QTest::addColumn<int>("width");
+    QTest::addColumn<int>("height");
+    QTest::addColumn<int>("xCoordinate");
+    QTest::addColumn<int>("yCoordinate");
 
+    QTest::newRow("Small map, tile in corner") << 5 << 3 << 0 << 0;
+    QTest::newRow("One tile") << 1 << 1 << 0 << 0;
+    QTest::newRow("Empty map") << 0 << 0 << 0 << 0;
+    QTest::newRow("Big map") << 50 << 30 << 10 << 29;
 }
 
 void Objectmanagertest::testGetTilesForMap()
 {
+    QFETCH(int, width);
+    QFETCH(int, height);
+    QFETCH(int, xCoordinate);
+    QFETCH(int, yCoordinate);
 
+    std::shared_ptr<Team::ObjectManager> t_objectManager(new Team::ObjectManager);
+    testTileData data;
+    data.x = xCoordinate;
+    data.y = yCoordinate;
+
+    std::vector<std::shared_ptr<Course::TileBase>> tiles =
+            makeTiles(width, height, t_objectManager, data);
+
+    t_objectManager->addTiles(tiles);
+    std::vector<std::shared_ptr<Course::TileBase>> tilesFromObjMngr =
+            t_objectManager->getTilesForMap();
+
+    int vectorSize = tilesFromObjMngr.size();
+    for(int i = 0; i < vectorSize; i++)
+    {
+        QVERIFY2(tiles.at(i) == tilesFromObjMngr.at(i), "Tiles do not match");
+    }
+
+    if (strcmp("Empty map", QTest::currentDataTag()) != 0)
+    {
+        QVERIFY2(std::count(tilesFromObjMngr.begin(), tilesFromObjMngr.end(), data.tile) > 0,
+                 "Test tile not found in the vector, or there were multiple instances of it");
+    }
+
+}
+
+
+void Objectmanagertest::testAddWorker()
+{
+    // Create a worker
+    std::shared_ptr<Team::GameEventHandler> t_gameEventHandler(new Team::GameEventHandler);
+    std::shared_ptr<Team::ObjectManager> t_objectManager(new Team::ObjectManager);
+    std::shared_ptr<Team::PlayerObject> player(new Team::PlayerObject("Test"));
+
+    std::shared_ptr<Team::Farmer> worker(
+                new Team::Farmer(t_gameEventHandler, t_objectManager, player));
+
+    worker->setOwner(player);
+    t_objectManager->addWorker(worker);
+
+    // Test that objectmanager still has it
+    QVERIFY2(worker == t_objectManager->getPlayersWorkers(player).at(0), "Worker not found");
+}
+
+void Objectmanagertest::testGetPlayersWorkers()
+{
+    std::shared_ptr<Team::GameEventHandler> t_gameEventHandler(new Team::GameEventHandler);
+    std::shared_ptr<Team::ObjectManager> t_objectManager(new Team::ObjectManager);
+    std::shared_ptr<Team::PlayerObject> player(new Team::PlayerObject("Test"));
+
+    std::vector<std::shared_ptr<Team::Farmer>> testVector = {};
+
+    // Create 20 workers, and save them to objmgr and testVector
+    for (int i = 0; i < 20; i++)
+    {
+        std::shared_ptr<Team::Farmer> worker(
+                    new Team::Farmer(t_gameEventHandler, t_objectManager, player));
+
+        worker->setOwner(player);
+        t_objectManager->addWorker(worker);
+        testVector.push_back(worker);
+    }
+
+    std::vector<std::shared_ptr<Course::WorkerBase>> vectorFromObjMgr =
+            t_objectManager->getPlayersWorkers(player);
+
+    // Test that vectors match
+    int vectorSize = testVector.size();
+    for(int i = 0; i < vectorSize; i++)
+    {
+        QVERIFY2(testVector.at(i) == vectorFromObjMgr.at(i), "Workers do not match");
+    }
 }
 
 

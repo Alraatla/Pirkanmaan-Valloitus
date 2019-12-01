@@ -679,7 +679,7 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
     world.addConstructor<Course::Forest>(40);
     world.addConstructor<Course::Grassland>(50);
     world.addConstructor<Team::Mountain>(10);
-    world.addConstructor<Team::Water>(10);
+    world.addConstructor<Team::Water>(5);
 
     srand(unsigned(time(0)));
     int random = rand();
