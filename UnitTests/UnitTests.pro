@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    gameeventhandler_tests
+    gameeventhandler_tests \
+    objectmanager_tests

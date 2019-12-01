@@ -8,5 +8,9 @@
         <file>images/outpost.png</file>
         <file>images/tyokkari.png</file>
         <file>images/worker.png</file>
+        <file>images/forest.png</file>
+        <file>images/grassland.png</file>
+        <file>images/mountain.png</file>
+        <file>images/water.png</file>
     </qresource>
 </RCC>

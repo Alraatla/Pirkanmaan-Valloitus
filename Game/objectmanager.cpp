@@ -20,7 +20,7 @@ void ObjectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase>
 
 std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::Coordinate &coordinate)
 {
-    for(auto const& tiles: tilesMappedByCoordinate_) {
+    for(std::pair<Course::Coordinate, std::shared_ptr<Course::TileBase>> tiles: tilesMappedByCoordinate_) {
         if (tiles.first == coordinate) {
             return tiles.second;
         }
