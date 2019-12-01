@@ -210,7 +210,6 @@ void MapWindow::workerBuyButtonClicked()
 
     playerInTurn->addObject(worker);
     playerInTurn->addWorker("WORKERS");
-    qDebug() << playerInTurn->getWorkerAmount("WORKERS");
     m_Object->addWorker(worker);
     m_GEHandler->addObjectToPlayer(playerInTurn, worker->getType());
     updateHUD(playerInTurn);
@@ -263,7 +262,6 @@ void MapWindow::farmerAssignButtonClicked()
             m_Object->getTile(m_simplescene->getClickedCoordinate());
     std::shared_ptr<Team::PlayerObject> playerInTurn = getPlayerInTurn();
     std::shared_ptr<Course::WorkerBase> farmer = playerInTurn->getWorker("Farmer", m_Object->getPlayersWorkers(playerInTurn));
-    std::cout << farmer->getOwner()->getName() << std::endl;
     tile->setOwner(playerInTurn);
     tile->addWorker(farmer);
     playerInTurn->workerAssigned("FARMERS");
@@ -387,7 +385,6 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
             {
                 // Kun klikatussa tiilessä ei ole rakennusta
                 std::string tile_type = tile->getType();
-                std::cout << tile_type << std::endl;
                 if(tile_type == "Forest")
                 {
                     // voi rakentaa työkkäri ja outpost ja töihin voio tulla worker

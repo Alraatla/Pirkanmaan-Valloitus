@@ -75,18 +75,7 @@ void GameScene::drawItem(std::shared_ptr<Course::GameObject> obj)
     {
         nItem = new MapItem(obj, 50);
     }
-
-
-
-
-
     addItem(nItem);
-
-
-
 }
-
-
-
 
 }
