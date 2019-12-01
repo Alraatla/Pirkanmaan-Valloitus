@@ -34,12 +34,21 @@ const Course::ResourceMap MINE_PRODUCTION = {
     {Course::BasicResource::ORE, 10},
 };
 
+// Tile Mountain
 const Course::ResourceMap MOUNTAIN_BP = {
     {Course::MONEY, 2},
     {Course::FOOD, 1},
     {Course::WOOD, 0},
     {Course::STONE, 5},
     {Course::ORE, 3},
+};
+// Tile Water
+const Course::ResourceMap WATER_BP = {
+    {Course::MONEY, 0},
+    {Course::FOOD, 0},
+    {Course::WOOD, 0},
+    {Course::STONE, 0},
+    {Course::ORE, 0},
 };
 
 // Farmer

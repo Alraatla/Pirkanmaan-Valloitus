@@ -1,9 +1,9 @@
-#include "mountain.h"
+#include "water.h"
 
 
 namespace Team {
 
-Mountain::Mountain(
+Water::Water(
         const Course::Coordinate &location,
         const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
         const std::shared_ptr<Course::iObjectManager> &objectmanager,
@@ -19,9 +19,9 @@ Mountain::Mountain(
                          max_work,
                          production){}
 
-std::string Mountain::getType() const
+std::string Water::getType() const
 {
-    return "Mountain";
+    return "Water";
 }
 
 

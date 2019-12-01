@@ -5,6 +5,7 @@
 #include "tiles/forest.h"
 #include "tiles/grassland.h"
 #include "mountain.h"
+#include "water.h"
 #include "buildings/headquarters.h"
 #include "gamescene.h"
 #include "tyokkari.h"
@@ -491,6 +492,13 @@ void MapWindow::updateButtons(Course::Coordinate coordinate)
 
                     m_ui->mineButton->setEnabled(false);
                 }
+                else if (tile_type == "Water")
+                {
+                    m_ui->tyokkariButton->setEnabled(false);
+                    m_ui->farmButton->setEnabled(false);
+                    m_ui->outpostButton->setEnabled(false);
+                    m_ui->mineButton->setEnabled(false);
+                }
 
                 m_ui->workerBuyButton->setEnabled(false);
                 m_ui->farmerBuyButton->setEnabled(false);
@@ -671,6 +679,7 @@ void MapWindow::mapSetup(int playercount, std::vector<std::string> playerNames,
     world.addConstructor<Course::Forest>(40);
     world.addConstructor<Course::Grassland>(50);
     world.addConstructor<Team::Mountain>(10);
+    world.addConstructor<Team::Water>(10);
 
     srand(unsigned(time(0)));
     int random = rand();

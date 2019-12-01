@@ -19,7 +19,8 @@ SOURCES += \
     mapitem.cpp \
     farmer.cpp \
     miner.cpp \
-    endscreen.cpp
+    endscreen.cpp \
+    water.cpp
 
 HEADERS += \
     mapwindow.hh \
@@ -35,7 +36,8 @@ HEADERS += \
     mapitem.h \
     farmer.h \
     miner.h \
-    endscreen.h
+    endscreen.h \
+    water.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib

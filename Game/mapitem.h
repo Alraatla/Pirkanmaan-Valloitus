@@ -48,7 +48,8 @@ private:
                                                 {"Mountain", QColor(180, 180, 180, 255)},
                                                  {"Farm", QColor(52,229,235,255)},
                                                  {"Mine", QColor(235,61,52,255)},
-                                                 {"Outpost", QColor(245,133,22,255)}};
+                                                 {"Outpost", QColor(245,133,22,255)},
+                                                 {"Water", QColor{0, 119, 190,255}}};
 };
 
 } // namespace Team

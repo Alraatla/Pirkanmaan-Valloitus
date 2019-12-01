@@ -28,12 +28,17 @@ work on a well established farm.
 Miners also are quite picky on their tasks. They can only be assigned onto mines.
 -Miner on a mine will gather 7 money, -2 food, 20 stone, 13 ore + 5 points
 
-The map has 3 types of tiles. Forest, grassland and mountain.
+The map has 4 types of tiles. Forest, grassland, mountain & water.
+-Forest: Can have worker, outpost or työkkäri.
+-Grassland: Can have worker, farm & farmer, työkkäri, outpost.
+-Mountain: Can have Mine & miner
+-Water: Player can't place anything on water. It's only purpose to be in the way.
 
 Player has 5 types of buildings: HQ, työkkäri, farm, mine & outpost.
 
 HQ: Determines player starting corner. Grants perk: "Town mayor". Has no other
-functionality.
+functionality. It doesn't matter if HQ sits on top of a water or in a mountain.
+IT IS SPECIAL.
 
 Työkkäri: Can be placed on forest, grassland. Enables the player to recruit ("Osta")
 different kinds of workers. All types can be recruited at any time. Player can
