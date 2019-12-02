@@ -6,6 +6,7 @@ QT += widgets
 TARGET = tst_objectmanagertest
 CONFIG += console
 CONFIG -= app_bundle
+CONFIG += C++14
 
 TEMPLATE = app
 

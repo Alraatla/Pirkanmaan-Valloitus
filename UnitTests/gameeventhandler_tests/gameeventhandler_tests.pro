@@ -3,9 +3,10 @@ QT += gui
 QT += widgets
 
 
-TARGET = tst_gameeventhandler
+TARGET = tst_gameeventhandlertest
 CONFIG += console
 CONFIG -= app_bundle
+CONFIG += C++14
 
 TEMPLATE = app
 
