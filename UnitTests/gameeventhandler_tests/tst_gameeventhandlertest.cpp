@@ -50,10 +50,10 @@ void Gameeventhandlertest::testModifyResources()
             std::make_shared<Team::GameEventHandler>();
     std::shared_ptr<Team::PlayerObject> testPlayer =
             std::make_shared<Team::PlayerObject>("Test");
-    Course::ResourceMap testResources = {{Course::MONEY, -2500},
-                                         {Course::FOOD, -3000},
-                                         {Course::WOOD, -2000},
-                                         {Course::STONE, -1000},
+    Course::ResourceMap testResources = {{Course::MONEY, -1260},
+                                         {Course::FOOD, -1390},
+                                         {Course::WOOD, -755},
+                                         {Course::STONE, -500},
                                          {Course::ORE, 0}};
     Course::ResourceMap testShouldBeResources = {{Course::MONEY, 0},
                                                  {Course::FOOD, 0},
@@ -95,7 +95,7 @@ void Gameeventhandlertest::testModifyResource()
     std::shared_ptr<Team::PlayerObject> testPlayer =
             std::make_shared<Team::PlayerObject>("Test");
     gameEventHandler_ptr->modifyResource(testPlayer,
-                          Course::BasicResource::MONEY, -2500);
+                          Course::BasicResource::MONEY, -1260);
     gameEventHandler_ptr->modifyResource(testPlayer,
                           Course::BasicResource::ORE, 9000);
     QTEST_ASSERT(testPlayer->getResources().at(Course::BasicResource::MONEY) == 0);
