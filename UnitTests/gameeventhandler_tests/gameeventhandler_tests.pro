@@ -6,7 +6,7 @@ QT += widgets
 TARGET = tst_gameeventhandlertest
 CONFIG += console
 CONFIG -= app_bundle
-CONFIG += C++14
+CONFIG += c++14
 
 TEMPLATE = app
 
