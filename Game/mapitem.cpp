@@ -9,7 +9,8 @@ MapItem::MapItem(const std::shared_ptr<Course::GameObject> &obj,
                  int size):
     gameObject_(obj),
     scenelocation_(obj->getCoordinatePtr()->asQpoint()),
-    size_(size)
+    size_(size),
+    Course::SimpleMapItem(obj, size)
 {
 
 }

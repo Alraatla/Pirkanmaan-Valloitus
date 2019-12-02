@@ -7,12 +7,12 @@ most points at the end of the round limit.
 
 Player gets points from building buildings, buying workers and having workers work.
 Players can only assign workers and buildings on an area that they own. At the start
-of the game, players own 5x5 area around their HQ which is located in one of the
+of the game, players own a 5x5 area starting from their HQ which is located in one of the
 corners of the map. HQ coordinates for
 players: p1: 0,0, p2: 11, 11 p3: 11, 0, p4: 0, 11.
 
 Players can expand their owned area by placing a outpost onto a tile. Outpost
-expands the owned area by 3x3 around the outpost.
+expands the owned area by 5x5 around the outpost.
 
 Workers are hardworking and terrority aware people, who don't care for facilities
 or machinery. That's why they can only be placed on empty forest or grassland tiles.

@@ -14,7 +14,7 @@
 namespace Team {
 
 
-class MapItem : public QGraphicsItem
+class MapItem : public Course::SimpleMapItem
 {
 public:
     MapItem(const std::shared_ptr<Course::GameObject> &obj, int size);

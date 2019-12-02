@@ -28,7 +28,7 @@ working on them. And all worker types eat away at your resources,
 even when not assigned to anything.
 
 When you run out of tiles you can build on, Build an Outpost,
-it increases your reach by 3x3 around it.
+it increases your reach by 5x5 around it.
 
 You win by getting more points than your opponents,
 good Luck!

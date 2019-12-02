@@ -72,4 +72,4 @@ DISTFILES += \
     EndDocument
 
 RESOURCES += \
-    images.qrc
+    gameresources.qrc

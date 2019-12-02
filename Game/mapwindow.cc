@@ -74,6 +74,7 @@ MapWindow::MapWindow(QWidget *parent):
 
 MapWindow::~MapWindow()
 {
+    m_gamescene->clear();
     delete m_ui;
 }
 
