@@ -94,7 +94,7 @@ void MapWindow::gameLoop()
     else
     {
         QMessageBox* msg = new QMessageBox;
-        QFile *file = new QFile(":/introductionBox.txt");
+        QFile *file = new QFile(":/messageboxes/introductionBox.txt");
 
         if(file->open(QIODevice::ReadOnly) == true)
         {
@@ -131,7 +131,7 @@ void MapWindow::gameLoop()
 void MapWindow::infoButtonClicked()
 {
     QMessageBox* msg = new QMessageBox;
-    QFile *file = new QFile(":/infoBox.txt");
+    QFile *file = new QFile(":/messageboxes/infoBox.txt");
 
     if(file->open(QIODevice::ReadOnly) == true)
     {
