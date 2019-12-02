@@ -12,7 +12,7 @@
         <file>images/grassland.png</file>
         <file>images/mountain.png</file>
         <file>images/water.png</file>
-        <file>introductionBox.txt</file>
-        <file>infoBox.txt</file>
+        <file>messageboxes/introductionBox.txt</file>
+        <file>messageboxes/infoBox.txt</file>
     </qresource>
 </RCC>
